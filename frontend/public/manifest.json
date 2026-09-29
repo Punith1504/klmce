@@ -1,0 +1,22 @@
+{
+  "name": "KLMCE Student Portal",
+  "short_name": "KLMCE Portal",
+  "description": "Student Scanner and Education ERP PWA",
+  "start_url": "/student/dashboard",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#030712",
+  "theme_color": "#4f46e5",
+  "icons": [
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

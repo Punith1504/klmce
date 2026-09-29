@@ -1,0 +1,40 @@
+# Dependency directories
+node_modules/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Build outputs
+.next/
+build/
+dist/
+
+# Environment variables (CRITICAL)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Database / Docker Volumes
+postgres_data/
+redis_data/
+*.sqlite3
+*.db
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Testing / Coverage
+coverage/
+.nyc_output/
+playwright-report/
+test-results/
