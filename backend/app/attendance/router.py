@@ -10,6 +10,7 @@ from ..core.security import RFC7807Exception
 from .schemas import ScanQRRequest, AdminOverrideRequest, AttendanceStatus
 from .models import TimetableSlot, AttendanceRecord
 from .qr_crypto import generate_qr_payload, verify_and_decrypt_qr_payload
+from app.core.rate_limit import RateLimiter
 
 router = APIRouter(prefix="/attendance", tags=["attendance"])
 
@@ -64,7 +65,8 @@ async def scan_qr(
     req: ScanQRRequest,
     token: dict = Depends(require_roles(Role.STUDENT)),
     db: AsyncSession = Depends(get_db_session),
-    redis_client: redis.Redis = Depends(get_redis_client)
+    redis_client: redis.Redis = Depends(get_redis_client),
+    rate_limit: None = Depends(RateLimiter(max_requests=60, window_seconds=60))
 ):
     """
     STUDENT only: Endpoint for students to scan the cryptographically secured QR codes.

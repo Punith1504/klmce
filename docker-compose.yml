@@ -17,7 +17,8 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
       # Mount the initialization schema directly into the standard init path
-      - ./init_schema.sql:/docker-entrypoint-initdb.d/init_schema.sql:ro
+      - ./init_schema.sql:/docker-entrypoint-initdb.d/000_init_schema.sql:ro
+      - ./backend/db/migrations/001_master_data.sql:/docker-entrypoint-initdb.d/001_master_data.sql:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 5s

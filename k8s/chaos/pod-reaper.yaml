@@ -1,0 +1,33 @@
+apiVersion: chaos-mesh.org/v1alpha1
+kind: PodChaos
+metadata:
+  name: fastapi-reaper
+  namespace: klmce-prod
+spec:
+  # Action: Randomly assassinate active Kubernetes pods
+  action: pod-kill
+  # Target exactly 20% of the active FastAPI instances 
+  mode: fixed-percent
+  value: "20"
+  selector:
+    labelSelectors:
+      app: klmce-backend
+  # Execute this chaos experiment every 5 minutes during the simulated peak load test
+  scheduler:
+    cron: "@every 5m"
+
+---
+apiVersion: chaos-mesh.org/v1alpha1
+kind: PodChaos
+metadata:
+  name: pgbouncer-reaper
+  namespace: klmce-prod
+spec:
+  action: pod-kill
+  mode: fixed-percent
+  value: "20"
+  selector:
+    labelSelectors:
+      app: pgbouncer
+  scheduler:
+    cron: "@every 5m"

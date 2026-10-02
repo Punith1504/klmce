@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, Response, Request
+from app.core.rate_limit import RateLimiter
 from .security import (
     verify_password, create_access_token, create_refresh_token, verify_totp, 
     RFC7807Exception, SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES, REFRESH_TOKEN_EXPIRE_DAYS
@@ -49,7 +50,8 @@ def set_auth_cookies(response: Response, access_token: str, refresh_token: str):
 async def login(
     login_data: LoginRequest,
     response: Response,
-    pool: asyncpg.Pool = Depends(get_db_pool)
+    pool: asyncpg.Pool = Depends(get_db_pool),
+    rate_limit: None = Depends(RateLimiter(max_requests=5, window_seconds=60))
 ):
     async with pool.acquire() as conn:
         user = await conn.fetchrow(

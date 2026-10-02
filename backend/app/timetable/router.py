@@ -1,87 +1,98 @@
-from fastapi import APIRouter, Depends, status
-import asyncpg
+from fastapi import APIRouter, Depends
+from pydantic import BaseModel
 from typing import List
-import uuid
-from datetime import datetime
-from ..core.dependencies import get_db_connection, require_roles, Role
-from ..core.security import RFC7807Exception
-from .schemas import TimetableSlotCreate, TimetableSlotResponse
+import asyncpg
+from app.core.database import get_db_connection
+from app.core.security import RFC7807Exception
 
-router = APIRouter(prefix="/api/v1/timetable", tags=["timetable"])
+router = APIRouter()
 
-@router.post("/slots", status_code=status.HTTP_201_CREATED, response_model=TimetableSlotResponse)
-async def create_timetable_slot(
-    slot: TimetableSlotCreate,
-    token: dict = Depends(require_roles(Role.INSTITUTION_ADMIN)),
-    conn: asyncpg.Connection = Depends(get_db_connection)
-):
-    try:
-        row = await conn.fetchrow(
-            """
-            INSERT INTO timetable_slots 
-            (course_id, section_id, faculty_id, room_number, day_of_week, start_time, end_time, tenant_id)
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-            RETURNING *
-            """,
-            slot.course_id, slot.section_id, slot.faculty_id, slot.room_number, 
-            slot.day_of_week, slot.start_time, slot.end_time, uuid.UUID(token["tenant_id"])
-        )
-        return dict(row)
-    except asyncpg.exceptions.ExclusionViolationError as e:
-        detail_msg = str(e)
-        if "prevent_room_overlap" in detail_msg:
-            raise RFC7807Exception(status_code=409, type="probs/room-overlap", title="Room Conflict", detail="The designated room is already booked for this time slot.")
-        elif "prevent_faculty_double_booking" in detail_msg:
-            raise RFC7807Exception(status_code=409, type="probs/faculty-overlap", title="Faculty Conflict", detail="The assigned faculty member is already teaching another course during this time slot.")
-        else:
-            raise RFC7807Exception(status_code=409, type="probs/timetable-conflict", title="Timetable Conflict", detail="A scheduling conflict occurred.")
+# ==========================================
+# Schemas
+# ==========================================
+class CourseResponse(BaseModel):
+    course_id: str
+    code: str
+    name: str
 
-@router.get("/faculty/active-slot", response_model=TimetableSlotResponse)
-async def get_active_faculty_slot(
-    token: dict = Depends(require_roles(Role.FACULTY)),
-    conn: asyncpg.Connection = Depends(get_db_connection)
-):
-    # Retrieve local system time (for the ERP locale)
-    now = datetime.now()
-    current_time = now.time()
-    current_day = now.strftime('%A')
-    
-    # Resolves slot based on start_time and a 15 minute grace period appended to end_time
-    row = await conn.fetchrow(
-        """
-        SELECT * FROM timetable_slots
-        WHERE faculty_id = $1
-          AND day_of_week = $2::day_of_week_enum
-          AND start_time <= $3
-          AND $3 <= (end_time + interval '15 minutes')::time
-        LIMIT 1
-        """,
-        uuid.UUID(token["sub"]), current_day, current_time
-    )
-    
-    if not row:
-        raise RFC7807Exception(
-            status_code=404, 
-            type="probs/no-active-slot", 
-            title="No Active Slot", 
-            detail="There is no active lecture assigned to you at the current time."
-        )
-    return dict(row)
+class FacultyResponse(BaseModel):
+    user_id: str
+    first_name: str
+    last_name: str
 
-@router.get("/section/{section_id}", response_model=List[TimetableSlotResponse])
-async def get_section_timetable(
-    section_id: uuid.UUID,
-    token: dict = Depends(require_roles(Role.INSTITUTION_ADMIN, Role.FACULTY, Role.STUDENT)),
-    conn: asyncpg.Connection = Depends(get_db_connection)
-):
-    rows = await conn.fetch(
-        """
-        SELECT * FROM timetable_slots
-        WHERE section_id = $1
-        ORDER BY 
-            array_position(ARRAY['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday']::day_of_week_enum[], day_of_week), 
-            start_time
-        """,
-        section_id
-    )
+class TimetableSlotCreate(BaseModel):
+    course_id: str
+    section_id: str
+    faculty_id: str
+    room_number: str
+    day_of_week: str
+    start_time: str
+    end_time: str
+
+# ==========================================
+# Endpoints
+# ==========================================
+@router.get("/courses", response_model=List[CourseResponse])
+async def list_courses(conn: asyncpg.Connection = Depends(get_db_connection)):
+    """
+    Hydrates the Next.js TanStack query for the Drag-and-Drop Sidebar Palette.
+    """
+    query = "SELECT course_id::text, code, name FROM courses ORDER BY code ASC"
+    rows = await conn.fetch(query)
     return [dict(row) for row in rows]
+
+@router.get("/faculty", response_model=List[FacultyResponse])
+async def list_faculty(conn: asyncpg.Connection = Depends(get_db_connection)):
+    """
+    Hydrates the Next.js TanStack query, isolating only users registered as FACULTY.
+    """
+    query = """
+        SELECT user_id::text, first_name, last_name 
+        FROM users 
+        WHERE role = 'FACULTY' 
+        ORDER BY last_name ASC
+    """
+    rows = await conn.fetch(query)
+    return [dict(row) for row in rows]
+
+@router.post("/slots")
+async def assign_timetable_slot(
+    payload: TimetableSlotCreate, 
+    conn: asyncpg.Connection = Depends(get_db_connection)
+):
+    """
+    Attempts to insert a dragged-and-dropped time block into the master matrix.
+    Relies entirely on PostgreSQL GiST constraints to prevent physical collisions.
+    """
+    try:
+        query = """
+            INSERT INTO timetable_slots 
+                (course_id, section_id, faculty_id, room_number, day_of_week, start_time, end_time)
+            VALUES 
+                ($1, $2, $3, $4, $5, $6::time, $7::time)
+            RETURNING slot_id::text
+        """
+        
+        row = await conn.fetchrow(
+            query,
+            payload.course_id,
+            payload.section_id,
+            payload.faculty_id,
+            payload.room_number,
+            payload.day_of_week,
+            payload.start_time,
+            payload.end_time
+        )
+        
+        return {"status": "success", "slot_id": row["slot_id"]}
+        
+    except asyncpg.exceptions.ExclusionViolationError as e:
+        # Zero-Trust Constraint Trap
+        # The PostgreSQL Database physically blocked the insertion because the overlapping 
+        # GiST exclusion rule detected that either the faculty or room is already active.
+        raise RFC7807Exception(
+            status_code=409,
+            type="probs/timetable-collision",
+            title="Scheduling Conflict",
+            detail="Database physical constraint violated: The designated faculty member or classroom is already booked during this time window."
+        )

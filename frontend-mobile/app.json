@@ -1,0 +1,58 @@
+{
+  "expo": {
+    "name": "KLMCE Enterprise",
+    "slug": "klmce-erp",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0b0f19"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "edu.klmce.erp",
+      "infoPlist": {
+        "NSCameraUsageDescription": "KLMCE ERP needs access to your camera to scan QR codes for class attendance and physical credentials.",
+        "NSLocationWhenInUseUsageDescription": "KLMCE ERP requires your location to validate geofenced check-ins for exams and classrooms.",
+        "NSFaceIDUsageDescription": "KLMCE ERP uses Face ID to securely authenticate your session and protect sensitive academic records."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#0b0f19"
+      },
+      "package": "edu.klmce.erp",
+      "permissions": [
+        "CAMERA",
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "USE_BIOMETRIC",
+        "USE_FINGERPRINT"
+      ]
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-local-authentication",
+        {
+          "faceIDPermission": "Allow KLMCE ERP to use Face ID for secure authentication."
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow KLMCE ERP to use your location for attendance."
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "12345678-abcd-1234-abcd-1234567890ab"
+      }
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "name": "klmce-postgres-cdc-connector",
+  "config": {
+    "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+    "tasks.max": "1",
+    
+    "database.hostname": "postgres-master-svc",
+    "database.port": "5432",
+    "database.user": "postgres_cdc_user",
+    "database.password": "${CDC_PASSWORD}",
+    "database.dbname": "klmce_erp",
+    "database.server.name": "klmce_prod_server",
+    
+    // Core Engine: Hooks directly into the PostgreSQL Write-Ahead Log (WAL)
+    // Bypasses the query planner entirely. ZERO impact on transactional performance.
+    "plugin.name": "pgoutput",
+    "slot.name": "debezium_cdc_slot",
+    "publication.name": "klmce_cdc_pub",
+    
+    // Explicitly target high-value operational tables for the Data Warehouse
+    "table.include.list": "public.students,public.attendance_records,public.exam_marks",
+    
+    "snapshot.mode": "initial",
+    
+    // Data Extraction: Unwraps Debezium's heavy metadata payload into clean JSON.
+    // Maps UPDATE/DELETE operations to a soft '__deleted' flag so the Data Warehouse 
+    // can build Slowly Changing Dimensions (SCD Type 2).
+    "transforms": "unwrap",
+    "transforms.unwrap.type": "io.debezium.transforms.ExtractNewRecordState",
+    "transforms.unwrap.drop.tombstones": "false",
+    "transforms.unwrap.delete.handling.mode": "rewrite",
+    
+    "key.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "key.converter.schemas.enable": "false",
+    "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "value.converter.schemas.enable": "false"
+  }
+}

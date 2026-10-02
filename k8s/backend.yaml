@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: klmce-backend
+  namespace: klmce-prod
+spec:
+  selector:
+    matchLabels:
+      app: klmce-backend
+  template:
+    metadata:
+      labels:
+        app: klmce-backend
+    spec:
+      containers:
+      - name: fastapi
+        image: ghcr.io/klmce/backend:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8000
+        env:
+        # FastAPI connects to PgBouncer, NOT directly to Postgres
+        - name: DATABASE_URL
+          value: "postgresql://postgres:password@db-pool-svc:5432/klmce_erp"
+        - name: REDIS_URL
+          value: "redis://redis-master-svc:6379/0"
+        resources:
+          requests:
+            cpu: "250m"
+            memory: "512Mi"
+          limits:
+            cpu: "1000m"
+            memory: "1Gi"
+        # Readiness probe ensures K8s doesn't route traffic to a dead pod
+        readinessProbe:
+          httpGet:
+            path: /api/v1/health
+            port: 8000
+          initialDelaySeconds: 10
+          periodSeconds: 5
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-svc
+  namespace: klmce-prod
+spec:
+  selector:
+    app: klmce-backend
+  ports:
+  - port: 80
+    targetPort: 8000
+
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: backend-hpa
+  namespace: klmce-prod
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: klmce-backend
+  minReplicas: 2
+  maxReplicas: 50 # Uncaps to 50 concurrent pods during the 8:00 AM attendance rush
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70

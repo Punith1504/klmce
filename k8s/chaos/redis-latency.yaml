@@ -1,0 +1,21 @@
+apiVersion: chaos-mesh.org/v1alpha1
+kind: NetworkChaos
+metadata:
+  name: redis-aws-degradation
+  namespace: klmce-prod
+spec:
+  # Action: Inject artificial network latency at the kernel level via eBPF
+  action: delay
+  mode: all
+  selector:
+    labelSelectors:
+      app: redis
+  delay:
+    # Simulate a severe AWS/GCP regional network degradation (500ms delay + 50ms jitter)
+    latency: "500ms"
+    correlation: "100"
+    jitter: "50ms"
+  # Sustain the degradation for 10 minutes straight
+  duration: "10m"
+  scheduler:
+    cron: "@every 30m"

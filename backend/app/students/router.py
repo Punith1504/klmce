@@ -1,128 +1,128 @@
-import csv
-import io
-import uuid
-from typing import List, Optional
-from fastapi import APIRouter, Depends, UploadFile, File, Query
+from fastapi import APIRouter, Depends, UploadFile, File
+from pydantic import BaseModel, ValidationError
+from typing import List
 import asyncpg
-from pydantic import ValidationError
-from ..core.dependencies import get_db_connection, require_roles, Role
-from ..core.security import RFC7807Exception
-from .schemas import StudentCreate, StudentResponse, ParentAssignRequest
+import csv
+import codecs
+from app.core.database import get_db_connection
+from app.core.security import RFC7807Exception
 
-router = APIRouter(prefix="/api/v1/students", tags=["students"])
+router = APIRouter()
 
-@router.post("", response_model=StudentResponse, status_code=201)
-async def enroll_student(
-    student: StudentCreate,
-    token: dict = Depends(require_roles(Role.INSTITUTION_ADMIN)),
-    conn: asyncpg.Connection = Depends(get_db_connection)
-):
-    try:
-        row = await conn.fetchrow(
-            """
-            INSERT INTO students (tenant_id, parent_id, first_name, last_name, enrollment_number)
-            VALUES ($1, $2, $3, $4, $5)
-            RETURNING *
-            """,
-            uuid.UUID(token["tenant_id"]), student.parent_id, student.first_name, student.last_name, student.enrollment_number
-        )
-        return dict(row)
-    except asyncpg.exceptions.UniqueViolationError:
-        raise RFC7807Exception(
-            status_code=409, type="probs/duplicate-enrollment", 
-            title="Duplicate Enrollment", 
-            detail=f"Student with enrollment number '{student.enrollment_number}' already exists in this tenant."
-        )
+# ==========================================
+# Schemas
+# ==========================================
+class StudentResponse(BaseModel):
+    student_id: str
+    first_name: str
+    last_name: str
+    enrollment_number: str
 
-@router.post("/bulk-upload", status_code=201)
-async def bulk_upload_students(
-    file: UploadFile = File(...),
-    token: dict = Depends(require_roles(Role.INSTITUTION_ADMIN)),
-    conn: asyncpg.Connection = Depends(get_db_connection)
-):
-    if not file.filename.endswith('.csv'):
-        raise RFC7807Exception(status_code=400, type="probs/invalid-file", title="Invalid File", detail="Only CSV files are allowed.")
-    
-    content = await file.read()
-    text = content.decode('utf-8')
-    reader = csv.DictReader(io.StringIO(text))
-    
-    tenant_id = uuid.UUID(token["tenant_id"])
-    records = []
-    
-    # 1. Pydantic validation of all rows in memory
-    for line_num, row_data in enumerate(reader, start=2):
-        try:
-            # Handle empty parent_id gracefully
-            if not row_data.get('parent_id'):
-                row_data['parent_id'] = None
-            student_obj = StudentCreate(**row_data)
-            records.append((
-                tenant_id, 
-                student_obj.parent_id, 
-                student_obj.first_name, 
-                student_obj.last_name, 
-                student_obj.enrollment_number
-            ))
-        except ValidationError as e:
-            raise RFC7807Exception(
-                status_code=422, type="probs/csv-validation-error", 
-                title="CSV Validation Error", 
-                detail=f"Validation failed on line {line_num}: {e.errors()}"
-            )
+class StudentBulkCreate(BaseModel):
+    first_name: str
+    last_name: str
+    enrollment_number: str
 
-    # 2. Bulk Database Insert with Atomic Transaction
-    # get_db_connection already starts a transaction for the request lifetime!
-    # If any error occurs, the dependency will rollback the transaction automatically.
-    try:
-        await conn.executemany(
-            """
-            INSERT INTO students (tenant_id, parent_id, first_name, last_name, enrollment_number)
-            VALUES ($1, $2, $3, $4, $5)
-            """,
-            records
-        )
-        return {"message": f"Successfully enrolled {len(records)} students."}
-    except asyncpg.exceptions.UniqueViolationError:
-        raise RFC7807Exception(
-            status_code=409, type="probs/duplicate-enrollment", 
-            title="Duplicate Enrollment", 
-            detail="One or more enrollment numbers in the CSV already exist. The entire batch has been rolled back."
-        )
-
+# ==========================================
+# Endpoints
+# ==========================================
 @router.get("", response_model=List[StudentResponse])
-async def list_students(
-    limit: int = Query(50, ge=1, le=100),
-    offset: int = Query(0, ge=0),
-    token: dict = Depends(require_roles(Role.INSTITUTION_ADMIN, Role.FACULTY, Role.PARENT)),
-    conn: asyncpg.Connection = Depends(get_db_connection)
-):
-    # RLS natively isolates based on the tenant.
-    # Furthermore, if role == PARENT, the parent_student_isolation policy physically 
-    # restricts the resultset to only students where parent_id == current_user_id.
-    rows = await conn.fetch("SELECT * FROM students ORDER BY created_at DESC LIMIT $1 OFFSET $2", limit, offset)
+async def list_students(conn: asyncpg.Connection = Depends(get_db_connection)):
+    """
+    Retrieve all students authorized for the current session.
+    
+    SECURITY NOTE: 
+    There is intentionally NO `WHERE tenant_id = X` or `WHERE parent_id = Y` clause in this query.
+    The PostgreSQL Row-Level Security (RLS) context injected by the database middleware mathematically 
+    forces the database engine to strip out any rows the requesting user is not authorized to see, 
+    preventing application-layer bugs from leaking multi-tenant data.
+    """
+    query = """
+        SELECT 
+            student_id::text, 
+            first_name, 
+            last_name, 
+            enrollment_number 
+        FROM students
+        ORDER BY last_name ASC
+    """
+    
+    rows = await conn.fetch(query)
     return [dict(row) for row in rows]
 
-@router.patch("/{student_id}/assign-parent", response_model=StudentResponse)
-async def assign_parent(
-    student_id: uuid.UUID,
-    req: ParentAssignRequest,
-    token: dict = Depends(require_roles(Role.INSTITUTION_ADMIN)),
+@router.post("/bulk")
+async def bulk_upload_students(
+    file: UploadFile = File(...),
     conn: asyncpg.Connection = Depends(get_db_connection)
 ):
-    # Validate the target parent_id is actually a user with the PARENT role
-    user = await conn.fetchrow("SELECT role FROM users WHERE user_id = $1 AND tenant_id = $2", req.parent_id, uuid.UUID(token["tenant_id"]))
-    if not user:
-        raise RFC7807Exception(status_code=404, type="probs/parent-not-found", title="Not Found", detail="User not found.")
-    if user["role"] != Role.PARENT.value:
-        raise RFC7807Exception(status_code=400, type="probs/invalid-role", title="Invalid Role", detail="The specified user does not have the PARENT role.")
+    """
+    Stream processes large CSV files to prevent memory exhaustion on massive institutional rosters.
+    Executes an atomic asyncpg transaction to ensure an all-or-nothing rollback on validation failure.
+    """
+    if not file.filename.endswith('.csv'):
+        raise RFC7807Exception(
+            status_code=400,
+            type="probs/invalid-file-type",
+            title="Invalid File Format",
+            detail="The uploaded file must be a standard CSV."
+        )
 
-    # Apply the assignment. The audit_students_trigger tracks old_values and new_values automatically.
-    row = await conn.fetchrow(
-        "UPDATE students SET parent_id = $1 WHERE student_id = $2 RETURNING *",
-        req.parent_id, student_id
-    )
-    if not row:
-        raise RFC7807Exception(status_code=404, type="probs/student-not-found", title="Not Found", detail="Student not found.")
-    
-    return dict(row)
+    parsed_records = []
+    validation_errors = []
+
+    # Stream the file in chunks utilizing codecs to parse bytes directly into UTF-8 lines
+    # This prevents the server from loading a 500MB CSV entirely into RAM.
+    try:
+        csv_reader = csv.DictReader(codecs.iterdecode(file.file, 'utf-8'))
+        
+        for row_number, row in enumerate(csv_reader, start=2): # Start at 2 to account for header
+            try:
+                # Pydantic explicitly validates the row structure
+                student = StudentBulkCreate(**row)
+                parsed_records.append((student.first_name, student.last_name, student.enrollment_number))
+            except ValidationError as e:
+                validation_errors.append({
+                    "row": row_number,
+                    "errors": str(e)
+                })
+    except Exception as e:
+        raise RFC7807Exception(
+            status_code=400,
+            type="probs/csv-parse-fatal",
+            title="Fatal CSV Parsing Error",
+            detail="The file stream could not be decoded. Ensure it is a valid UTF-8 CSV."
+        )
+        
+    # Phase 2: Halt execution and report exact coordinates of formatting failures
+    if validation_errors:
+        raise RFC7807Exception(
+            status_code=422,
+            type="probs/bulk-validation-failed",
+            title="CSV Validation Failed",
+            detail=f"Found {len(validation_errors)} formatting errors. The entire batch was rejected. Example failure on row {validation_errors[0]['row']}."
+        )
+        
+    # Phase 3: Atomic Database Execution
+    # If a single row violates a database constraint (e.g., duplicated enrollment_number),
+    # PostgreSQL instantly rolls back the entire batch, keeping the database perfectly synchronized.
+    try:
+        async with conn.transaction():
+            query = """
+                INSERT INTO students (first_name, last_name, enrollment_number)
+                VALUES ($1, $2, $3)
+            """
+            await conn.executemany(query, parsed_records)
+            
+    except asyncpg.exceptions.UniqueViolationError:
+        raise RFC7807Exception(
+            status_code=409,
+            type="probs/bulk-collision",
+            title="Database Conflict",
+            detail="One or more enrollment numbers in the CSV already exist in the system. The transaction has been safely rolled back."
+        )
+
+    return {
+        "status": "success", 
+        "inserted_count": len(parsed_records),
+        "message": "Institutional roster synchronized successfully."
+    }

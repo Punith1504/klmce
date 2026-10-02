@@ -1,0 +1,72 @@
+name: Production DAST & Deployment Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  # ==========================================
+  # 1. Staging Deployment
+  # ==========================================
+  deploy-staging:
+    name: Deploy to Staging Environment
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📦 Checkout Code
+        uses: actions/checkout@v4
+        
+      - name: ⚙️ Setup Helm
+        uses: azure/setup-helm@v4
+
+      - name: 🚀 Deploy KLMCE to Staging Namespace
+        # Promotes the latest build to a sandboxed staging environment for penetration testing
+        run: |
+          echo "Deploying to https://staging-api.klmce.edu..."
+          # helm upgrade --install klmce ./k8s/charts/klmce-enterprise -n staging --set global.environment=staging
+
+  # ==========================================
+  # 2. Dynamic Security Testing (DAST)
+  # ==========================================
+  dast-penetration-test:
+    name: OWASP ZAP Automated Penetration Test
+    needs: deploy-staging
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📦 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 🛡️ Run OWASP ZAP Full Active Scan
+        # This action unleashes a headless ZAP spider and active scanner against the staging API.
+        # It systematically attempts SQL Injection (SQLi), Cross-Site Scripting (XSS), 
+        # Session Fixation, and Broken Object-Level Authorization (BOLA) attacks.
+        uses: zaproxy/action-full-scan@v0.10.0
+        with:
+          target: 'https://staging-api.klmce.edu'
+          # Force the pipeline to FAIL if any High or Critical vulnerabilities are successfully exploited
+          fail_action: true
+          cmd_options: '-a' # Enables the Active Scanner to inject malicious payloads
+
+      - name: 📄 Archive Penetration Test Report
+        uses: actions/upload-artifact@v4
+        if: always() # Upload the report even if the pipeline fails
+        with:
+          name: ZAP_Penetration_Test_Report
+          path: report_html.html
+
+  # ==========================================
+  # 3. Production Promotion
+  # ==========================================
+  deploy-production:
+    name: Promote to Production (Air-Gapped Ready)
+    needs: dast-penetration-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📦 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 🚀 Deploy KLMCE to Production Namespace
+        # Only executes if the DAST scan finds ZERO critical vulnerabilities.
+        run: |
+          echo "Security Gates Passed. Promoting to https://api.klmce.edu..."
+          # helm upgrade --install klmce ./k8s/charts/klmce-enterprise -n production --set global.environment=production

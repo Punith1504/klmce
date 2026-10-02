@@ -1,0 +1,65 @@
+# ==========================================
+# KLMCE Enterprise On-Premise Configuration
+# Designed for IT teams to easily override
+# ==========================================
+
+global:
+  environment: "production"
+  domain: "erp.local"
+  
+# Backend API Configuration
+backend:
+  replicaCount: 3
+  image:
+    repository: klmce-backend
+    tag: "latest"
+    pullPolicy: IfNotPresent
+  secrets:
+    jwtSecret: "CHANGE_ME_ON_PREM_JWT_SECRET"
+    stripeApiKey: "sk_live_override_this"
+  resources:
+    limits:
+      cpu: "2"
+      memory: "2Gi"
+    requests:
+      cpu: "500m"
+      memory: "512Mi"
+
+# Frontend PWA Configuration
+frontend:
+  replicaCount: 3
+  image:
+    repository: klmce-frontend
+    tag: "latest"
+    pullPolicy: IfNotPresent
+  env:
+    nextPublicApiUrl: "https://api.erp.local"
+
+# PostgreSQL Configuration
+postgres:
+  replicaCount: 1 # Typically 1 for StatefulSet, use external DB cluster in production if possible
+  image:
+    repository: postgres
+    tag: "16-alpine"
+    pullPolicy: IfNotPresent
+  auth:
+    username: "klmce_admin"
+    password: "CHANGE_ME_SUPER_SECRET_DB_PASS"
+    database: "klmce_erp"
+  persistence:
+    enabled: true
+    size: 100Gi
+    storageClass: "standard"
+
+# Redis Configuration
+redis:
+  replicaCount: 1
+  image:
+    repository: redis
+    tag: "7-alpine"
+    pullPolicy: IfNotPresent
+  auth:
+    password: "CHANGE_ME_REDIS_PASS"
+  persistence:
+    enabled: true
+    size: 10Gi

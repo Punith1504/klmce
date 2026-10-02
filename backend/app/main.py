@@ -3,6 +3,9 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+import sentry_sdk
+from sentry_sdk.integrations.fastapi import FastApiIntegration
+from sentry_sdk.integrations.asyncpg import AsyncPGIntegration
 
 # Core Infrastructure
 from app.core.database import db_manager
@@ -17,6 +20,33 @@ from app.attendance.router import router as attendance_router
 from app.exams.router import router as exams_router
 from app.finance.router import router as finance_router
 from app.timetable.router import router as timetable_router
+from app.search.router import router as search_router
+from app.analytics.router import router as analytics_router
+from app.admin.router import router as admin_router
+from app.ai.router import router as ai_router
+from app.billing.router import router as billing_router
+
+# ==========================================
+# Sentry Telemetry Configuration
+# ==========================================
+def before_send(event, hint):
+    if "exc_info" in hint:
+        exc_type, exc_value, tb = hint["exc_info"]
+        # Filter out expected 4xx domain errors to prevent alert fatigue
+        if isinstance(exc_value, RFC7807Exception) and exc_value.status_code < 500:
+            return None
+    return event
+
+sentry_sdk.init(
+    dsn=os.getenv("SENTRY_DSN", ""),
+    integrations=[
+        FastApiIntegration(),
+        AsyncPGIntegration(),
+    ],
+    traces_sample_rate=1.0,
+    before_send=before_send,
+    environment=os.getenv("ENVIRONMENT", "production")
+)
 
 # ==========================================
 # Application Lifespan Orchestration
@@ -129,3 +159,8 @@ app.include_router(attendance_router, prefix=f"{API_PREFIX}/attendance", tags=["
 app.include_router(exams_router, prefix=f"{API_PREFIX}/exams", tags=["Examinations"])
 app.include_router(finance_router, prefix=f"{API_PREFIX}/finance", tags=["Finance Ledger"])
 app.include_router(timetable_router, prefix=f"{API_PREFIX}/timetable", tags=["Timetable Matrix"])
+app.include_router(search_router, prefix=f"{API_PREFIX}/search", tags=["AI Semantic Search"])
+app.include_router(analytics_router, prefix=f"{API_PREFIX}/analytics", tags=["Data Analytics"])
+app.include_router(admin_router, prefix=f"{API_PREFIX}/admin", tags=["Super Admin Operations"])
+app.include_router(ai_router, prefix=f"{API_PREFIX}/ai", tags=["Conversational AI Agent"])
+app.include_router(billing_router)

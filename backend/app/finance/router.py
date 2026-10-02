@@ -1,110 +1,97 @@
+from fastapi import APIRouter, Depends, Request, Header, HTTPException
+import hmac
+import hashlib
+import os
 import json
-import uuid
-import asyncio
-from fastapi import APIRouter, Request, Depends, Header, BackgroundTasks, HTTPException
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
-import redis.asyncio as redis
+import asyncpg
+import redis.asyncio as aioredis
+from app.core.database import get_db_connection
+from app.core.redis import get_redis_client
 
-from .models import FeeLedgerEntry, EntryType
-from .webhook_utils import verify_webhook_signature
-from ..core.security import RFC7807Exception
+router = APIRouter()
 
-router = APIRouter(prefix="/api/v1/payments", tags=["payments"])
-
-async def get_db_session() -> AsyncSession:
-    raise NotImplementedError("Session dependency not injected")
-
-async def get_redis_client() -> redis.Redis:
-    raise NotImplementedError("Redis dependency not injected")
-
-async def generate_verifiable_receipt(ledger_id: uuid.UUID):
-    """
-    Asynchronous background task to produce a cryptographically verifiable PDF receipt.
-    """
-    await asyncio.sleep(1) # Mock PDF generation pipeline
-    
-    # Logic Map:
-    # 1. Query the immutable ledger row using ledger_id
-    # 2. Render highly stylized PDF using Jinja2/WeasyPrint
-    # 3. Attach standard X.509 cryptographic signature to the PDF document
-    # 4. Push to secure S3 bucket and enqueue email notification
-    print(f"[{ledger_id}] Verifiable Receipt generated and signed securely.")
+# Securely load the webhook signing secret from environment variables
+WEBHOOK_SECRET = os.getenv("WEBHOOK_SECRET", "default_insecure_secret_replace_in_prod").encode('utf-8')
 
 @router.post("/webhook")
-async def payment_webhook(
+async def process_payment_webhook(
     request: Request,
-    background_tasks: BackgroundTasks,
-    x_signature: str = Header(None, alias="X-Payment-Signature"),
-    db: AsyncSession = Depends(get_db_session),
-    redis_client: redis.Redis = Depends(get_redis_client)
+    x_payment_signature: str = Header(None, alias="X-Payment-Signature"),
+    conn: asyncpg.Connection = Depends(get_db_connection),
+    redis_client: aioredis.Redis = Depends(get_redis_client)
 ):
     """
-    Ingests payment provider webhooks securely.
-    Features: Raw byte extraction, HMAC verification, Redis idempotency, and Append-Only immutable writes.
+    Secure server-to-server webhook ingestion endpoint.
+    Strictly authenticates payloads utilizing HMAC-SHA256 mathematical proofs and enforces
+    idempotency via Redis to prevent duplicate ledger transactions from automated network retries.
     """
-    # 1. Stream raw bytes BEFORE any parsing logic to preserve precise signature integrity
+    if not x_payment_signature:
+        raise HTTPException(status_code=400, detail="Missing X-Payment-Signature header")
+
+    # 1. CRITICAL SECURITY: Extract raw byte stream
+    # Must pull the exact raw bytes over the wire BEFORE FastAPI/Starlette applies any JSON parsing.
+    # Any invisible whitespace format-shifting by the parser will corrupt the cryptographic signature.
     raw_body = await request.body()
+
+    # 2. Mathematical Cryptographic Verification
+    expected_mac = hmac.new(WEBHOOK_SECRET, raw_body, hashlib.sha256).hexdigest()
     
-    # 2. Cryptographic signature check
-    verify_webhook_signature(raw_body, x_signature)
-    
+    # Utilize compare_digest to mitigate physical timing attacks
+    if not hmac.compare_digest(expected_mac, x_payment_signature):
+        raise HTTPException(status_code=401, detail="Cryptographic verification failed. Payload tampered.")
+
+    # Parse JSON only AFTER mathematical verification proves the payload is authentic
     try:
         payload = json.loads(raw_body)
-    except json.JSONDecodeError:
+    except Exception:
         raise HTTPException(status_code=400, detail="Malformed JSON payload")
-        
-    event_type = payload.get("event")
-    data = payload.get("data", {})
-    payment_intent_id = data.get("payment_intent_id")
+
+    # Extract required webhook metadata
+    payment_intent_id = payload.get("id")
+    metadata = payload.get("metadata", {})
+    student_id = metadata.get("student_id")
+    amount = payload.get("amount")
     
-    if not payment_intent_id:
-        return {"status": "ignored", "reason": "Payload missing payment_intent_id attribute."}
-        
-    # 3. Redis Idempotency Check to deflect retry duplicates
-    idempotency_key = f"webhook_processed:{payment_intent_id}"
+    if not payment_intent_id or not student_id or amount is None:
+        raise HTTPException(status_code=400, detail="Missing required payment/student metadata")
+
+    # 3. Distributed Idempotency Lock (Redis)
+    # Stripe frequently retries webhooks on network blips. We must guarantee the ledger is append-only.
+    lock_key = f"webhook:lock:{payment_intent_id}"
     
-    # setnx ensures atomicity: returns true if key was absent and is now set
-    is_processed = await redis_client.setnx(idempotency_key, "PROCESSING")
-    if not is_processed:
-        return {"status": "idempotent_bypass", "reason": "Webhook successfully intercepted as a duplicate retry."}
-        
-    await redis_client.expire(idempotency_key, 86400 * 7) # Protect idempotency state for 7 days
+    # SETNX: Set only if Not eXists. This operation is strictly atomic.
+    lock_acquired = await redis_client.setnx(lock_key, "LOCKED")
     
+    if not lock_acquired:
+        # A previous webhook already initiated this transaction.
+        # Silently return 200 OK so Stripe stops firing automated retries.
+        return {"status": "idempotency_halt", "message": "Transaction already recorded"}
+
+    # Enforce a 7-day TTL on the lock to prevent infinite memory bloat in Redis
+    await redis_client.expire(lock_key, 7 * 24 * 60 * 60)
+
+    # 4. Atomic Ledger Insertion
+    # Because this is a server-to-server call (no logged-in user), we inject standard SQL.
+    # The immutable database triggers (init_ledger_triggers.sql) will physically block any attempts 
+    # to UPDATE or DELETE this row in the future.
     try:
-        if event_type == "payment.succeeded":
-            tenant_id = uuid.UUID(data.get("tenant_id"))
-            student_id = uuid.UUID(data.get("student_id"))
-            amount_paid = float(data.get("amount", 0.0))
-            currency = data.get("currency", "USD")
-            
-            # Fetch balance with FOR UPDATE lock inside PostgreSQL transaction in real impl.
-            previous_balance = 1000.00 # Simulated query
-            new_balance = previous_balance - amount_paid
-            
-            # 4. Immutable Append-Only Commitment
-            ledger_entry = FeeLedgerEntry(
-                tenant_id=tenant_id,
-                student_id=student_id,
-                amount=amount_paid,
-                currency=currency,
-                entry_type=EntryType.CREDIT,
-                balance_after=new_balance,
-                reference_id=payment_intent_id
-            )
-            db.add(ledger_entry)
-            await db.commit()
-            await db.refresh(ledger_entry)
-            
-            # 5. Offload Receipt PDF generation
-            background_tasks.add_task(generate_verifiable_receipt, ledger_entry.id)
-            
-            return {"status": "success", "ledger_id": str(ledger_entry.id)}
-            
-        else:
-            return {"status": "ignored", "reason": f"Unhandled event type: {event_type}"}
-            
+        query = """
+            INSERT INTO fee_transactions (student_id, amount, status, metadata)
+            VALUES ($1, $2, 'COMPLETED', $3::jsonb)
+            RETURNING transaction_id::text
+        """
+        
+        row = await conn.fetchrow(
+            query, 
+            student_id, 
+            amount, 
+            json.dumps({"payment_intent": payment_intent_id})
+        )
+        
+        return {"status": "success", "transaction_id": row["transaction_id"]}
+        
     except Exception as e:
-        # Upon critical database failure, drop the Redis lock so webhook engine can cleanly retry
-        await redis_client.delete(idempotency_key)
-        raise RFC7807Exception(status_code=500, type="about:blank", title="Processing Error", detail=str(e))
+        # ⚡ Rollback the Redis lock if the database transaction fatally crashes,
+        # otherwise future Stripe retries will be falsely ignored.
+        await redis_client.delete(lock_key)
+        raise HTTPException(status_code=500, detail="Ledger insertion failed")

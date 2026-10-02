@@ -1,0 +1,50 @@
+name: Mobile Release Pipeline
+
+on:
+  push:
+    tags:
+      - 'v*' # Triggers automation only when a version tag is pushed (e.g. v1.0.0)
+
+jobs:
+  build-and-submit:
+    name: Build & Submit binaries via EAS
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend-mobile
+        
+    steps:
+      - name: 📦 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+
+      - name: 🚀 Setup Expo and EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: 📦 Install Dependencies
+        run: npm install
+
+      - name: 🔐 Decode Google Play Service Account Key
+        # The key is stored as a base64 string in GitHub Secrets to prevent credential leaks
+        run: echo "${{ secrets.GOOGLE_PLAY_KEY_BASE64 }}" | base64 --decode > google-play-service-account.json
+
+      - name: 🤖 Build & Submit Android (.aab)
+        # Compiles the Android bundle and pushes directly to the Google Play Console Internal Test Track
+        run: |
+          eas build --platform android --profile production --non-interactive --no-wait
+          eas submit --platform android --profile production --non-interactive
+
+      - name: 🍏 Build & Submit iOS (.ipa)
+        # Compiles the iOS binary and pushes directly to Apple TestFlight
+        env:
+          EXPO_APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+        run: |
+          eas build --platform ios --profile production --non-interactive --no-wait
+          eas submit --platform ios --profile production --non-interactive
