@@ -1,0 +1,165 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Student {
+  id         String       @id @default(uuid())
+  rollNo     String       @unique
+  name       String
+  email      String?      @unique
+  mobile     String?
+  batchId    String?
+  batch      Batch?       @relation(fields: [batchId], references: [id])
+  sectionId  String?
+  section    Section?     @relation(fields: [sectionId], references: [id])
+  documents  Document[]
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  Attendance Attendance[]
+  Result     Result[]
+}
+
+model Programme {
+  id       String   @id @default(uuid())
+  name     String   @unique // e.g. "B.Tech"
+  branches Branch[]
+}
+
+model Regulation {
+  id   String @id @default(uuid())
+  name String @unique // e.g. "R20", "R23"
+}
+
+model Branch {
+  id          String    @id @default(uuid())
+  name        String
+  code        String // e.g. "CSE"
+  programmeId String
+  programme   Programme @relation(fields: [programmeId], references: [id])
+  batches     Batch[]
+}
+
+model Batch {
+  id           String    @id @default(uuid())
+  name         String // e.g. "2024-2028"
+  startingYear Int
+  branchId     String
+  branch       Branch    @relation(fields: [branchId], references: [id])
+  students     Student[]
+  sections     Section[]
+  Exam         Exam[]
+}
+
+model Section {
+  id            String          @id @default(uuid())
+  name          String // e.g. "CSE-A"
+  batchId       String
+  batch         Batch           @relation(fields: [batchId], references: [id])
+  students      Student[]
+  TimetableSlot TimetableSlot[]
+}
+
+model Faculty {
+  id            String          @id @default(uuid())
+  empId         String          @unique
+  name          String
+  email         String          @unique
+  department    String
+  TimetableSlot TimetableSlot[]
+  ExamSchedule  ExamSchedule[]
+}
+
+model Course {
+  id            String          @id @default(uuid())
+  code          String          @unique
+  title         String
+  credits       Float
+  type          String // Theory, Lab, etc.
+  TimetableSlot TimetableSlot[]
+  ExamSchedule  ExamSchedule[]
+}
+
+model Document {
+  id         String  @id @default(uuid())
+  fileName   String
+  fileUrl    String
+  fileSize   Int
+  docType    String // e.g., "RESUME", "ASSIGNMENT", "MEDICAL_CERTIFICATE"
+  status     String  @default("PENDING") // PENDING, PARSED, REJECTED
+  parsedData String? // JSON stringified extracted data (skills, etc.)
+
+  studentId String
+  student   Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model TimetableSlot {
+  id          String       @id @default(uuid())
+  courseId    String
+  course      Course       @relation(fields: [courseId], references: [id])
+  sectionId   String
+  section     Section      @relation(fields: [sectionId], references: [id])
+  facultyId   String
+  faculty     Faculty      @relation(fields: [facultyId], references: [id])
+  dayOfWeek   String
+  startTime   String
+  endTime     String
+  room        String
+  attendances Attendance[]
+}
+
+model Attendance {
+  id        String        @id @default(uuid())
+  studentId String
+  student   Student       @relation(fields: [studentId], references: [id])
+  slotId    String
+  slot      TimetableSlot @relation(fields: [slotId], references: [id])
+  date      DateTime
+  status    String // "PRESENT", "ABSENT", "EXCUSED"
+  createdAt DateTime      @default(now())
+}
+
+model Exam {
+  id        String         @id @default(uuid())
+  name      String // "Mid Term 1", "Semester End Exam"
+  type      String // "INTERNAL", "EXTERNAL"
+  batchId   String
+  batch     Batch          @relation(fields: [batchId], references: [id])
+  schedules ExamSchedule[]
+}
+
+model ExamSchedule {
+  id            String   @id @default(uuid())
+  examId        String
+  exam          Exam     @relation(fields: [examId], references: [id])
+  courseId      String
+  course        Course   @relation(fields: [courseId], references: [id])
+  date          DateTime
+  startTime     String // "10:00 AM"
+  endTime       String // "01:00 PM"
+  room          String
+  invigilatorId String
+  invigilator   Faculty  @relation(fields: [invigilatorId], references: [id])
+  results       Result[]
+}
+
+model Result {
+  id             String       @id @default(uuid())
+  studentId      String
+  student        Student      @relation(fields: [studentId], references: [id])
+  examScheduleId String
+  schedule       ExamSchedule @relation(fields: [examScheduleId], references: [id])
+  marksObtained  Float
+  maxMarks       Float
+  weightage      Float // e.g. 30 for 30% weightage
+  passed         Boolean
+  remarks        String?
+  createdAt      DateTime     @default(now())
+}
