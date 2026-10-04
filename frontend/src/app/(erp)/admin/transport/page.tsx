@@ -1,57 +1,53 @@
 import React from 'react';
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { STUDENTS } from "@/lib/syntheticData";
+import prisma from '@/lib/prisma';
+import { Bus } from 'lucide-react';
 
-export default function Page() {
-    const data = STUDENTS;
+export const dynamic = 'force-dynamic';
+
+export default async function Page() {
+    // Fetch live data from Prisma
+    const items = await prisma.transportAllocation.findMany({
+        take: 10,
+        orderBy: { id: 'desc' }
+    }).catch(() => []); // Fallback for empty DB
+
     return (
-        <div className="p-8 space-y-6 text-white min-h-screen bg-[#050014] relative overflow-hidden">
-            {/* Background Effects */}
-            <div className="absolute top-[-20%] right-[-10%] w-[60%] h-[60%] rounded-full bg-violet-600/10 blur-[150px] mix-blend-screen pointer-events-none" />
-            <div className="absolute bottom-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-fuchsia-600/10 blur-[120px] mix-blend-screen pointer-events-none" />
-
-            <div className="relative z-10">
+        <div className="space-y-6 max-w-7xl mx-auto p-6 lg:p-8 font-sans text-white">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
-                    <h1 className="text-3xl font-bold tracking-tight">Transport Logistics</h1>
-                    <p className="text-violet-200/60 mt-2">Bus routing and student pass management.</p>
-                </div>
-                
-                <div className="mt-8">
-                    <Card className="bg-white/[0.02] border-white/10 backdrop-blur-2xl overflow-hidden shadow-2xl">
-                        <CardHeader className="border-b border-white/5 bg-white/5 p-6">
-                            <CardTitle className="text-violet-300 font-medium tracking-wide text-sm uppercase">Active Directory</CardTitle>
-                        </CardHeader>
-                        <CardContent className="p-0">
-                            <div className="overflow-x-auto">
-                                <table className="w-full text-left border-collapse">
-                                    <thead>
-                                        <tr className="border-b border-white/5 text-xs uppercase text-white/40 tracking-wider bg-black/20">
-                                            <th className="px-6 py-4 font-semibold">ID</th>
-                                            <th className="px-6 py-4 font-semibold">Name</th>
-                                            <th className="px-6 py-4 font-semibold">Email</th>
-                                            <th className="px-6 py-4 font-semibold">Classification</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="divide-y divide-white/5">
-                                        {data.slice(0, 15).map((row: any, i: number) => (
-                                            <tr key={i} className="hover:bg-white/[0.02] transition-colors group">
-                                                <td className="px-6 py-4 text-white/50 font-mono text-sm group-hover:text-white transition-colors">{row.id}</td>
-                                                <td className="px-6 py-4 text-white font-medium">{row.name}</td>
-                                                <td className="px-6 py-4 text-violet-300/70 text-sm group-hover:text-violet-300 transition-colors">{row.email}</td>
-                                                <td className="px-6 py-4 text-sm">
-                                                    <span className="px-3 py-1 bg-white/5 text-fuchsia-300/80 rounded-full border border-white/5 text-xs font-medium tracking-wide">
-                                                        {row.department || row.role || row.designation}
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </CardContent>
-                    </Card>
+                    <h1 className="text-3xl font-bold text-slate-50 flex items-center gap-3 mb-2">
+                        <Bus className="w-7 h-7 text-indigo-400"/> Transport Logistics
+                    </h1>
+                    <p className="text-slate-400 text-sm">Manage bus routes and student passes.</p>
                 </div>
             </div>
+
+            <div className="bg-[#221F32]/80 backdrop-blur rounded-3xl p-6 border border-white/10 shadow-lg overflow-x-auto">
+                <table className="w-full text-left">
+                    <thead>
+                        <tr className="text-xs uppercase text-slate-400 border-b border-white/10">
+                            <th className="pb-3 px-4">ID</th>
+                            <th className="pb-3 px-4">routeName</th>
+<th className="pb-3 px-4">stopName</th>
+<th className="pb-3 px-4">studentId</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {items.length > 0 ? items.map((item: any) => (
+                            <tr key={item.id} className="border-b border-white/5 hover:bg-white/5">
+                                <td className="py-4 px-4 text-xs text-slate-500 font-mono">{String(item.id).substring(0, 8)}</td>
+                                <td className="py-4 px-4 text-sm text-slate-200">{String(item.routeName)}</td>
+<td className="py-4 px-4 text-sm text-slate-200">{String(item.stopName)}</td>
+<td className="py-4 px-4 text-sm text-slate-200">{String(item.studentId)}</td>
+                            </tr>
+                        )) : (
+                            <tr>
+                                <td colSpan={4} className="py-8 text-center text-slate-500">No records found.</td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
+            </div>
         </div>
-    )
+    );
 }

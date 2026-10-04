@@ -22,6 +22,11 @@ model Student {
   updatedAt  DateTime     @updatedAt
   Attendance Attendance[]
   Result     Result[]
+  assignmentSubmissions AssignmentSubmission[]
+  fees        Fee[]
+  hostelAllocation HostelAllocation?
+  transportAllocation TransportAllocation?
+  bookIssues  BookIssue[]
 }
 
 model Programme {
@@ -72,6 +77,8 @@ model Faculty {
   department    String
   TimetableSlot TimetableSlot[]
   ExamSchedule  ExamSchedule[]
+  courseMaterials CourseMaterial[]
+  assignments     Assignment[]
 }
 
 model Course {
@@ -82,6 +89,8 @@ model Course {
   type          String // Theory, Lab, etc.
   TimetableSlot TimetableSlot[]
   ExamSchedule  ExamSchedule[]
+  courseMaterials CourseMaterial[]
+  assignments     Assignment[]
 }
 
 model Document {
@@ -162,4 +171,111 @@ model Result {
   passed         Boolean
   remarks        String?
   createdAt      DateTime     @default(now())
+}
+
+// ==========================================
+// LMS & COURSE LEARNING
+// ==========================================
+model CourseMaterial {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  fileUrl     String
+  courseId    String
+  facultyId   String
+  createdAt   DateTime @default(now())
+  course      Course   @relation(fields: [courseId], references: [id])
+  faculty     Faculty  @relation(fields: [facultyId], references: [id])
+}
+
+model Assignment {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  dueDate     DateTime
+  maxMarks    Float
+  courseId    String
+  facultyId   String
+  createdAt   DateTime @default(now())
+  course      Course   @relation(fields: [courseId], references: [id])
+  faculty     Faculty  @relation(fields: [facultyId], references: [id])
+  submissions AssignmentSubmission[]
+}
+
+model AssignmentSubmission {
+  id           String     @id @default(uuid())
+  assignmentId String
+  studentId    String
+  fileUrl      String
+  marksAwarded Float?
+  submittedAt  DateTime   @default(now())
+  assignment   Assignment @relation(fields: [assignmentId], references: [id])
+  student      Student    @relation(fields: [studentId], references: [id])
+}
+
+// ==========================================
+// FINANCE ENGINE
+// ==========================================
+model Fee {
+  id          String   @id @default(uuid())
+  studentId   String
+  amount      Float
+  type        String   // TUITION, EXAM, HOSTEL, TRANSPORT
+  dueDate     DateTime
+  status      String   @default("PENDING") // PENDING, PAID, PARTIAL
+  createdAt   DateTime @default(now())
+  student     Student  @relation(fields: [studentId], references: [id])
+  payments    Payment[]
+}
+
+model Payment {
+  id            String   @id @default(uuid())
+  feeId         String
+  amountPaid    Float
+  paymentMethod String   // ONLINE, CASH, DD
+  transactionId String?
+  paidAt        DateTime @default(now())
+  fee           Fee      @relation(fields: [feeId], references: [id])
+}
+
+// ==========================================
+// CAMPUS SERVICES (HOSTEL, TRANSPORT, LIBRARY)
+// ==========================================
+model HostelAllocation {
+  id        String   @id @default(uuid())
+  studentId String   @unique
+  hostelName String
+  roomNo     String
+  allocatedAt DateTime @default(now())
+  student    Student  @relation(fields: [studentId], references: [id])
+}
+
+model TransportAllocation {
+  id        String   @id @default(uuid())
+  studentId String   @unique
+  routeName String
+  stopName  String
+  allocatedAt DateTime @default(now())
+  student    Student  @relation(fields: [studentId], references: [id])
+}
+
+model LibraryBook {
+  id          String   @id @default(uuid())
+  title       String
+  author      String
+  isbn        String?
+  totalCopies Int      @default(1)
+  issues      BookIssue[]
+}
+
+model BookIssue {
+  id          String   @id @default(uuid())
+  bookId      String
+  studentId   String
+  issuedAt    DateTime @default(now())
+  dueDate     DateTime
+  returnedAt  DateTime?
+  status      String   @default("ISSUED") // ISSUED, RETURNED, OVERDUE
+  book        LibraryBook @relation(fields: [bookId], references: [id])
+  student     Student     @relation(fields: [studentId], references: [id])
 }

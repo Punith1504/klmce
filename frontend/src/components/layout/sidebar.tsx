@@ -43,11 +43,16 @@ const parentNavItems = [
 
 const adminNavItems = [
   { name: 'Principal Dashboard', href: '/admin/dashboard', icon: LayoutDashboard },
-  { name: 'Student Info & Admissions', href: '/admin/students', icon: Users },
+  { name: 'Student Info & Roster', href: '/admin/students', icon: Users },
+  { name: 'New Admissions', href: '/admin/admissions', icon: Users },
+  { name: 'Bulk Data Imports', href: '/admin/bulk-upload', icon: FileSignature },
   { name: 'Academics & Timetable', href: '/admin/timetable', icon: Calendar },
   { name: 'Examination Cell', href: '/admin/examinations', icon: Award },
   { name: 'Finance & Accounts', href: '/admin/finance', icon: Banknote },
   { name: 'HR & Workload', href: '/admin/hr', icon: Briefcase },
+  { name: 'Central Library', href: '/admin/library', icon: BookOpen },
+  { name: 'Hostel Management', href: '/admin/hostel', icon: Map },
+  { name: 'Transport Logistics', href: '/admin/transport', icon: Map },
 ];
 
 export function Sidebar() {

@@ -1,10 +1,11 @@
 import React from 'react';
 import prisma from '@/lib/prisma';
-import AdminAdmissionsClient from './client';
+import AdminBulkUploadClient from './client';
 
 export const dynamic = 'force-dynamic';
 
-export default async function AdminAdmissionsPage() {
+export default async function AdminBulkUploadPage() {
+    // Fetch batches and sections for the dropdowns
     const batches = await prisma.batch.findMany({
         include: { branch: true },
         orderBy: { startingYear: 'desc' }
@@ -15,5 +16,5 @@ export default async function AdminAdmissionsPage() {
         orderBy: { name: 'asc' }
     });
 
-    return <AdminAdmissionsClient batches={batches} sections={sections} />;
+    return <AdminBulkUploadClient batches={batches} sections={sections} />;
 }
