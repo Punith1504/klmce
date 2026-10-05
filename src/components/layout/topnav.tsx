@@ -2,21 +2,13 @@
 
 import React from 'react';
 import { usePathname } from 'next/navigation';
-import { ChevronRight, User as UserIcon, Search, LogOut } from 'lucide-react';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { useDemoStore } from '@/store/useDemoStore';
-import { useRouter } from 'next/navigation';
+import { ChevronRight, Search } from 'lucide-react';
+import { UserButton, useUser, SignInButton } from '@clerk/nextjs';
 
 export function TopNav() {
   const pathname = usePathname();
   const paths = pathname.split('/').filter(p => p);
-  const { currentUser, logout } = useDemoStore();
-  const router = useRouter();
-
-  const handleLogout = () => {
-    logout();
-    router.push('/auth/login');
-  };
+  const { user, isLoaded, isSignedIn } = useUser();
 
   return (
     <header className="sticky top-0 z-40 w-full h-16 bg-[#221F32]/80 backdrop-blur-md border-b border-white/10 flex items-center justify-between px-4 md:px-8">
@@ -46,17 +38,23 @@ export function TopNav() {
 
         {/* User Profile */}
         <div className="flex items-center space-x-4">
-          <div className="hidden sm:flex flex-col items-end mr-2">
-            <span className="text-sm font-medium text-slate-50 leading-none mb-1">{currentUser ? currentUser.name : 'Guest'}</span>
-            <span className="text-xs text-slate-400 leading-none">{currentUser ? currentUser.role : 'Visitor'}</span>
-          </div>
-          <div 
-            onClick={handleLogout}
-            className="flex items-center justify-center w-9 h-9 rounded-full bg-indigo-500/20 hover:bg-red-500/20 text-indigo-400 hover:text-red-400 border border-white/10 cursor-pointer transition-colors"
-            title="Logout"
-          >
-            <LogOut className="w-4 h-4" />
-          </div>
+          {isLoaded && isSignedIn ? (
+            <>
+              <div className="hidden sm:flex flex-col items-end mr-2">
+                <span className="text-sm font-medium text-slate-50 leading-none mb-1">
+                  {user.fullName || user.firstName || 'User'}
+                </span>
+                <span className="text-xs text-slate-400 leading-none">
+                  {user.primaryEmailAddress?.emailAddress || 'User Role'}
+                </span>
+              </div>
+              <UserButton afterSignOutUrl="/auth/login" />
+            </>
+          ) : (
+            <div className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 rounded-lg text-sm text-white font-medium cursor-pointer transition">
+              <SignInButton mode="modal">Sign In</SignInButton>
+            </div>
+          )}
         </div>
       </div>
     </header>

@@ -1,15 +1,22 @@
+import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
 
-export function middleware(request: NextRequest) {
+const isPublicRoute = createRouteMatcher(['/auth(.*)', '/sign-in(.*)', '/sign-up(.*)', '/']);
+
+export default clerkMiddleware(async (auth, req) => {
   // This code executes in sub-10 milliseconds at the physical CDN Edge Node 
   // (e.g., inside the Vercel / Cloudflare edge server) before hitting the React container.
+  
+  // Protect all non-public routes
+  if (!isPublicRoute(req)) {
+    await auth.protect();
+  }
   
   const response = NextResponse.next();
 
   // Extract Anycast Geolocation headers injected by the Edge router
-  const country = request.headers.get('x-vercel-ip-country') || 'IN';
-  const timezone = request.headers.get('x-vercel-ip-timezone') || 'Asia/Kolkata';
+  const country = req.headers.get('x-vercel-ip-country') || 'IN';
+  const timezone = req.headers.get('x-vercel-ip-timezone') || 'Asia/Kolkata';
 
   // Dynamic Localization Rules Engine
   let currency = 'INR';
@@ -32,8 +39,6 @@ export function middleware(request: NextRequest) {
   }
 
   // Inject localized preferences straight into the HTTP Cookies.
-  // The React UI will instantly render monetary ledgers (e.g., fee_transactions) 
-  // in the local currency and timezone format without waiting for a backend DB query.
   response.cookies.set('klmce_locale', locale, { path: '/' });
   response.cookies.set('klmce_currency', currency, { path: '/' });
   response.cookies.set('klmce_timezone', timezone, { path: '/' });
@@ -42,9 +47,15 @@ export function middleware(request: NextRequest) {
   response.headers.set('x-klmce-locale', locale);
 
   return response;
-}
+});
 
 export const config = {
-  // Apply this Edge Middleware to all Next.js routes
-  matcher: '/:path*',
+  matcher: [
+    // Skip Next.js internals and all static files, unless found in search params
+    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
+    // Always run for API routes
+    '/(api|trpc)(.*)',
+    // Clerk proxy route
+    '/__clerk/:path*',
+  ],
 };
