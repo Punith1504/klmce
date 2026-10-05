@@ -11,7 +11,6 @@ build/
 dist/
 
 # Environment variables (CRITICAL)
-.env
 .env.local
 .env.development.local
 .env.test.local
@@ -20,8 +19,6 @@ dist/
 # Database / Docker Volumes
 postgres_data/
 redis_data/
-*.sqlite3
-*.db
 
 # OS generated files
 .DS_Store
