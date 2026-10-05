@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useRouter } from "next/navigation";
 import { fetchClient } from "@/lib/api-client";
+import { useDemoStore } from "@/store/useDemoStore";
 
 // ==========================================
 // Zod Validation Schemas
@@ -42,17 +43,12 @@ export default function LoginPage() {
   const totpInputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   // ==========================================
-  // Handlers
+  // Mock Auth Handlers
   // ==========================================
-  const handleLoginError = (error: any) => {
-    // Standard RFC 7807 Problem Details Error Catching
-    setGlobalError({
-      title: error.title || "Authentication Failed",
-      detail: error.detail || "An unexpected system error occurred. Please try again later.",
-    });
-  };
+  const { login } = useDemoStore();
 
-  const handleSuccess = (role: string) => {
+  const handleSuccess = (role: string, name: string, email: string) => {
+    login({ name, role, email });
     const routes: Record<string, string> = {
       SUPER_ADMIN: "/admin/dashboard",
       INSTITUTION_ADMIN: "/admin/dashboard",
@@ -68,45 +64,39 @@ export default function LoginPage() {
   const onCredsSubmit = async (data: CredentialsForm) => {
     setIsLoading(true);
     setGlobalError(null);
+    
+    // Simulate network delay
+    await new Promise(resolve => setTimeout(resolve, 800));
+
     try {
-      // API call to the FastAPI login endpoint using our global fetchClient wrapper
-      const res = await fetchClient<{ message: string; role: string }>("/auth/login", {
-        method: "POST",
-        body: JSON.stringify(data),
-      });
-      // If no MFA challenge, we're routed immediately
-      handleSuccess(res.role);
-    } catch (err: any) {
-      // 401 Unauthorized with MFA failure specifically triggers the TOTP transition
-      if (err.status === 401 && (err.type === "probs/invalid-totp" || err.detail === "MFA failure")) {
-         setCachedCredentials(data);
-         setStep("TOTP");
-         setTimeLeft(30);
+      // MOCK AUTHENTICATION LOGIC
+      const email = data.email.toLowerCase();
+      
+      if (email === 'admin@klmce.edu' || email === 'admin@klmce.ac.in') {
+        handleSuccess('SUPER_ADMIN', 'Punith', email);
+      } else if (email.startsWith('student')) {
+        handleSuccess('STUDENT', 'Arjun Reddy', email);
+      } else if (email.startsWith('faculty')) {
+        handleSuccess('FACULTY', 'Dr. CV Raman', email);
+      } else if (email.startsWith('parent')) {
+        handleSuccess('PARENT', 'Rajesh Reddy', email);
       } else {
-         handleLoginError(err);
+        // Fallback for any other email to go to student
+        handleSuccess('STUDENT', 'Guest Student', email);
       }
+    } catch (err: any) {
+      setGlobalError({
+        title: "Authentication Failed",
+        detail: "Invalid credentials.",
+      });
     } finally {
       setIsLoading(false);
     }
   };
 
   const onTotpSubmit = async (data: TotpForm) => {
-    if (!cachedCredentials) return;
-    setIsLoading(true);
-    setGlobalError(null);
-    try {
-      const res = await fetchClient<{ message: string; role: string }>("/auth/login", {
-        method: "POST",
-        body: JSON.stringify({ ...cachedCredentials, totp_code: data.totp_code }),
-      });
-      handleSuccess(res.role);
-    } catch (err: any) {
-      handleLoginError(err);
-      totpForm.reset();
-      totpInputRefs.current[0]?.focus(); // Refocus on error
-    } finally {
-      setIsLoading(false);
-    }
+    // Totp is bypassed in this mock setup, but keeping the signature
+    setIsLoading(false);
   };
 
   // ==========================================
