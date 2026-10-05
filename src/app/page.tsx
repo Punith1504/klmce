@@ -251,13 +251,27 @@ export default function UnifiedAuthPortal() {
                                     <p className="text-sm text-slate-300">An OTP has been sent to the mobile number ending in <strong className="text-white">XXXXX 4321</strong>.</p>
                                 </div>
 
-                                <div className="space-y-2">
-                                    <label className="text-xs font-semibold text-violet-200/80 uppercase tracking-wider ml-1 text-center block">Enter 6-Digit OTP</label>
-                                    <input 
-                                        type="text" required maxLength={6} value={recoveryOtp} onChange={(e) => setRecoveryOtp(e.target.value)} 
-                                        placeholder="0 0 0 0 0 0" 
-                                        className="w-full bg-black/30 border border-white/10 rounded-2xl py-4 text-center text-2xl tracking-[0.5em] text-white placeholder-violet-200/10 focus:outline-none focus:ring-2 focus:ring-fuchsia-500/50 transition-all font-mono" 
-                                    />
+                                <div className="space-y-4">
+                                    <div>
+                                        <label className="text-xs font-semibold text-violet-200/80 uppercase tracking-wider ml-1 text-center block mb-2">Enter 6-Digit OTP</label>
+                                        <input 
+                                            type="text" required maxLength={6} value={recoveryOtp} onChange={(e) => setRecoveryOtp(e.target.value)} 
+                                            placeholder="0 0 0 0 0 0" 
+                                            className="w-full bg-black/30 border border-white/10 rounded-2xl py-4 text-center text-2xl tracking-[0.5em] text-white placeholder-violet-200/10 focus:outline-none focus:ring-2 focus:ring-fuchsia-500/50 transition-all font-mono" 
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="text-xs font-semibold text-violet-200/80 uppercase tracking-wider ml-1 block mb-2">New Password (Req. every 90 days)</label>
+                                        <div className="relative group">
+                                            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                                <Lock className="h-5 w-5 text-violet-300/50 group-focus-within:text-violet-400 transition-colors" />
+                                            </div>
+                                            <input 
+                                                type="password" required placeholder="••••••••" 
+                                                className="w-full bg-black/20 border border-white/10 rounded-2xl py-4 pl-12 pr-4 text-white placeholder-violet-200/30 focus:outline-none focus:ring-2 focus:ring-violet-500/50 transition-all backdrop-blur-sm" 
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <button type="submit" disabled={isLoading} className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-4 rounded-2xl shadow-lg shadow-emerald-500/20 transition-all flex items-center justify-center gap-2">

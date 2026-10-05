@@ -4,9 +4,11 @@ from celery import shared_task
 
 logger = logging.getLogger(__name__)
 
+import os
+
 META_GRAPH_URL = "https://graph.facebook.com/v19.0"
-PHONE_NUMBER_ID = "MOCK_PHONE_ID_123456"
-ACCESS_TOKEN = "MOCK_WHATSAPP_ACCESS_TOKEN"
+PHONE_NUMBER_ID = os.getenv("WHATSAPP_PHONE_NUMBER_ID", "MOCK_PHONE_ID_123456")
+ACCESS_TOKEN = os.getenv("WHATSAPP_ACCESS_TOKEN", "MOCK_WHATSAPP_ACCESS_TOKEN")
 
 # =========================================================
 # Outbound Notifications (Interactive Templates)
@@ -47,6 +49,14 @@ def send_whatsapp_interactive_template(self, to_phone: str, template_name: str, 
 @shared_task
 def send_whatsapp_text(to_phone: str, message: str):
     """Utility function to send a standard conversational text reply."""
+    if ACCESS_TOKEN == "MOCK_WHATSAPP_ACCESS_TOKEN" or not ACCESS_TOKEN:
+        print("\n" + "="*50)
+        print("🔔 [MOCK SMS/WHATSAPP] 🔔")
+        print(f"To: {to_phone}")
+        print(f"Message: {message}")
+        print("="*50 + "\n")
+        return {"status": "success", "mocked": True}
+
     url = f"{META_GRAPH_URL}/{PHONE_NUMBER_ID}/messages"
     payload = {
         "messaging_product": "whatsapp",
@@ -55,6 +65,7 @@ def send_whatsapp_text(to_phone: str, message: str):
         "text": {"body": message}
     }
     requests.post(url, json=payload, headers={"Authorization": f"Bearer {ACCESS_TOKEN}", "Content-Type": "application/json"})
+
 
 # =========================================================
 # Inbound Conversational Bot Logic

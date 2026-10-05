@@ -9,7 +9,10 @@ export default clerkMiddleware(async (auth, req) => {
   
   // Protect all non-public routes
   if (!isPublicRoute(req)) {
-    await auth.protect();
+    const session = auth();
+    if (!session.userId) {
+      return NextResponse.redirect(new URL('/', req.url));
+    }
   }
   
   const response = NextResponse.next();

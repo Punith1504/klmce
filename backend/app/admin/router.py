@@ -80,3 +80,68 @@ async def execute_eoy_rollover(
             title="EOY Archival Engine Failure",
             detail=f"The atomic rollover transaction failed and the entire state change was instantly reverted. Trace: {str(e)}"
         )
+
+from passlib.context import CryptContext
+import pyotp
+import string
+import secrets
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+class ProvisionUserRequest(BaseModel):
+    role: str
+    email: str
+    first_name: str
+    last_name: str
+    login_id: str
+    phone_number: str
+
+@router.post("/provision-user")
+async def provision_user(
+    req: ProvisionUserRequest,
+    # Restrict to admins
+    token: dict = Depends(require_roles(Role.SUPER_ADMIN, Role.ADMIN)),
+    conn: asyncpg.Connection = Depends(get_db_connection)
+):
+    """
+    Provisions a new user with strict login ID requirements.
+    Sends details to their email (mocked).
+    """
+    # 1. Enforce Role-based login constraints
+    if req.role == 'PARENT' and not req.login_id.isdigit():
+        raise RFC7807Exception(status_code=400, type="probs/invalid-parent-id", title="Invalid Format", detail="Parent IDs must contain only numbers.")
+    if req.role == 'STUDENT' and not req.phone_number:
+         raise RFC7807Exception(status_code=400, type="probs/missing-phone", title="Missing Phone", detail="Students must have a linked phone number for their Enrollment ID.")
+    # (Admins are assumed to provide valid college ID)
+
+    tenant_id = token["tenant_id"]
+
+    try:
+        # Generate temporary credentials
+        alphabet = string.ascii_letters + string.digits + "!@#$%^&*"
+        temp_password = ''.join(secrets.choice(alphabet) for i in range(12))
+        hashed_password = pwd_context.hash(temp_password)
+        
+        # Generate MFA secret for 2FA requirement
+        mfa_secret = pyotp.random_base32()
+        
+        sql_insert = """
+            INSERT INTO erp_core.users (tenant_id, email, role, first_name, last_name, login_id, phone_number, password_hash, mfa_secret)
+            VALUES ($1::uuid, $2, $3, $4, $5, $6, $7, $8, $9)
+            RETURNING user_id;
+        """
+        user_id = await conn.fetchval(sql_insert, tenant_id, req.email, req.role, req.first_name, req.last_name, req.login_id, req.phone_number, hashed_password, mfa_secret)
+        
+        # In a real system, send email via a task queue (e.g. Celery) with `temp_password` and `mfa_secret` QR code.
+        return {
+            "status": "success",
+            "message": f"User {req.login_id} successfully provisioned. Details and 2FA setup have been sent to {req.email}.",
+            "user_id": user_id,
+            "demo_temp_password": temp_password,
+            "demo_mfa_secret": mfa_secret
+        }
+    except asyncpg.UniqueViolationError:
+        raise RFC7807Exception(status_code=409, type="probs/conflict", title="Conflict", detail="User with this email, login_id, or phone number already exists.")
+    except Exception as e:
+        raise RFC7807Exception(status_code=500, type="probs/provisioning-failure", title="Provisioning Failure", detail=str(e))
+

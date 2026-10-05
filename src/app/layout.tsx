@@ -3,8 +3,6 @@ import { dark } from "@clerk/themes";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { AppShell } from "@/components/layout/app-shell";
-
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -27,9 +25,7 @@ export default function RootLayout({
             elements: { card: 'bg-[#221F32]/90 backdrop-blur-md border border-white/10 shadow-2xl' }
           }}
         >
-          <AppShell>
           {children}
-          </AppShell>
         </ClerkProvider>
       </body>
     </html>
