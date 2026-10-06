@@ -26,7 +26,7 @@ export default function CampusPage() {
                     <div className="space-y-4">
                         <div className="bg-black/30 p-4 rounded-xl border border-white/5">
                             <p className="text-xs text-slate-500 font-bold uppercase">Books Due</p>
-                            <p className="text-slate-200 font-medium mt-1 text-sm">"Operating System Concepts" by Silberschatz</p>
+                            <p className="text-slate-200 font-medium mt-1 text-sm">&quot;Operating System Concepts&quot; by Silberschatz</p>
                             <p className="text-red-400 text-xs font-bold mt-2">Due in 2 Days</p>
                         </div>
                         <button className="w-full bg-white/5 hover:bg-white/10 text-slate-200 py-2 rounded-lg text-sm font-semibold transition border border-white/10">

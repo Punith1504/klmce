@@ -21,7 +21,7 @@ export default function FacultyDashboard() {
             <Calendar className="w-6 h-6" />
           </div>
           <div>
-            <p className="text-sm text-slate-400 font-semibold">Today's Classes</p>
+            <p className="text-sm text-slate-400 font-semibold">Today&apos;s Classes</p>
             <h3 className="text-2xl font-bold text-slate-50">3</h3>
           </div>
         </div>
@@ -61,7 +61,7 @@ export default function FacultyDashboard() {
         {/* Today's Schedule */}
         <div className="bg-[#221F32]/80 backdrop-blur rounded-2xl border border-white/10 shadow-lg overflow-hidden">
           <div className="p-6 border-b border-white/10 bg-black/20">
-            <h2 className="text-lg font-bold text-slate-50">Today's Schedule</h2>
+            <h2 className="text-lg font-bold text-slate-50">Today&apos;s Schedule</h2>
           </div>
           <div className="p-6 space-y-4">
             <div className="flex justify-between items-center bg-white/5 p-4 rounded-xl border border-white/10">

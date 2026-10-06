@@ -164,7 +164,7 @@ export default function StudentAssessmentsPage() {
                 {filtered.length === 0 && (
                     <div className="col-span-full py-12 text-center border-2 border-dashed border-white/10 rounded-2xl">
                         <CheckCircle2 className="w-12 h-12 text-emerald-500/50 mx-auto mb-4" />
-                        <h3 className="text-lg font-bold text-slate-300">You're all caught up!</h3>
+                        <h3 className="text-lg font-bold text-slate-300">You&apos;re all caught up!</h3>
                         <p className="text-slate-500 text-sm mt-1">No assessments found for this category.</p>
                     </div>
                 )}

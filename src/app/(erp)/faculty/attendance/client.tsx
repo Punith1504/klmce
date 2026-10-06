@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { CalendarCheck, Save, Users, Filter, CheckCircle } from 'lucide-react';
 import { submitAttendance } from './actions';
 
@@ -21,26 +21,24 @@ type Slot = {
 };
 
 export default function FacultyAttendanceClient({ slots }: { slots: Slot[] }) {
-    const todayStr = new Date().toISOString().split('T')[0];
+    const todayStr = new Intl.DateTimeFormat('en-CA', {timeZone:'Asia/Kolkata'}).format(new Date());
     const [date, setDate] = useState(todayStr);
     const [selectedSlotId, setSelectedSlotId] = useState<string>(slots.length > 0 ? slots[0].id : "");
-    const [attendanceState, setAttendanceState] = useState<Record<string, string>>({});
+    const [edits, setEdits] = useState<Record<string, Record<string, string>>>({});
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [successMsg, setSuccessMsg] = useState("");
 
     const selectedSlot = slots.find(s => s.id === selectedSlotId);
 
-    // Initialize attendance state when slot changes
-    useEffect(() => {
-        if (selectedSlot) {
-            const initialState: Record<string, string> = {};
-            selectedSlot.students.forEach(s => {
-                initialState[s.id] = "PRESENT"; // Default to present
-            });
-            setAttendanceState(initialState);
-            setSuccessMsg("");
-        }
-    }, [selectedSlotId, date, selectedSlot]);
+    const contextKey = `${selectedSlotId}:${date}`;
+    const attendanceState: Record<string, string> = {
+        ...Object.fromEntries((selectedSlot?.students ?? []).map(s => [s.id, "ABSENT"])),
+        ...edits[contextKey],
+    };
+    const setAttendanceState = (update: Record<string,string> | ((previous: Record<string,string>) => Record<string,string>)) => {
+        setEdits(previous => ({...previous, [contextKey]: typeof update === "function" ? update({...attendanceState, ...previous[contextKey]}) : update}));
+        setSuccessMsg("");
+    };
 
     const markAll = (status: string) => {
         if (!selectedSlot) return;
@@ -158,8 +156,7 @@ export default function FacultyAttendanceClient({ slots }: { slots: Slot[] }) {
                                         <td className="px-6 py-4 flex justify-center gap-2">
                                             {[
                                                 { label: "Present", value: "PRESENT" },
-                                                { label: "Absent", value: "ABSENT" },
-                                                { label: "Excused", value: "EXCUSED" }
+                                                { label: "Absent", value: "ABSENT" }
                                             ].map(statusObj => (
                                                 <button 
                                                     key={statusObj.value}

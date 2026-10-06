@@ -1,49 +1,18 @@
-"use server";
-import prisma from '@/lib/prisma';
+'use server';
+import { requireRole, serverApi } from '@/lib/server-api';
 import { revalidatePath } from 'next/cache';
-
-export async function submitAttendance(slotId: string, date: string, records: { studentId: string, status: string }[]) {
-    // Basic validation
-    if (!slotId || !date || !records || records.length === 0) {
-        return { success: false, error: 'Invalid data' };
-    }
-
-    const attendanceDate = new Date(date);
-
-    try {
-        // Upsert logic for each record to handle re-submissions for the same date/slot
-        for (const record of records) {
-            
-            // Check if record already exists
-            const existing = await prisma.attendance.findFirst({
-                where: {
-                    slotId,
-                    studentId: record.studentId,
-                    date: attendanceDate
-                }
-            });
-
-            if (existing) {
-                await prisma.attendance.update({
-                    where: { id: existing.id },
-                    data: { status: record.status }
-                });
-            } else {
-                await prisma.attendance.create({
-                    data: {
-                        slotId,
-                        studentId: record.studentId,
-                        date: attendanceDate,
-                        status: record.status
-                    }
-                });
-            }
-        }
-
-        revalidatePath('/faculty/attendance');
-        revalidatePath('/student/attendance'); // update student dashboards too
-        return { success: true };
-    } catch (e: any) {
-        return { success: false, error: e.message };
-    }
+import { z } from 'zod';
+const submission = z.object({slotId:z.string().uuid(),date:z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+  records:z.array(z.object({studentId:z.string().uuid(),status:z.enum(['PRESENT','ABSENT'])})).min(1).max(200)});
+export async function submitAttendance(slotId:string,date:string,records:{studentId:string,status:string}[]) {
+  try {
+    const data = submission.parse({slotId,date,records});
+    await requireRole('FACULTY');
+    // The backend independently enforces identity, assignment, enrollment, date,
+    // submission window, atomicity and uniqueness in PostgreSQL.
+    await serverApi('/attendance/roster',{method:'POST',body:JSON.stringify(data)});
+    revalidatePath('/faculty/attendance');
+    revalidatePath('/student/attendance');
+    return {success:true};
+  } catch (error) { return {success:false,error:error instanceof Error ? error.message : 'Attendance could not be submitted'}; }
 }

@@ -8,7 +8,7 @@ import { CommandMenu } from '../command-menu';
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const isLoginPage = pathname === '/' || pathname === '/login';
+  const isLoginPage = pathname === '/' || pathname.startsWith('/auth') || pathname.startsWith('/sign-');
 
   if (isLoginPage) {
     return <>{children}</>;

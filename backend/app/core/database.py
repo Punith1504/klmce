@@ -1,48 +1,37 @@
 import os
 import asyncpg
-from typing import AsyncGenerator
-from .security import RFC7807Exception
+from fastapi import Depends, HTTPException
+from .dependencies import get_active_user
 
 class DatabaseManager:
-    def __init__(self):
-        self.pool: asyncpg.Pool | None = None
-
+    def __init__(self): self.pool = None
     async def connect(self):
-        db_url = os.getenv("DATABASE_URL")
-        if not db_url:
-            raise ValueError("CRITICAL: DATABASE_URL environment variable is missing.")
-
-        min_conns = int(os.getenv("DB_MIN_CONNS", "5"))
-        max_conns = int(os.getenv("DB_MAX_CONNS", "20"))
-
-        self.pool = await asyncpg.create_pool(
-            dsn=db_url,
-            min_size=min_conns,
-            max_size=max_conns,
-            command_timeout=60,
-        )
-
+        url=os.environ["DATABASE_URL"]
+        if not url.startswith(("postgres://","postgresql://")):
+            raise RuntimeError("DATABASE_URL must use the asyncpg postgresql:// format")
+        self.pool=await asyncpg.create_pool(dsn=url,min_size=int(os.getenv("DB_MIN_CONNS","2")),
+            max_size=int(os.getenv("DB_MAX_CONNS","10")),command_timeout=15,statement_cache_size=0)
+        async with self.pool.acquire() as conn:
+            unsafe=await conn.fetchval("SELECT rolsuper OR rolbypassrls FROM pg_roles WHERE rolname=current_user")
+            owner=await conn.fetchval("SELECT EXISTS(SELECT 1 FROM pg_tables WHERE schemaname='public' AND tableowner=current_user)")
+        if unsafe or owner:
+            await self.disconnect()
+            raise RuntimeError("Application database role must not own tables or bypass RLS")
     async def disconnect(self):
-        if self.pool:
-            await self.pool.close()
+        if self.pool: await self.pool.close()
+        self.pool=None
 
-db_manager = DatabaseManager()
+db_manager=DatabaseManager()
 
-async def get_db_connection() -> AsyncGenerator[asyncpg.Connection, None]:
-    """
-    FastAPI Dependency to acquire a database connection from the pool.
-    Automatically wraps the yielded connection inside an explicit database transaction.
-    """
-    if db_manager.pool is None:
-        raise RFC7807Exception(
-            status_code=503,
-            type="probs/database-unavailable",
-            title="Database Unavailable",
-            detail="The database connection pool has not been initialized or is offline."
-        )
+async def get_db_pool():
+    if db_manager.pool is None: raise HTTPException(503,"Database unavailable")
+    return db_manager.pool
 
-    # Acquire connection from the pool
-    async with db_manager.pool.acquire() as connection:
-        # Wrap the request boundary in a single atomic transaction
-        async with connection.transaction():
-            yield connection
+async def get_db_connection(token_payload:dict=Depends(get_active_user)):
+    if not isinstance(token_payload,dict): raise HTTPException(401,"Authenticated database context required")
+    pool=await get_db_pool()
+    async with pool.acquire(timeout=5) as conn:
+        async with conn.transaction():
+            await conn.execute("SELECT set_config('app.current_tenant_id',$1,true), set_config('app.current_user_id',$2,true), set_config('app.current_user_role',$3,true)",
+                token_payload["tenant_id"],token_payload["sub"],token_payload["role"])
+            yield conn

@@ -18,13 +18,14 @@ class ExamMark(Base):
     mark_id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     tenant_id = Column(UUID(as_uuid=True), nullable=False)
     student_id = Column(UUID(as_uuid=True), nullable=False)
+    faculty_id = Column(UUID(as_uuid=True), nullable=False)
     subject = Column(String(100), nullable=False)
     marks_obtained = Column(Numeric(5, 2), nullable=False)
     max_marks = Column(Numeric(5, 2), nullable=False)
     exam_date = Column(Date, nullable=False)
     
     # State Machine Integration
-    status = Column(SAEnum(ExamStatus), default=ExamStatus.DRAFT, nullable=False)
+    status = Column(SAEnum(ExamStatus, native_enum=False), default=ExamStatus.DRAFT, nullable=False)
     
     # Expiration window for overrides
     revision_window_until = Column(DateTime(timezone=True), nullable=True)
@@ -42,7 +43,7 @@ class ExamChangeRequest(Base):
     mark_id = Column(UUID(as_uuid=True), ForeignKey("exam_marks.mark_id"), nullable=False)
     requested_by = Column(UUID(as_uuid=True), nullable=False)
     reason = Column(String, nullable=False)
-    status = Column(SAEnum(ChangeRequestStatus), default=ChangeRequestStatus.PENDING, nullable=False)
+    status = Column(SAEnum(ChangeRequestStatus, native_enum=False), default=ChangeRequestStatus.PENDING, nullable=False)
     
     # Stores Admin signatures required to execute dual-approval unlocking
     admin_signatures = Column(ARRAY(UUID(as_uuid=True)), default=list)

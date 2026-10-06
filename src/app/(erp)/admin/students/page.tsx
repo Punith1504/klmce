@@ -1,28 +1,3 @@
-import React from 'react';
-import prisma from '@/lib/prisma';
-import StudentsClient from './client';
-
-export const dynamic = 'force-dynamic';
-
-export default async function StudentsDirectoryPage() {
-    // Fetch all students with their hierarchical academic data
-    const students = await prisma.student.findMany({
-        include: {
-            batch: {
-                include: {
-                    branch: {
-                        include: {
-                            programme: true
-                        }
-                    }
-                }
-            },
-            section: true
-        },
-        orderBy: {
-            rollNo: 'asc'
-        }
-    });
-
-    return <StudentsClient students={students} />;
-}
+import { requireRole,serverApi } from '@/lib/server-api';
+import { RecordTable } from '@/components/record-table';
+export default async function Page(){ await requireRole('SUPER_ADMIN','INSTITUTION_ADMIN'); return <RecordTable title='Students (first 200)' rows={await serverApi('/students?limit=200')}/>; }

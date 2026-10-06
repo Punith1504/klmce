@@ -1,51 +1,9 @@
-import React from 'react';
-import prisma from '@/lib/prisma';
+import { requireRole,serverApi } from '@/lib/server-api';
 import FacultyAttendanceClient from './client';
-
-export const dynamic = 'force-dynamic';
-
-export default async function FacultyAttendancePage() {
-    // Hardcode faculty for now until auth is implemented
-    const faculty = await prisma.faculty.findUnique({
-        where: { empId: 'FAC001' },
-        include: {
-            TimetableSlot: {
-                include: {
-                    course: true,
-                    section: {
-                        include: {
-                            students: {
-                                orderBy: { rollNo: 'asc' }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    });
-
-    if (!faculty) {
-        return <div className="text-white p-8">Faculty not found in DB</div>;
-    }
-
-    const slots = faculty.TimetableSlot.map(slot => ({
-        id: slot.id,
-        course: {
-            title: slot.course.title,
-            code: slot.course.code
-        },
-        section: {
-            name: slot.section.name
-        },
-        dayOfWeek: slot.dayOfWeek,
-        startTime: slot.startTime,
-        endTime: slot.endTime,
-        students: slot.section.students.map(s => ({
-            id: s.id,
-            rollNo: s.rollNo,
-            name: s.name
-        }))
-    }));
-
-    return <FacultyAttendanceClient slots={slots} />;
+export const dynamic='force-dynamic';
+type Slot={id:string,course:{title:string,code:string},section:{name:string},dayOfWeek:string,startTime:string,endTime:string,students:{id:string,rollNo:string,name:string}[]};
+export default async function Page() {
+  await requireRole('FACULTY');
+  const slots=await serverApi<Slot[]>('/timetable/my-slots');
+  return <FacultyAttendanceClient slots={slots}/>;
 }

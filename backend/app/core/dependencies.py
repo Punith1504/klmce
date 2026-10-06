@@ -1,118 +1,68 @@
-from fastapi import Request, Depends
-from fastapi.security import APIKeyCookie
-from jose import JWTError, jwt
-from .security import SECRET_KEY, ALGORITHM, RFC7807Exception
 from enum import Enum
-import asyncpg
-from typing import Callable
 from uuid import UUID
+from fastapi import Depends, Request, HTTPException
+from .security import decode_token, RFC7807Exception
 
 class Role(str, Enum):
-    SUPER_ADMIN = "SUPER_ADMIN"
-    INSTITUTION_ADMIN = "INSTITUTION_ADMIN"
-    FACULTY = "FACULTY"
-    STUDENT = "STUDENT"
-    PARENT = "PARENT"
-    FINANCE = "FINANCE"
-    HR = "HR"
+    SUPER_ADMIN="SUPER_ADMIN"
+    INSTITUTION_ADMIN="INSTITUTION_ADMIN"
+    FACULTY="FACULTY"
+    STUDENT="STUDENT"
+    PARENT="PARENT"
+    FINANCE="FINANCE"
+    HR="HR"
 
-# Needs to be implemented / overridden by app database module
-async def get_db_pool() -> asyncpg.Pool:
-    raise NotImplementedError("Database pool injection not implemented")
-
-cookie_scheme = APIKeyCookie(name="access_token", auto_error=False)
-
-def get_current_user_token(request: Request) -> dict:
-    """Extracts and validates the JWT access token purely from HttpOnly cookies."""
+def get_current_user_token(request: Request):
     token = request.cookies.get("access_token")
-    if not token:
-        raise RFC7807Exception(
-            status_code=401,
-            type="https://api.erp.internal/probs/unauthorized",
-            title="Unauthorized",
-            detail="Access token cookie is missing"
-        )
-    try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        if payload.get("type") != "access":
-            raise ValueError()
-        return payload
-    except JWTError:
-        raise RFC7807Exception(
-            status_code=401,
-            type="https://api.erp.internal/probs/invalid-token",
-            title="Invalid Token",
-            detail="The access token provided is invalid or expired."
-        )
+    if not token: raise HTTPException(401,"Access token missing")
+    return decode_token(token,"access")
 
-async def get_db_connection(
-    token_payload: dict = Depends(get_current_user_token),
-    pool: asyncpg.Pool = Depends(get_db_pool)
-) -> asyncpg.Connection:
-    """
-    Middleware Dependency:
-    Acquires a database connection, starts a transaction, and sets the local session variables.
-    This seamlessly integrates with our Postgres Row-Level Security.
-    """
-    tenant_id = token_payload.get("tenant_id")
-    user_id = token_payload.get("sub")
-    role = token_payload.get("role")
-    
-    conn = await pool.acquire()
-    tr = conn.transaction()
-    await tr.start()
-    try:
-        await conn.execute(f"SET LOCAL app.current_tenant_id = '{tenant_id}'")
-        await conn.execute(f"SET LOCAL app.current_user_id = '{user_id}'")
-        await conn.execute(f"SET LOCAL app.current_user_role = '{role}'")
-        
-        yield conn
-        
-        await tr.commit()
-    except Exception:
-        await tr.rollback()
-        raise
-    finally:
-        await pool.release(conn)
+async def get_active_user(request: Request):
+    # Bearer credentials are accepted only from the configured Clerk issuer.
+    from .database import get_db_pool
+    authorization = request.headers.get("authorization", "")
+    if authorization.startswith("Bearer "):
+        from .identity import verify_clerk_token
+        claims = await verify_clerk_token(authorization[7:])
+        lookup, value = "external_subject", claims["sub"]
+    else:
+        claims = get_current_user_token(request)
+        lookup, value = "user_id", UUID(claims["sub"])
+        from .redis import get_redis_client
+        redis = await get_redis_client()
+        if not claims.get("sid") or await redis.get("session:"+claims["sid"]) != claims["sub"]: raise HTTPException(401,"Session revoked")
+    pool = await get_db_pool()
+    async with pool.acquire() as conn:
+        # SECURITY DEFINER lookup exposes only active principal metadata, not arbitrary rows.
+        row = await conn.fetchrow("SELECT * FROM erp_identity($1, $2)", lookup, str(value))
+    if not row or not row["is_active"]: raise HTTPException(401,"Account unavailable")
+    if lookup == "user_id" and (str(row["tenant_id"]) != claims["tenant_id"] or row["role"] != claims["role"]):
+        raise HTTPException(401,"Account permissions changed; sign in again")
+    if lookup == "external_subject" and row["role"] in ("SUPER_ADMIN","INSTITUTION_ADMIN","FACULTY","FINANCE","HR"):
+        # Clerk v2 session claims: second factor age is -1 when never verified.
+        age = claims.get("fva")
+        if not isinstance(age,list) or len(age)!=2 or not isinstance(age[1],(int,float)) or not 0 <= age[1] <= 15:
+            raise HTTPException(403,"Recent second-factor verification required")
+    return {"sub":str(row["user_id"]),"tenant_id":str(row["tenant_id"]),"role":row["role"]}
 
-def require_roles(*allowed_roles: Role) -> Callable:
-    """RBAC Guard for endpoints."""
-    def role_checker(token_payload: dict = Depends(get_current_user_token)):
-        user_role = token_payload.get("role")
-        if user_role not in [role.value for role in allowed_roles]:
-            raise RFC7807Exception(
-                status_code=403,
-                type="https://api.erp.internal/probs/forbidden",
-                title="Forbidden",
-                detail=f"User role {user_role} is not permitted to access this resource."
-            )
+def require_roles(*roles):
+    def guard(token_payload: dict = Depends(get_active_user)):
+        if token_payload.get("role") not in [r.value for r in roles]:
+            raise HTTPException(403,"Role not permitted")
         return token_payload
-    return role_checker
+    return guard
 
-async def verify_parent_student_link(
-    student_id: UUID, 
-    token_payload: dict = Depends(get_current_user_token),
-    conn: asyncpg.Connection = Depends(get_db_connection)
-):
-    """
-    Guard constraint ensuring Parents can strictly query their own student's records.
-    (This is an explicit check prior to running business logic, alongside RLS).
-    """
-    user_role = token_payload.get("role")
-    user_id = token_payload.get("sub")
-    tenant_id = token_payload.get("tenant_id")
-    
-    if user_role == Role.PARENT.value:
-        result = await conn.fetchrow(
-            "SELECT 1 FROM students WHERE student_id = $1 AND parent_id = $2 AND tenant_id = $3",
-            student_id, user_id, tenant_id
-        )
-        if not result:
-            raise RFC7807Exception(
-                status_code=403,
-                type="https://api.erp.internal/probs/parent-student-link-missing",
-                title="Forbidden",
-                detail="You are not authorized to view or modify this student's records."
-            )
-    
+async def get_db_pool():
+    from .database import get_db_pool as get_pool
+    return await get_pool()
+
+async def get_db_connection(token_payload: dict = Depends(get_active_user)):
+    from .database import get_db_connection as connection
+    async for conn in connection(token_payload): yield conn
+
+async def verify_parent_student_link(student_id: UUID, token_payload: dict=Depends(get_active_user), conn=Depends(get_db_connection)):
+    if token_payload["role"] == "PARENT" and not await conn.fetchval(
+        "SELECT 1 FROM students WHERE student_id=$1 AND parent_id=$2 AND tenant_id=$3",
+        student_id,UUID(token_payload["sub"]),UUID(token_payload["tenant_id"])):
+        raise HTTPException(403,"Student not linked to this parent")
     return True

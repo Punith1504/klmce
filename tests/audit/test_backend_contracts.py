@@ -124,9 +124,9 @@ def test_database_dependency_sets_transaction_local_identity():
     conn = SimpleNamespace(execute=AsyncMock())
     conn.transaction = lambda: Context(None)
     old = db_manager.pool
-    db_manager.pool = SimpleNamespace(acquire=lambda: Context(conn))
+    db_manager.pool = SimpleNamespace(acquire=lambda **kwargs: Context(conn))
     async def consume():
-        async for _ in get_db_connection(): pass
+        async for _ in get_db_connection({'sub':str(uuid4()),'tenant_id':str(uuid4()),'role':'STUDENT'}): pass
     try:
         run(consume())
         assert conn.execute.await_count > 0, 'No RLS identity setup occurs'
@@ -166,28 +166,43 @@ class Pipeline:
 
 def test_rate_limit_ignores_unverified_user_header():
     from app.core.rate_limit import RateLimiter
-    cache = Cache(); limiter = RateLimiter(5, 60)
-    run(limiter(request(headers=[(b'x-user-id', b'attacker-chosen')]), cache))
-    assert all('attacker-chosen' not in k for k in cache.keys)
+    import fakeredis.aioredis
+    async def scenario():
+        async with fakeredis.aioredis.FakeRedis() as cache:
+            limiter=RateLimiter(1,60)
+            await limiter(request(headers=[(b'x-user-id',b'first')]),cache)
+            with pytest.raises(HTTPException) as error:
+                await limiter(request(headers=[(b'x-user-id',b'second')]),cache)
+            assert error.value.status_code==429
+    run(scenario())
 
 
 def test_rate_limit_returns_429_when_exhausted(monkeypatch):
     from app.core import rate_limit
-    times = iter([1000.001, 1000.002])
-    monkeypatch.setattr(rate_limit, 'time', SimpleNamespace(time=lambda: next(times)))
-    cache = Cache(); limiter = rate_limit.RateLimiter(1, 60)
-    run(limiter(request(), cache))
-    with pytest.raises(HTTPException) as error: run(limiter(request(), cache))
-    assert error.value.status_code == 429
+    import fakeredis.aioredis
+    times=iter([1000.001,1000.002])
+    monkeypatch.setattr(rate_limit,'time',SimpleNamespace(time=lambda:next(times)))
+    async def scenario():
+        async with fakeredis.aioredis.FakeRedis() as cache:
+            limiter=rate_limit.RateLimiter(1,60)
+            await limiter(request(),cache)
+            with pytest.raises(HTTPException) as error: await limiter(request(),cache)
+            assert error.value.status_code==429
+            assert error.value.headers['Retry-After']=='60'
+    run(scenario())
 
 
 def test_same_millisecond_requests_are_counted_individually(monkeypatch):
     from app.core import rate_limit
-    monkeypatch.setattr(rate_limit, 'time', SimpleNamespace(time=lambda: 1000))
-    cache = Cache(); limiter = rate_limit.RateLimiter(2, 60)
-    run(limiter(request(), cache)); run(limiter(request(), cache))
-    with pytest.raises(HTTPException) as error: run(limiter(request(), cache))
-    assert error.value.status_code == 429
+    import fakeredis.aioredis
+    monkeypatch.setattr(rate_limit,'time',SimpleNamespace(time=lambda:1000))
+    async def scenario():
+        async with fakeredis.aioredis.FakeRedis() as cache:
+            limiter=rate_limit.RateLimiter(2,60)
+            await limiter(request(),cache); await limiter(request(),cache)
+            with pytest.raises(HTTPException) as error: await limiter(request(),cache)
+            assert error.value.status_code==429
+    run(scenario())
 
 
 def test_qr_configuration_works_with_environment_strings():
@@ -204,12 +219,14 @@ def attendance(monkeypatch):
     monkeypatch.setenv('ATTENDANCE_HMAC_KEY', 'test-only-hmac')
     crypto = importlib.import_module('app.attendance.qr_crypto')
     monkeypatch.setattr(crypto, 'AES_KEY', b'a' * 32)
+    monkeypatch.setattr(crypto, 'HMAC_KEY', b'b' * 32)
     router = importlib.import_module('app.attendance.router')
     tenant, faculty, student = map(str, (uuid4(), uuid4(), uuid4()))
     now = datetime.now(timezone.utc)
     slot = SimpleNamespace(slot_id=uuid4(), tenant_id=tenant, faculty_id=faculty,
         section_id=uuid4(), start_time=now - timedelta(minutes=2), end_time=now + timedelta(minutes=58))
-    db = SimpleNamespace(get=AsyncMock(return_value=slot), add=Mock(), commit=AsyncMock())
+    db = SimpleNamespace(get=AsyncMock(return_value=slot), add=Mock(), commit=AsyncMock(),
+        scalar=AsyncMock(return_value=uuid4()), execute=AsyncMock())
     return SimpleNamespace(router=router, crypto=crypto, tenant=tenant, faculty=faculty,
         student=student, slot=slot, db=db, cache=Cache())
 
@@ -310,6 +327,8 @@ def test_grievance_reply_is_encrypted_before_persistence():
         async def __aexit__(self, *args): return False
     pool = SimpleNamespace(acquire=lambda: Context())
     plaintext = 'Confidential audit-only allegation'
-    run(reporter_sends_reply(ReporterReply(mnemonic='audit-only', message=plaintext), pool))
-    persisted = conn.execute.await_args.args[-1]
-    assert plaintext not in persisted, 'PGP-looking wrapper contains the original plaintext'
+    # Secure encryption is not configured, so fail closed before any persistence.
+    with pytest.raises(HTTPException) as error:
+        run(reporter_sends_reply(ReporterReply(mnemonic='audit-only', message=plaintext), pool))
+    assert error.value.status_code == 503
+    conn.execute.assert_not_awaited()

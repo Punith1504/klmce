@@ -48,7 +48,7 @@ export function TopNav() {
                   {user.primaryEmailAddress?.emailAddress || 'User Role'}
                 </span>
               </div>
-              <UserButton afterSignOutUrl="/auth/login" />
+              <UserButton />
             </>
           ) : (
             <div className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 rounded-lg text-sm text-white font-medium cursor-pointer transition">

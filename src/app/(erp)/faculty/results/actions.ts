@@ -1,57 +1,18 @@
-"use server";
-import prisma from '@/lib/prisma';
+'use server';
+import { requireRole, serverApi } from '@/lib/server-api';
 import { revalidatePath } from 'next/cache';
-
-export async function submitResults(examScheduleId: string, records: { studentId: string, marks: number }[]) {
-    if (!examScheduleId || !records || records.length === 0) {
-        return { success: false, error: 'Invalid data' };
-    }
-
-    try {
-        const schedule = await prisma.examSchedule.findUnique({
-            where: { id: examScheduleId },
-            include: { course: true }
-        });
-
-        if (!schedule) return { success: false, error: 'Schedule not found' };
-        
-        // We assume Mid Term has max marks 30 for this MVP demo
-        const maxMarks = 30;
-
-        for (const record of records) {
-            const existing = await prisma.result.findFirst({
-                where: {
-                    examScheduleId: examScheduleId,
-                    studentId: record.studentId,
-                }
-            });
-
-            if (existing) {
-                await prisma.result.update({
-                    where: { id: existing.id },
-                    data: { 
-                        marksObtained: record.marks,
-                        passed: record.marks >= 12
-                    }
-                });
-            } else {
-                await prisma.result.create({
-                    data: {
-                        studentId: record.studentId,
-                        examScheduleId: examScheduleId,
-                        marksObtained: record.marks,
-                        maxMarks: maxMarks,
-                        weightage: 20, // arbitrary
-                        passed: record.marks >= 12
-                    }
-                });
-            }
-        }
-
-        revalidatePath('/faculty/results');
-        revalidatePath('/student/results'); 
-        return { success: true };
-    } catch (e: any) {
-        return { success: false, error: e.message };
-    }
+import { z } from 'zod';
+// The old bulk API had no canonical exam schedule or maximum-mark contract.
+export async function submitResults(_examScheduleId:string,_records:{studentId:string,marks:number}[]) {
+  return {success:false,error:'Use the assigned exam mark workflow. Legacy bulk marking is unavailable.'};
+}
+export async function updateMark(markId:string,marks:number) {
+  try {
+    z.string().uuid().parse(markId);
+    z.number().finite().min(0).max(999.99).parse(marks);
+    await requireRole('FACULTY');
+    await serverApi(`/exams/marks/${markId}`,{method:'PUT',body:JSON.stringify({marks_obtained:marks})});
+    revalidatePath('/faculty/results');
+    return {success:true};
+  } catch (error) {return {success:false,error:error instanceof Error ? error.message : 'Marks could not be updated'};}
 }

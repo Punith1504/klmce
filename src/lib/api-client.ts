@@ -1,9 +1,5 @@
-export const fetchClient = {
-    get: async (url: string) => ({ data: [] as any }),
-    post: async (url: string, data: any) => ({ data }),
-    put: async (url: string, data: any) => ({ data }),
-    delete: async (url: string) => ({ data: null }),
-};
-
-export const apiClient = fetchClient;
+import axios from 'axios';
+// Same-origin proxy adds a verified identity-provider token on the server.
+export const apiClient = axios.create({baseURL:'/api/erp', withCredentials:true, timeout:15000});
+export const fetchClient = apiClient;
 export default apiClient;

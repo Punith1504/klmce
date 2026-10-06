@@ -12,7 +12,9 @@ export default clerkMiddleware(async (auth, req) => {
     await auth.protect();
   }
   
-  const response = NextResponse.next();
+  const requestHeaders = new Headers(req.headers);
+  requestHeaders.set('x-erp-path', req.nextUrl.pathname);
+  const response = NextResponse.next({ request: { headers: requestHeaders } });
 
   // Extract Anycast Geolocation headers injected by the Edge router
   const country = req.headers.get('x-vercel-ip-country') || 'IN';

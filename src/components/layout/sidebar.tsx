@@ -69,7 +69,7 @@ export function Sidebar() {
         ? adminNavItems
         : studentNavItems;
 
-  const NavContent = () => (
+  const navContent = (
     <div className="flex flex-col h-full bg-[#221F32]/80 backdrop-blur-md border-r border-white/10">
       <div className="h-16 flex items-center px-6 border-b border-white/10">
         <img src="/college-logo.png" alt="KLMCEW Logo" className="w-10 h-10 object-contain mr-3 drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]" />
@@ -100,7 +100,7 @@ export function Sidebar() {
     <>
       {/* Desktop Sidebar (w-64 = 16rem = 256px) */}
       <aside className="hidden md:flex flex-col w-64 fixed inset-y-0 z-50">
-        <NavContent />
+        {navContent}
       </aside>
 
       {/* Mobile Sidebar Trigger (Header part usually, but placed here for isolation) */}
@@ -112,7 +112,7 @@ export function Sidebar() {
             </Button>
           </SheetTrigger>
           <SheetContent side="left" className="p-0 w-64 border-none bg-transparent">
-            <NavContent />
+            {navContent}
           </SheetContent>
         </Sheet>
       </div>

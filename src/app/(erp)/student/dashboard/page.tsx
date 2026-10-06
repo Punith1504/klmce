@@ -77,7 +77,7 @@ export default function StudentDashboard() {
                 <div className="lg:col-span-2 bg-[#221F32]/80 backdrop-blur-md rounded-3xl border border-white/10 shadow-xl overflow-hidden flex flex-col">
                     <div className="p-6 border-b border-white/5 flex justify-between items-center bg-white/[0.02]">
                         <h2 className="text-lg font-bold text-slate-50 flex items-center gap-2">
-                            <Clock className="w-5 h-5 text-indigo-400"/> Today's Schedule
+                            <Clock className="w-5 h-5 text-indigo-400"/> Today&apos;s Schedule
                         </h2>
                         <span className="text-xs font-semibold text-indigo-300 bg-indigo-500/10 px-3 py-1 rounded-full border border-indigo-500/20">Wednesday, Oct 4</span>
                     </div>
@@ -149,7 +149,7 @@ export default function StudentDashboard() {
                             <div className="p-2 bg-white/10 rounded-lg text-slate-300 shrink-0"><Library className="w-5 h-5" /></div>
                             <div>
                                 <h4 className="text-slate-50 font-medium text-sm">Library Book Return</h4>
-                                <p className="text-xs text-slate-400 mt-1">"Introduction to Algorithms" is due in 2 days.</p>
+                                <p className="text-xs text-slate-400 mt-1">&quot;Introduction to Algorithms&quot; is due in 2 days.</p>
                             </div>
                         </div>
                     </div>

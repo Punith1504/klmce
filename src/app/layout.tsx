@@ -1,8 +1,9 @@
 import { ClerkProvider } from "@clerk/nextjs";
-import { dark } from "@clerk/themes";
+
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { RetireOfflineCache } from '@/components/retire-offline-cache';
 import { AppShell } from "@/components/layout/app-shell";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -22,11 +23,11 @@ export default function RootLayout({
       <body className={`${inter.className} bg-background text-foreground`}>
         <ClerkProvider 
           appearance={{
-            baseTheme: dark,
             variables: { colorPrimary: '#6366f1' },
             elements: { card: 'bg-[#221F32]/90 backdrop-blur-md border border-white/10 shadow-2xl' }
           }}
         >
+          <RetireOfflineCache/>
           <AppShell>
           {children}
           </AppShell>

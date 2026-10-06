@@ -3,7 +3,7 @@ import asyncpg
 from typing import List, Dict, Any
 
 from app.core.database import get_db_connection
-from app.core.security import require_roles, Role
+from app.core.dependencies import require_roles, Role
 
 router = APIRouter()
 
