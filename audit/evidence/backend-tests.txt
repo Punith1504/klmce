@@ -1,0 +1,236 @@
+FF.FF.FF.FFFFFFFFFF..F...FFF                                             [100%]
+=================================== FAILURES ===================================
+___________________________ test_application_imports ___________________________
+tests/audit/test_backend_contracts.py:42: in test_application_imports
+    assert result.returncode == 0, result.stderr
+E   AssertionError: Traceback (most recent call last):
+E       File "<string>", line 1, in <module>
+E       File "/workspace/scratch/97bfbce5feb7/klmce/backend/app/main.py", line 17, in <module>
+E         from app.auth.router import router as auth_router
+E     ModuleNotFoundError: No module named 'app.auth'
+E
+E   assert 1 == 0
+E    +  where 1 = CompletedProcess(args=['/tmp/klmce-audit-venv/bin/python', '-c', 'import app.main'], returncode=1, stdout='', stderr='... <module>\n    from app.auth.router import router as auth_router\nModuleNotFoundError: No module named \'app.auth\'\n').returncode
+___________ test_publicly_known_signing_key_cannot_impersonate_admin ___________
+tests/audit/test_backend_contracts.py:50: in test_publicly_known_signing_key_cannot_impersonate_admin
+    with pytest.raises(HTTPException) as error:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE HTTPException
+________________ test_wrong_token_type_is_401_not_server_error _________________
+tests/audit/test_backend_contracts.py:64: in test_wrong_token_type_is_401_not_server_error
+    dependencies.get_current_user_token(request('access_token=' + token))
+backend/app/core/dependencies.py:38: in get_current_user_token
+    raise ValueError()
+E   ValueError
+_____________ test_access_token_requires_identity_tenant_and_role ______________
+tests/audit/test_backend_contracts.py:70: in test_access_token_requires_identity_tenant_and_role
+    with pytest.raises(HTTPException):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE HTTPException
+___________ test_password_hash_and_verify_with_declared_dependencies ___________
+tests/audit/test_backend_contracts.py:82: in test_password_hash_and_verify_with_declared_dependencies
+    hashed = security.get_password_hash('Audit-only-password-42!')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+backend/app/core/security.py:48: in get_password_hash
+    return pwd_context.hash(password)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+/tmp/klmce-audit-venv/lib/python3.12/site-packages/passlib/context.py:2258: in hash
+    return record.hash(secret, **kwds)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/tmp/klmce-audit-venv/lib/python3.12/site-packages/passlib/utils/handlers.py:779: in hash
+    self.checksum = self._calc_checksum(secret)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/tmp/klmce-audit-venv/lib/python3.12/site-packages/passlib/handlers/bcrypt.py:591: in _calc_checksum
+    self._stub_requires_backend()
+/tmp/klmce-audit-venv/lib/python3.12/site-packages/passlib/utils/handlers.py:2254: in _stub_requires_backend
+    cls.set_backend()
+/tmp/klmce-audit-venv/lib/python3.12/site-packages/passlib/utils/handlers.py:2156: in set_backend
+    return owner.set_backend(name, dryrun=dryrun)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/tmp/klmce-audit-venv/lib/python3.12/site-packages/passlib/utils/handlers.py:2163: in set_backend
+    return cls.set_backend(name, dryrun=dryrun)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/tmp/klmce-audit-venv/lib/python3.12/site-packages/passlib/utils/handlers.py:2188: in set_backend
+    cls._set_backend(name, dryrun)
+/tmp/klmce-audit-venv/lib/python3.12/site-packages/passlib/utils/handlers.py:2311: in _set_backend
+    super(SubclassBackendMixin, cls)._set_backend(name, dryrun)
+/tmp/klmce-audit-venv/lib/python3.12/site-packages/passlib/utils/handlers.py:2224: in _set_backend
+    ok = loader(**kwds)
+         ^^^^^^^^^^^^^^
+/tmp/klmce-audit-venv/lib/python3.12/site-packages/passlib/handlers/bcrypt.py:626: in _load_backend_mixin
+    return mixin_cls._finalize_backend_mixin(name, dryrun)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/tmp/klmce-audit-venv/lib/python3.12/site-packages/passlib/handlers/bcrypt.py:421: in _finalize_backend_mixin
+    if detect_wrap_bug(IDENT_2A):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^
+/tmp/klmce-audit-venv/lib/python3.12/site-packages/passlib/handlers/bcrypt.py:380: in detect_wrap_bug
+    if verify(secret, bug_hash):
+       ^^^^^^^^^^^^^^^^^^^^^^^^
+/tmp/klmce-audit-venv/lib/python3.12/site-packages/passlib/utils/handlers.py:792: in verify
+    return consteq(self._calc_checksum(secret), chk)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/tmp/klmce-audit-venv/lib/python3.12/site-packages/passlib/handlers/bcrypt.py:655: in _calc_checksum
+    hash = _bcrypt.hashpw(secret, config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   ValueError: password cannot be longer than 72 bytes, truncate manually if necessary (e.g. my_password[:72])
+------------------------------ Captured log call -------------------------------
+WARNING  passlib.handlers.bcrypt:bcrypt.py:622 (trapped) error reading bcrypt version
+Traceback (most recent call last):
+  File "/tmp/klmce-audit-venv/lib/python3.12/site-packages/passlib/handlers/bcrypt.py", line 620, in _load_backend_mixin
+    version = _bcrypt.__about__.__version__
+              ^^^^^^^^^^^^^^^^^
+AttributeError: module 'bcrypt' has no attribute '__about__'
+_______________ test_refresh_cookie_reaches_frontend_refresh_url _______________
+tests/audit/test_backend_contracts.py:95: in test_refresh_cookie_reaches_frontend_refresh_url
+    assert '/api/v1/auth/refresh'.startswith(path), refresh
+E   AssertionError: refresh_token=refresh; HttpOnly; Max-Age=604800; Path=/api/auth/refresh; SameSite=strict; Secure
+E   assert False
+E    +  where False = <built-in method startswith of str object at 0x7f68fa6a1230>('/api/auth/refresh')
+E    +    where <built-in method startswith of str object at 0x7f68fa6a1230> = '/api/v1/auth/refresh'.startswith
+_________________ test_students_route_rejects_anonymous_reads __________________
+tests/audit/test_backend_contracts.py:114: in test_students_route_rejects_anonymous_reads
+    assert response.status_code in (401, 403), response.text
+E   AssertionError: []
+E   assert 200 in (401, 403)
+E    +  where 200 = <Response [200 OK]>.status_code
+___________ test_database_dependency_sets_transaction_local_identity ___________
+tests/audit/test_backend_contracts.py:132: in test_database_dependency_sets_transaction_local_identity
+    assert conn.execute.await_count > 0, 'No RLS identity setup occurs'
+E   AssertionError: No RLS identity setup occurs
+E   assert 0 > 0
+E    +  where 0 = <AsyncMock id='140088815511952'>.await_count
+E    +    where <AsyncMock id='140088815511952'> = namespace(execute=<AsyncMock id='140088815511952'>, transaction=<function test_database_dependency_sets_transaction_local_identity.<locals>.<lambda> at 0x7f68f8160040>).execute
+________________ test_rate_limit_ignores_unverified_user_header ________________
+tests/audit/test_backend_contracts.py:171: in test_rate_limit_ignores_unverified_user_header
+    assert all('attacker-chosen' not in k for k in cache.keys)
+E   assert False
+E    +  where False = all(<generator object test_rate_limit_ignores_unverified_user_header.<locals>.<genexpr> at 0x7f68f8151080>)
+__________________ test_rate_limit_returns_429_when_exhausted __________________
+tests/audit/test_backend_contracts.py:180: in test_rate_limit_returns_429_when_exhausted
+    with pytest.raises(HTTPException) as error: run(limiter(request(), cache))
+                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/audit/test_backend_contracts.py:29: in run
+    return asyncio.run(coro)
+           ^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/base_events.py:691: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+backend/app/core/rate_limit.py:50: in __call__
+    raise RFC7807Exception(
+E   TypeError: RFC7807Exception.__init__() got an unexpected keyword argument 'headers'
+___________ test_same_millisecond_requests_are_counted_individually ____________
+tests/audit/test_backend_contracts.py:189: in test_same_millisecond_requests_are_counted_individually
+    with pytest.raises(HTTPException) as error: run(limiter(request(), cache))
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE HTTPException
+_____________ test_qr_configuration_works_with_environment_strings _____________
+tests/audit/test_backend_contracts.py:198: in test_qr_configuration_works_with_environment_strings
+    assert result.returncode == 0, result.stderr
+E   AssertionError: Traceback (most recent call last):
+E       File "<string>", line 1, in <module>
+E       File "/workspace/scratch/97bfbce5feb7/klmce/backend/app/attendance/qr_crypto.py", line 27, in generate_qr_payload
+E         aesgcm = AESGCM(AES_KEY)
+E                  ^^^^^^^^^^^^^^^
+E     TypeError: Cannot convert "<class 'str'>" instance to a buffer.
+E     Did you mean to pass a bytestring instead?
+E
+E   assert 1 == 0
+E    +  where 1 = CompletedProcess(args=['/tmp/klmce-audit-venv/bin/python', '-c', 'from app.attendance.qr_crypto import generate_qr_pay...^^^^\nTypeError: Cannot convert "<class \'str\'>" instance to a buffer.\nDid you mean to pass a bytestring instead?\n').returncode
+________________ test_distinct_students_can_scan_same_class_qr _________________
+tests/audit/test_backend_contracts.py:226: in test_distinct_students_can_scan_same_class_qr
+    run(scan(a)); run(scan(a, str(uuid4())))
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/audit/test_backend_contracts.py:29: in run
+    return asyncio.run(coro)
+           ^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/base_events.py:691: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+backend/app/attendance/router.py:96: in scan_qr
+    raise RFC7807Exception(status_code=400, type="about:blank", title="Replay Detected", detail="This QR code has already been scanned.")
+E   app.core.security.RFC7807Exception: 400: This QR code has already been scanned.
+____________________ test_scan_rejected_before_class_start _____________________
+tests/audit/test_backend_contracts.py:232: in test_scan_rejected_before_class_start
+    with pytest.raises(HTTPException): run(scan(a))
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE HTTPException
+__________________ test_scan_rejected_after_ten_minute_window __________________
+tests/audit/test_backend_contracts.py:238: in test_scan_rejected_after_ten_minute_window
+    with pytest.raises(HTTPException): run(scan(a))
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE HTTPException
+___________________ test_scan_rechecks_database_slot_tenant ____________________
+tests/audit/test_backend_contracts.py:244: in test_scan_rechecks_database_slot_tenant
+    with pytest.raises(HTTPException): run(scan(a))
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE HTTPException
+_______________ test_oauth_exchange_rejects_unregistered_client ________________
+tests/audit/test_backend_contracts.py:264: in test_oauth_exchange_rejects_unregistered_client
+    with pytest.raises(HTTPException):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE HTTPException
+_____________ test_webhook_rejects_nonpositive_payment_amount[-1] ______________
+tests/audit/test_backend_contracts.py:301: in test_webhook_rejects_nonpositive_payment_amount
+    assert response.status_code in (400, 422), response.text
+E   AssertionError: {"status":"success","transaction_id":"72433854-1191-4e7a-9220-4d187dcdc367"}
+E   assert 200 in (400, 422)
+E    +  where 200 = <Response [200 OK]>.status_code
+______________ test_webhook_rejects_nonpositive_payment_amount[0] ______________
+tests/audit/test_backend_contracts.py:301: in test_webhook_rejects_nonpositive_payment_amount
+    assert response.status_code in (400, 422), response.text
+E   AssertionError: {"status":"success","transaction_id":"633eb21a-4c28-4f5d-a0b3-ad8f941e357e"}
+E   assert 200 in (400, 422)
+E    +  where 200 = <Response [200 OK]>.status_code
+_____________ test_grievance_reply_is_encrypted_before_persistence _____________
+tests/audit/test_backend_contracts.py:315: in test_grievance_reply_is_encrypted_before_persistence
+    assert plaintext not in persisted, 'PGP-looking wrapper contains the original plaintext'
+E   AssertionError: PGP-looking wrapper contains the original plaintext
+E   assert 'Confidentia...y allegation' not in '-----BEGIN ...MESSAGE-----'
+E
+E     'Confidential audit-only allegation' is contained here:
+E       TED_REPLY:Confidential audit-only allegation]
+E       -----END PGP MESSAGE-----
+=============================== warnings summary ===============================
+../../../../tmp/klmce-audit-venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /tmp/klmce-audit-venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+../../../../tmp/klmce-audit-venv/lib/python3.12/site-packages/passlib/utils/__init__.py:854
+  /tmp/klmce-audit-venv/lib/python3.12/site-packages/passlib/utils/__init__.py:854: DeprecationWarning: 'crypt' is deprecated and slated for removal in Python 3.13
+    from crypt import crypt as _crypt
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/audit/test_backend_contracts.py::test_application_imports - Asse...
+FAILED tests/audit/test_backend_contracts.py::test_publicly_known_signing_key_cannot_impersonate_admin
+FAILED tests/audit/test_backend_contracts.py::test_wrong_token_type_is_401_not_server_error
+FAILED tests/audit/test_backend_contracts.py::test_access_token_requires_identity_tenant_and_role
+FAILED tests/audit/test_backend_contracts.py::test_password_hash_and_verify_with_declared_dependencies
+FAILED tests/audit/test_backend_contracts.py::test_refresh_cookie_reaches_frontend_refresh_url
+FAILED tests/audit/test_backend_contracts.py::test_students_route_rejects_anonymous_reads
+FAILED tests/audit/test_backend_contracts.py::test_database_dependency_sets_transaction_local_identity
+FAILED tests/audit/test_backend_contracts.py::test_rate_limit_ignores_unverified_user_header
+FAILED tests/audit/test_backend_contracts.py::test_rate_limit_returns_429_when_exhausted
+FAILED tests/audit/test_backend_contracts.py::test_same_millisecond_requests_are_counted_individually
+FAILED tests/audit/test_backend_contracts.py::test_qr_configuration_works_with_environment_strings
+FAILED tests/audit/test_backend_contracts.py::test_distinct_students_can_scan_same_class_qr
+FAILED tests/audit/test_backend_contracts.py::test_scan_rejected_before_class_start
+FAILED tests/audit/test_backend_contracts.py::test_scan_rejected_after_ten_minute_window
+FAILED tests/audit/test_backend_contracts.py::test_scan_rechecks_database_slot_tenant
+FAILED tests/audit/test_backend_contracts.py::test_oauth_exchange_rejects_unregistered_client
+FAILED tests/audit/test_backend_contracts.py::test_webhook_rejects_nonpositive_payment_amount[-1]
+FAILED tests/audit/test_backend_contracts.py::test_webhook_rejects_nonpositive_payment_amount[0]
+FAILED tests/audit/test_backend_contracts.py::test_grievance_reply_is_encrypted_before_persistence
+20 failed, 8 passed, 2 warnings in 1.30s

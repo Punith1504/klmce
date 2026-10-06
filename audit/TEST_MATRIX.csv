@@ -1,0 +1,81 @@
+case,area,status,assertion_or_method,evidence_or_prerequisite
+test_application_imports,Backend acceptance,FAIL,Executed production function/isolated router with DB/cache doubles,See tests/audit/test_backend_contracts.py
+test_publicly_known_signing_key_cannot_impersonate_admin,Backend acceptance,FAIL,Executed production function/isolated router with DB/cache doubles,See tests/audit/test_backend_contracts.py
+test_missing_cookie_is_unauthorized,Backend acceptance,PASS,Executed production function/isolated router with DB/cache doubles,See tests/audit/test_backend_contracts.py
+test_wrong_token_type_is_401_not_server_error,Backend acceptance,FAIL,Executed production function/isolated router with DB/cache doubles,See tests/audit/test_backend_contracts.py
+test_access_token_requires_identity_tenant_and_role,Backend acceptance,FAIL,Executed production function/isolated router with DB/cache doubles,See tests/audit/test_backend_contracts.py
+test_student_role_cannot_pass_admin_guard,Backend acceptance,PASS,Executed production function/isolated router with DB/cache doubles,See tests/audit/test_backend_contracts.py
+test_password_hash_and_verify_with_declared_dependencies,Backend acceptance,FAIL,Executed production function/isolated router with DB/cache doubles,See tests/audit/test_backend_contracts.py
+test_refresh_cookie_reaches_frontend_refresh_url,Backend acceptance,FAIL,Executed production function/isolated router with DB/cache doubles,See tests/audit/test_backend_contracts.py
+test_cookies_have_transport_protection,Backend acceptance,PASS,Executed production function/isolated router with DB/cache doubles,See tests/audit/test_backend_contracts.py
+test_students_route_rejects_anonymous_reads,Backend acceptance,FAIL,Executed production function/isolated router with DB/cache doubles,See tests/audit/test_backend_contracts.py
+test_database_dependency_sets_transaction_local_identity,Backend acceptance,FAIL,Executed production function/isolated router with DB/cache doubles,See tests/audit/test_backend_contracts.py
+test_rate_limit_ignores_unverified_user_header,Backend acceptance,FAIL,Executed production function/isolated router with DB/cache doubles,See tests/audit/test_backend_contracts.py
+test_rate_limit_returns_429_when_exhausted,Backend acceptance,FAIL,Executed production function/isolated router with DB/cache doubles,See tests/audit/test_backend_contracts.py
+test_same_millisecond_requests_are_counted_individually,Backend acceptance,FAIL,Executed production function/isolated router with DB/cache doubles,See tests/audit/test_backend_contracts.py
+test_qr_configuration_works_with_environment_strings,Backend acceptance,FAIL,Executed production function/isolated router with DB/cache doubles,See tests/audit/test_backend_contracts.py
+test_distinct_students_can_scan_same_class_qr,Backend acceptance,FAIL,Executed production function/isolated router with DB/cache doubles,See tests/audit/test_backend_contracts.py
+test_scan_rejected_before_class_start,Backend acceptance,FAIL,Executed production function/isolated router with DB/cache doubles,See tests/audit/test_backend_contracts.py
+test_scan_rejected_after_ten_minute_window,Backend acceptance,FAIL,Executed production function/isolated router with DB/cache doubles,See tests/audit/test_backend_contracts.py
+test_scan_rechecks_database_slot_tenant,Backend acceptance,FAIL,Executed production function/isolated router with DB/cache doubles,See tests/audit/test_backend_contracts.py
+test_qr_tampering_rejected,Backend acceptance,PASS,Executed production function/isolated router with DB/cache doubles,See tests/audit/test_backend_contracts.py
+test_qr_generation_rejects_other_faculty,Backend acceptance,PASS,Executed production function/isolated router with DB/cache doubles,See tests/audit/test_backend_contracts.py
+test_oauth_exchange_rejects_unregistered_client,Backend acceptance,FAIL,Executed production function/isolated router with DB/cache doubles,See tests/audit/test_backend_contracts.py
+test_negative_exam_marks_rejected,Backend acceptance,PASS,Executed production function/isolated router with DB/cache doubles,See tests/audit/test_backend_contracts.py
+test_missing_webhook_signature_rejected,Backend acceptance,PASS,Executed production function/isolated router with DB/cache doubles,See tests/audit/test_backend_contracts.py
+test_tampered_webhook_rejected,Backend acceptance,PASS,Executed production function/isolated router with DB/cache doubles,See tests/audit/test_backend_contracts.py
+test_webhook_rejects_nonpositive_payment_amount[-1],Backend acceptance,FAIL,Executed production function/isolated router with DB/cache doubles,See tests/audit/test_backend_contracts.py
+test_webhook_rejects_nonpositive_payment_amount[0],Backend acceptance,FAIL,Executed production function/isolated router with DB/cache doubles,See tests/audit/test_backend_contracts.py
+test_grievance_reply_is_encrypted_before_persistence,Backend acceptance,FAIL,Executed production function/isolated router with DB/cache doubles,See tests/audit/test_backend_contracts.py
+attendance refuses writes without verified faculty identity,Frontend action,FAIL,Executed transpiled production action with Prisma double,See tests/audit/frontend-actions.test.cjs
+attendance rejects arbitrary statuses,Frontend action,FAIL,Executed transpiled production action with Prisma double,See tests/audit/frontend-actions.test.cjs
+attendance rejects retroactive normal submission,Frontend action,FAIL,Executed transpiled production action with Prisma double,See tests/audit/frontend-actions.test.cjs
+empty attendance batch is rejected,Frontend action,PASS,Executed transpiled production action with Prisma double,See tests/audit/frontend-actions.test.cjs
+concurrent duplicate attendance has at most one insert,Frontend action,FAIL,Executed transpiled production action with Prisma double,See tests/audit/frontend-actions.test.cjs
+results refuse writes without verified faculty identity,Frontend action,FAIL,Executed transpiled production action with Prisma double,See tests/audit/frontend-actions.test.cjs
+results reject invalid mark -1,Frontend action,FAIL,Executed transpiled production action with Prisma double,See tests/audit/frontend-actions.test.cjs
+results reject invalid mark 31,Frontend action,FAIL,Executed transpiled production action with Prisma double,See tests/audit/frontend-actions.test.cjs
+results reject invalid mark NaN,Frontend action,FAIL,Executed transpiled production action with Prisma double,See tests/audit/frontend-actions.test.cjs
+results reject invalid mark Infinity,Frontend action,FAIL,Executed transpiled production action with Prisma double,See tests/audit/frontend-actions.test.cjs
+missing exam schedule is rejected,Frontend action,PASS,Executed transpiled production action with Prisma double,See tests/audit/frontend-actions.test.cjs
+OCR does not mark an arbitrary document as parsed without evidence,Frontend action,FAIL,Executed transpiled production action with Prisma double,See tests/audit/frontend-actions.test.cjs
+IAM-01,Login/MFA,NOT RUN,Valid/invalid/expired/replayed TOTP and recovery code; no privileged login without MFA,Requires repaired integrated synthetic staging
+IAM-02,Sessions,NOT RUN,Disabled account and revoked/reused refresh token cannot obtain access,Requires repaired integrated synthetic staging
+IAM-03,Authorization,NOT RUN,Each role against every action/route: deny unlisted actions,Requires repaired integrated synthetic staging
+TEN-01,Isolation,NOT RUN,Tenant A cannot read/write/export Tenant B by ID or reused connection,Requires repaired integrated synthetic staging
+TEN-02,Isolation,NOT RUN,Parent can read linked child only across marks/fees/attendance/documents,Requires repaired integrated synthetic staging
+TEN-03,Isolation,NOT RUN,Student can read only own records; faculty only assigned course/section,Requires repaired integrated synthetic staging
+TEN-04,Database roles,NOT RUN,Direct SQL as real application role cannot bypass RLS or modify audit history,Requires repaired integrated synthetic staging
+ADM-01,Admissions,NOT RUN,Valid transition provisions one identity and unique roll; retries do not duplicate,Requires repaired integrated synthetic staging
+ADM-02,Admissions,NOT RUN,Concurrent state transitions cannot skip approval or double provision,Requires repaired integrated synthetic staging
+ADM-03,Imports,NOT RUN,3000 valid rows import; invalid/duplicate/malformed/oversized files fail predictably,Requires repaired integrated synthetic staging
+TIM-01,Timetable,NOT RUN,Concurrent room/faculty/section conflicts reject; holidays/timezone boundaries correct,Requires repaired integrated synthetic staging
+ATT-01,Attendance,NOT RUN,Start minus 1s rejects; start accepts; +10min boundary agreed; +10min1s requires exception,Requires repaired integrated synthetic staging
+ATT-02,Attendance,NOT RUN,Unenrolled student/other faculty cannot mark; approved late correction is attributed,Requires repaired integrated synthetic staging
+ATT-03,Attendance,NOT RUN,Concurrent replay and network retry leave one durable attendance row,Requires repaired integrated synthetic staging
+ATT-04,Attendance,NOT RUN,Multiple backend replicas accept shared valid QR keys without sharing redemption across students,Requires repaired integrated synthetic staging
+EXM-01,Exams,NOT RUN,0/max accepted; negative/over-max rejected; published/locked records protected,Requires repaired integrated synthetic staging
+EXM-02,Exams,NOT RUN,Two distinct authorized signers; concurrent duplicate signature cannot unlock,Requires repaired integrated synthetic staging
+EXM-03,Exams,NOT RUN,"Weighted GPA, failed/repeated/withdrawn courses and zero credits match institutional rules",Requires repaired integrated synthetic staging
+FIN-01,Finance,NOT RUN,Signed payment matches invoice currency/amount/tenant and commits exactly once,Requires repaired integrated synthetic staging
+FIN-02,Finance,NOT RUN,Crash before/after database commit and duplicate after 7 days do not lose/double payment,Requires repaired integrated synthetic staging
+FIN-03,Finance,NOT RUN,Partial payment/refund/waiver reconciles; maker cannot approve own posting,Requires repaired integrated synthetic staging
+FIN-04,Finance,NOT RUN,Receipt fields derive from settled transaction; no fabricated amount,Requires repaired integrated synthetic staging
+LMS-01,Uploads,NOT RUN,Forged MIME/oversize/executable/malware/other-user object rejected; download authorized,Requires repaired integrated synthetic staging
+LMS-02,LMS,NOT RUN,Deadline and enrollment enforced; plagiarism score traceable to actual provider response,Requires repaired integrated synthetic staging
+CBCS-01,Registration,NOT RUN,100 users compete for one seat; one enrolls; no duplicate enrollment,Requires repaired integrated synthetic staging
+HST-01,Hostel,NOT RUN,One remaining bed allocated exactly once with deposit rollback on failure,Requires repaired integrated synthetic staging
+LIB-01,Library,NOT RUN,Two checkouts of one copy cannot both succeed; quota/fine and return rules consistent,Requires repaired integrated synthetic staging
+PAY-01,Payroll,NOT RUN,Gross/deductions/net and statutory configuration match approved examples; run idempotent,Requires repaired integrated synthetic staging
+GRV-01,Grievances,NOT RUN,Ciphertext excludes plaintext; only authorized key decrypts; recovery and metadata tested,Requires repaired integrated synthetic staging
+IOT-01,Hardware,NOT RUN,Unauthorized device/WebSocket denied; gate commands tenant scoped and time-valid,Requires repaired integrated synthetic staging
+AI-01,AI,NOT RUN,No evidence gives unknown; no invented grades/GPA/receipts; retrieval tenant scoped,Requires repaired integrated synthetic staging
+WEB-01,Browser,NOT RUN,Real student/parent/faculty/admin journeys with live backend and accessible keyboard forms,Requires repaired integrated synthetic staging
+WEB-02,Offline privacy,NOT RUN,Logout then second user/offline cannot recover prior authenticated records,Requires repaired integrated synthetic staging
+DB-01,Migration,NOT RUN,"Clean bootstrap and upgrade both produce canonical schema, constraints, policies, triggers",Requires repaired integrated synthetic staging
+OPS-01,Restore,NOT RUN,Restore encrypted backup on isolated host and verify row counts/ledger/audit; measure RPO/RTO,Requires repaired integrated synthetic staging
+OPS-02,Recovery,NOT RUN,Redis/DB/worker failure fails safely; queues retry idempotently; readiness becomes unhealthy,Requires repaired integrated synthetic staging
+LOAD-01,Capacity,NOT RUN,Every one of 3000 synthetic accounts reads correct own data,Requires repaired integrated synthetic staging
+LOAD-02,Capacity,NOT RUN,50/150/300 concurrent users meet proposed p95/p99/error targets,Requires repaired integrated synthetic staging
+LOAD-03,Capacity,NOT RUN,3000 attendance submissions in 60s and separate burst preserve exact invariants,Requires repaired integrated synthetic staging
+LOAD-04,Capacity,NOT RUN,2h soak and publication rush retain bounded memory/DB connections/queue backlog,Requires repaired integrated synthetic staging
