@@ -1,0 +1,8 @@
+# Audit tooling only. Production dependency defects remain visible in the report.
+-r ../../backend/requirements.txt
+pytest==9.1.1
+httpx==0.28.1
+redis==8.1.0
+sentry-sdk==2.71.0
+sqlalchemy[asyncio]==2.1.3
+python-multipart==0.0.32

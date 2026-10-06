@@ -1,0 +1,2581 @@
+{
+  "commit": "41976c777add05b4cc7ee2394a9a81bb3decfe56",
+  "scope": "All tracked files in checkout; submodule contents unavailable",
+  "files": [
+    {
+      "path": ".agents/skills/prisma-composer-core-concepts/SKILL.md",
+      "bytes": 27576,
+      "sha256": "54488354ce364cb6bf1f143ba3305d74cd134f26c8e095d50d2996d16a63089f"
+    },
+    {
+      "path": ".agents/skills/prisma-platform-core-concepts/SKILL.md",
+      "bytes": 19451,
+      "sha256": "fedafd427ace26cfa5b627f686ad00743adbe8ad9fa195aa167858d4cdfa0cc7"
+    },
+    {
+      "path": ".claude/skills/prisma-composer-core-concepts/SKILL.md",
+      "bytes": 27576,
+      "sha256": "54488354ce364cb6bf1f143ba3305d74cd134f26c8e095d50d2996d16a63089f"
+    },
+    {
+      "path": ".claude/skills/prisma-platform-core-concepts/SKILL.md",
+      "bytes": 19451,
+      "sha256": "fedafd427ace26cfa5b627f686ad00743adbe8ad9fa195aa167858d4cdfa0cc7"
+    },
+    {
+      "path": ".cursor/skills/prisma-composer-core-concepts/SKILL.md",
+      "bytes": 27576,
+      "sha256": "54488354ce364cb6bf1f143ba3305d74cd134f26c8e095d50d2996d16a63089f"
+    },
+    {
+      "path": ".cursor/skills/prisma-platform-core-concepts/SKILL.md",
+      "bytes": 19451,
+      "sha256": "fedafd427ace26cfa5b627f686ad00743adbe8ad9fa195aa167858d4cdfa0cc7"
+    },
+    {
+      "path": ".devin/skills/prisma-composer-core-concepts/SKILL.md",
+      "bytes": 27576,
+      "sha256": "54488354ce364cb6bf1f143ba3305d74cd134f26c8e095d50d2996d16a63089f"
+    },
+    {
+      "path": ".devin/skills/prisma-platform-core-concepts/SKILL.md",
+      "bytes": 19451,
+      "sha256": "fedafd427ace26cfa5b627f686ad00743adbe8ad9fa195aa167858d4cdfa0cc7"
+    },
+    {
+      "path": ".env.example",
+      "bytes": 1243,
+      "sha256": "8cb0e89637ffe436a07f3a2e2988c3ba95fad32515143c67ce579311b50f4feb"
+    },
+    {
+      "path": ".github/workflows/mobile-release.yml",
+      "bytes": 1729,
+      "sha256": "169129c3564fa9ebacb41b18f13c0350d9d6e7843ac4e170dd9330559645fd62"
+    },
+    {
+      "path": ".github/workflows/production.yml",
+      "bytes": 2715,
+      "sha256": "f2bc2a3219a43f59fc0f2c80db2b81bf2d613e7074da08ce2df66b775e79717c"
+    },
+    {
+      "path": ".gitignore",
+      "bytes": 444,
+      "sha256": "0f4b8e93e9b6f62903987dd9f0eaba55b2186510b58160cd2cb3b54365259483"
+    },
+    {
+      "path": ".npmrc",
+      "bytes": 22,
+      "sha256": "a093bb2fed59d699b7f9a62a5203cc196054c624e9c39c6d908c9e7db5dd2464"
+    },
+    {
+      "path": "AGENTS.md",
+      "bytes": 678,
+      "sha256": "63f2c50380ed6303237cce215ce27af1d620d094c215e28d1b1538a3c070e3bb"
+    },
+    {
+      "path": "CLAUDE.md",
+      "bytes": 11,
+      "sha256": "336cc4fbf19beaada7ccf9986414fa91851a8d7a07dfb3ccbe800a69eed0ab49"
+    },
+    {
+      "path": "Dockerfile",
+      "bytes": 1494,
+      "sha256": "fd3bd4fdad52eaf71e11f718f4ff67505ae4c653f9224eaae1827eb95508acbd"
+    },
+    {
+      "path": "ERP-doc.pdf",
+      "bytes": 240059,
+      "sha256": "489fda1b8b2ab029083a6a8968f8823c5e0089ced8795498c823baf5321fb527"
+    },
+    {
+      "path": "Education_ERP_Security_Ease_of_Use.xlsx",
+      "bytes": 14226,
+      "sha256": "a760149afd914ce84d94fd6dcc370eda14c63dc0e961575ac0af210f91bd6ed7"
+    },
+    {
+      "path": "audit-eval-checker",
+      "kind": "unavailable/submodule"
+    },
+    {
+      "path": "backend/Dockerfile",
+      "bytes": 1533,
+      "sha256": "8fa59bc425d02f0ec5f9f0f952be45648e0cb22387e52ae1290412bb78d50a93"
+    },
+    {
+      "path": "backend/app/academics/cbcs.py",
+      "bytes": 3501,
+      "sha256": "1156d4f578c80c183c08e208d7cf9f4ec231706921eff067bea62dffb21bdc40",
+      "syntax": "valid",
+      "placeholder_functions": [
+        {
+          "name": "get_db_pool",
+          "line": 10
+        }
+      ],
+      "routes": [
+        {
+          "function": "bulk_course_registration",
+          "line": 17,
+          "decorator": "router.post('/register')",
+          "signature": "req: CBCSRegistrationReq, db_pool: asyncpg.Pool=Depends(get_db_pool)"
+        }
+      ],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/academics/gpa_engine.py",
+      "bytes": 1833,
+      "sha256": "238c7d7b78675f69a27ad84fa6291f5befaa3f3b086e7e8fbcba0d67247ef51c",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/academics/lms_assessments.py",
+      "bytes": 5764,
+      "sha256": "d6d78524bc575dfd77fd1e059afc449409fcb56f259254df6a583feee7e4ce7e",
+      "syntax": "valid",
+      "placeholder_functions": [
+        {
+          "name": "get_db_pool",
+          "line": 11
+        }
+      ],
+      "routes": [
+        {
+          "function": "auto_assemble_question_paper",
+          "line": 23,
+          "decorator": "router.post('/assessments/auto-assemble')",
+          "signature": "req: QuestionPaperParams, db_pool: asyncpg.Pool=Depends(get_db_pool)"
+        },
+        {
+          "function": "submit_student_assignment",
+          "line": 80,
+          "decorator": "router.post('/assignments/submit')",
+          "signature": "req: TurnitinSubmission, bg_tasks: BackgroundTasks, db_pool: asyncpg.Pool=Depends(get_db_pool)"
+        },
+        {
+          "function": "generate_iqac_accreditation_report",
+          "line": 106,
+          "decorator": "router.get('/gradebook/iqac-report/{course_id}')",
+          "signature": "course_id: str"
+        }
+      ],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/academics/transcripts.py",
+      "bytes": 5093,
+      "sha256": "81ae41a56b1e4043935bff7a7d7edee2922cd9e6111bd519a9174d5d41bcd3db",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [
+        {
+          "function": "verify_transcript_credential",
+          "line": 95,
+          "decorator": "router.get('/verify-credential')",
+          "signature": "token: str"
+        }
+      ],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/admin/router.py",
+      "bytes": 3886,
+      "sha256": "beb1abf45d259f63d03c7dfcab52bbbed5ab543b5f7c14cf4337a2538c8f603a",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [
+        {
+          "function": "execute_eoy_rollover",
+          "line": 15,
+          "decorator": "router.post('/trigger-rollover')",
+          "signature": "req: RolloverRequest, token: dict=Depends(require_roles(Role.SUPER_ADMIN)), conn: asyncpg.Connection=Depends(get_db_connection)"
+        }
+      ],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/admissions/lifecycle.py",
+      "bytes": 3248,
+      "sha256": "6cf7f32c4c5a7a723f382dac9b0b0285a7d64dcdd5513f0f1e329c398bbc5a4d",
+      "syntax": "valid",
+      "placeholder_functions": [
+        {
+          "name": "get_db_pool",
+          "line": 11
+        }
+      ],
+      "routes": [
+        {
+          "function": "unlock_application_fields",
+          "line": 19,
+          "decorator": "router.post('/applications/unlock-fields')",
+          "signature": "req: UnlockFieldsReq, db_pool: asyncpg.Pool=Depends(get_db_pool)"
+        },
+        {
+          "function": "transition_application_state",
+          "line": 40,
+          "decorator": "router.post('/applications/transition')",
+          "signature": "req: StateTransitionReq, db_pool: asyncpg.Pool=Depends(get_db_pool)"
+        }
+      ],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/admissions/provisioning.py",
+      "bytes": 3010,
+      "sha256": "99073bdd440a3bad9726ed672d66634c64f926528900ad1b10ad2cf3ced53a96",
+      "syntax": "valid",
+      "placeholder_functions": [
+        {
+          "name": "get_db_pool",
+          "line": 9
+        }
+      ],
+      "routes": [
+        {
+          "function": "review_applicant_document",
+          "line": 17,
+          "decorator": "router.post('/documents/review')",
+          "signature": "req: DocumentReviewReq, db_pool: asyncpg.Pool=Depends(get_db_pool)"
+        }
+      ],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/admissions/tasks.py",
+      "bytes": 4369,
+      "sha256": "7194a738e6be497fffeb3e5080fba7a7db4e68e0354418e2859a47a96c9fc502",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/ai/agent.py",
+      "bytes": 4575,
+      "sha256": "8b8cbe8c3a62a6379dc99dfc5713a65e6951856f7445058591a7b094dcd677f3",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/ai/router.py",
+      "bytes": 1575,
+      "sha256": "9c71d46b1f8bf451fdefafb6dbe25ded8fd25cbfb489cff776690e2f5fb5e75b",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [
+        {
+          "function": "chat_with_agent",
+          "line": 16,
+          "decorator": "router.post('/chat')",
+          "signature": "req: ChatRequest, token: dict=Depends(require_roles(Role.STUDENT, Role.PARENT, Role.FACULTY)), conn: asyncpg.Connection=Depends(get_db_connection)"
+        }
+      ],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/alumni/endowments.py",
+      "bytes": 4231,
+      "sha256": "d931be142cf4d83c070ef785aba6a0bffe7e3bcf087fae81b89cd9ef2a679e4b",
+      "syntax": "valid",
+      "placeholder_functions": [
+        {
+          "name": "get_db_pool",
+          "line": 16
+        }
+      ],
+      "routes": [
+        {
+          "function": "create_stripe_checkout_session",
+          "line": 26,
+          "decorator": "router.post('/checkout-session')",
+          "signature": "req: CheckoutSessionReq, db_pool: asyncpg.Pool=Depends(get_db_pool)"
+        },
+        {
+          "function": "stripe_webhook_fulfillment",
+          "line": 50,
+          "decorator": "router.post('/webhook/stripe')",
+          "signature": ""
+        },
+        {
+          "function": "generate_tax_deduction_certificate",
+          "line": 64,
+          "decorator": "router.get('/tax-certificate/{donation_id}')",
+          "signature": "donation_id: str"
+        }
+      ],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/alumni/mentorship.py",
+      "bytes": 3329,
+      "sha256": "0bb90770b1b2ba9702c825665486ecaf1490417fb1553270f4f4e44ef6620440",
+      "syntax": "valid",
+      "placeholder_functions": [
+        {
+          "name": "get_db_pool",
+          "line": 10
+        }
+      ],
+      "routes": [
+        {
+          "function": "execute_mentor_matching_algorithm",
+          "line": 18,
+          "decorator": "router.post('/match')",
+          "signature": "req: MentorMatchRequest, db_pool: asyncpg.Pool=Depends(get_db_pool)"
+        },
+        {
+          "function": "send_masked_message",
+          "line": 51,
+          "decorator": "router.post('/messaging/send')",
+          "signature": "req: MaskedMessageReq, db_pool: asyncpg.Pool=Depends(get_db_pool)"
+        }
+      ],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/analytics/router.py",
+      "bytes": 3769,
+      "sha256": "1f165b62a34bf22e91b508d04e78c6083f82c40568b64382261b8e88a1282272",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [
+        {
+          "function": "get_attendance_trends",
+          "line": 11,
+          "decorator": "router.get('/attendance-trends')",
+          "signature": "token: dict=Depends(require_roles(Role.SUPER_ADMIN, Role.INSTITUTION_ADMIN)), conn: asyncpg.Connection=Depends(get_db_connection)"
+        },
+        {
+          "function": "get_revenue_analytics",
+          "line": 54,
+          "decorator": "router.get('/revenue')",
+          "signature": "token: dict=Depends(require_roles(Role.SUPER_ADMIN, Role.INSTITUTION_ADMIN, Role.FINANCE)), conn: asyncpg.Connection=Depends(get_db_connection)"
+        },
+        {
+          "function": "get_kpis",
+          "line": 78,
+          "decorator": "router.get('/kpis')",
+          "signature": "token: dict=Depends(require_roles(Role.SUPER_ADMIN, Role.INSTITUTION_ADMIN)), conn: asyncpg.Connection=Depends(get_db_connection)"
+        }
+      ],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/api_gateway/gateway.py",
+      "bytes": 3712,
+      "sha256": "79046b05ba21995a7e89bd18dd2c1d0de8e6efc0b51f8ebfc2fc151b61730ea9",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [
+        {
+          "function": "get_attendance",
+          "line": 82,
+          "decorator": "router.get('/attendance')",
+          "signature": "token_payload: dict=Depends(gateway_rate_limiter)"
+        }
+      ],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/attendance/models.py",
+      "bytes": 1428,
+      "sha256": "ce3fdae3163d1c383e12dd15b85e1166e96ed889a283534dd78513ceaddfd754",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/attendance/qr_crypto.py",
+      "bytes": 2436,
+      "sha256": "481543600ef2d3a78942c82986aa3a4629349d4175241e04ff890c3289a3b534",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/attendance/router.py",
+      "bytes": 6527,
+      "sha256": "39d6eccb92fa8a62c7938ae57033f1f4f51324e100e2c64769ea99bb6e5001c8",
+      "syntax": "valid",
+      "placeholder_functions": [
+        {
+          "name": "get_db_session",
+          "line": 18
+        },
+        {
+          "name": "get_redis_client",
+          "line": 21
+        }
+      ],
+      "routes": [
+        {
+          "function": "generate_rolling_qr",
+          "line": 26,
+          "decorator": "router.get('/slots/{slot_id}/qr')",
+          "signature": "slot_id: uuid.UUID, token: dict=Depends(require_roles(Role.FACULTY)), db: AsyncSession=Depends(get_db_session)"
+        },
+        {
+          "function": "scan_qr",
+          "line": 64,
+          "decorator": "router.post('/scan')",
+          "signature": "req: ScanQRRequest, token: dict=Depends(require_roles(Role.STUDENT)), db: AsyncSession=Depends(get_db_session), redis_client: redis.Redis=Depends(get_redis_client), rate_limit: None=Depends(RateLimiter(max_requests=60, window_seconds=60))"
+        },
+        {
+          "function": "override_attendance",
+          "line": 130,
+          "decorator": "router.post('/{attendance_id}/override')",
+          "signature": "attendance_id: uuid.UUID, req: AdminOverrideRequest, token: dict=Depends(require_roles(Role.INSTITUTION_ADMIN)), db: AsyncSession=Depends(get_db_session)"
+        }
+      ],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/attendance/schemas.py",
+      "bytes": 596,
+      "sha256": "1de27c4a63460e0ec2202633ff68e301a76a0ca93c361161b9798cc670de5f52",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/billing/router.py",
+      "bytes": 5158,
+      "sha256": "7cb8bf4af6b73b6d479387b8219b54613346f6f561b77eea4d900f2b263ca593",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [
+        {
+          "function": "process_tuition_payment",
+          "line": 24,
+          "decorator": "router.post('/tuition/charge')",
+          "signature": "payload: TuitionPaymentRequest, tenant_id: str='extracted_from_jwt'"
+        },
+        {
+          "function": "stripe_webhook",
+          "line": 74,
+          "decorator": "router.post('/webhook')",
+          "signature": "request: Request"
+        }
+      ],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/community/assets_events.py",
+      "bytes": 3839,
+      "sha256": "3f73a1f283187a3fc47740d2d91c89d56feadb09d591814ec5196d1483aac1fe",
+      "syntax": "valid",
+      "placeholder_functions": [
+        {
+          "name": "get_db_pool",
+          "line": 11
+        }
+      ],
+      "routes": [
+        {
+          "function": "register_for_event",
+          "line": 18,
+          "decorator": "router.post('/events/register')",
+          "signature": "req: EventRegistrationReq, db_pool: asyncpg.Pool=Depends(get_db_pool)"
+        },
+        {
+          "function": "update_asset_lifecycle",
+          "line": 62,
+          "decorator": "router.post('/assets/service')",
+          "signature": "req: AssetLifecycleUpdate, db_pool: asyncpg.Pool=Depends(get_db_pool)"
+        }
+      ],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/community/portals.py",
+      "bytes": 3287,
+      "sha256": "7cd277e19fe653d1f87e5daa18d5a79dfb2d7dc1eb7bd89d7587272875376f21",
+      "syntax": "valid",
+      "placeholder_functions": [
+        {
+          "name": "get_db_pool",
+          "line": 10
+        }
+      ],
+      "routes": [
+        {
+          "function": "submit_survey_response",
+          "line": 18,
+          "decorator": "router.post('/surveys/submit')",
+          "signature": "req: SurveyResponseReq, db_pool: asyncpg.Pool=Depends(get_db_pool)"
+        },
+        {
+          "function": "fetch_unified_parent_dashboard",
+          "line": 42,
+          "decorator": "router.get('/parent/dashboard/{student_id}')",
+          "signature": "student_id: str, db_pool: asyncpg.Pool=Depends(get_db_pool)"
+        }
+      ],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/core/auth.py",
+      "bytes": 5467,
+      "sha256": "2cf8d1a9e83a6d9f00d42e4d87d6f8fbb6859299afbf58ab60cf1698cae83ff6",
+      "syntax": "valid",
+      "placeholder_functions": [
+        {
+          "name": "get_db_pool",
+          "line": 23
+        },
+        {
+          "name": "oauth2_callback",
+          "line": 105
+        }
+      ],
+      "routes": [
+        {
+          "function": "login",
+          "line": 50,
+          "decorator": "router.post('/login')",
+          "signature": "login_data: LoginRequest, response: Response, pool: asyncpg.Pool=Depends(get_db_pool), rate_limit: None=Depends(RateLimiter(max_requests=5, window_seconds=60))"
+        },
+        {
+          "function": "oauth2_callback",
+          "line": 105,
+          "decorator": "router.post('/oauth2/callback')",
+          "signature": "callback_data: OAuth2CallbackRequest, response: Response, pool: asyncpg.Pool=Depends(get_db_pool)"
+        },
+        {
+          "function": "refresh_token",
+          "line": 115,
+          "decorator": "router.post('/refresh')",
+          "signature": "request: Request, response: Response"
+        },
+        {
+          "function": "logout",
+          "line": 154,
+          "decorator": "router.post('/logout')",
+          "signature": "response: Response"
+        }
+      ],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/core/celery_app.py",
+      "bytes": 2372,
+      "sha256": "2ea9c1285f86e673c33637b32c3dd78e8e5cf24eb9764eda74c917bf11c2af47",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/core/database.py",
+      "bytes": 1561,
+      "sha256": "b5732fc2f218842eb2bc60ebb9d46261604702ae8e738b42041897ee0b9a386c",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/core/dependencies.py",
+      "bytes": 4234,
+      "sha256": "84681a9e52cd4eb997a315b1381a9ea80ddf02f9bb81ead80ec0fdc98e60a18a",
+      "syntax": "valid",
+      "placeholder_functions": [
+        {
+          "name": "get_db_pool",
+          "line": 20
+        }
+      ],
+      "routes": [],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/core/rate_limit.py",
+      "bytes": 2642,
+      "sha256": "4fd7079fd1af9db8806e4fd49cdfee00668dfdb87c9dd8c59444ac22367a490d",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/core/redis.py",
+      "bytes": 1314,
+      "sha256": "f97614e077ae58016d3434dcca33384075466a47b8389cf6547c6705fa1b4e80",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/core/security.py",
+      "bytes": 2334,
+      "sha256": "9a58e0a5be39389dcc2a8f8485e8e0b9f0f5de2370faf6bfd4e810c1180c61b8",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/core/siem_exporter.py",
+      "bytes": 5180,
+      "sha256": "3a74511696d519a2f45d43eaaaecb04c046830bfec8980da786022eb54309c01",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/credentials/apple_pass.py",
+      "bytes": 4579,
+      "sha256": "b6854b29557e022c7f60641ca3fe87d1dd8f9f3c5d4089a3ac981356a5af15bb",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [
+        {
+          "function": "generate_apple_wallet_pass",
+          "line": 23,
+          "decorator": "router.post('/generate')",
+          "signature": "req: PassGenerationRequest"
+        },
+        {
+          "function": "register_device_for_pass_updates",
+          "line": 73,
+          "decorator": "router.post('/v1/devices/{device_library_identifier}/registrations/{pass_type_id}/{serial_number}')",
+          "signature": "device_library_identifier: str, pass_type_id: str, serial_number: str, request: Request"
+        },
+        {
+          "function": "get_updatable_passes",
+          "line": 85,
+          "decorator": "router.get('/v1/devices/{device_library_identifier}/registrations/{pass_type_id}')",
+          "signature": "device_library_identifier: str, pass_type_id: str, passesUpdatedSince: str=None"
+        },
+        {
+          "function": "get_latest_pass",
+          "line": 93,
+          "decorator": "router.get('/v1/passes/{pass_type_id}/{serial_number}')",
+          "signature": "pass_type_id: str, serial_number: str"
+        }
+      ],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/credentials/google_wallet.py",
+      "bytes": 3418,
+      "sha256": "cbc3317a57041bd5fddf54952119c565125b2decb7ed80984cf44dcbc3d7411d",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [
+        {
+          "function": "generate_google_wallet_jwt",
+          "line": 26,
+          "decorator": "router.post('/generate')",
+          "signature": "req: GooglePassRequest"
+        }
+      ],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/exams/decorators.py",
+      "bytes": 2139,
+      "sha256": "74e528f9a5cea36aed9e2771806151ef9ff5b483a27323b57c4a382008c63520",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/exams/evaluation.py",
+      "bytes": 3618,
+      "sha256": "715db0ed5e8c34dd0a053c64adc81226fb29d0ba5fb2685c66a8de8c341efe80",
+      "syntax": "valid",
+      "placeholder_functions": [
+        {
+          "name": "get_db_pool",
+          "line": 11
+        }
+      ],
+      "routes": [
+        {
+          "function": "generate_dummy_numbers",
+          "line": 14,
+          "decorator": "router.post('/masking/generate')",
+          "signature": "exam_id: str, db_pool: asyncpg.Pool=Depends(get_db_pool)"
+        },
+        {
+          "function": "submit_evaluator_marks",
+          "line": 42,
+          "decorator": "router.post('/submit-marks')",
+          "signature": "req: MarksEntryReq, db_pool: asyncpg.Pool=Depends(get_db_pool)"
+        },
+        {
+          "function": "verify_institutional_certificate",
+          "line": 59,
+          "decorator": "router.get('/certificates/verify/{verification_hash}')",
+          "signature": "verification_hash: str, db_pool: asyncpg.Pool=Depends(get_db_pool)"
+        }
+      ],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/exams/models.py",
+      "bytes": 1953,
+      "sha256": "4a75ec3b7ecc9b2a050833594db71bb543f4c3c7e9321a81a89ff4e3cecdd8fa",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/exams/proctoring.py",
+      "bytes": 4514,
+      "sha256": "e18f28beebb7613a9e007b43a127828feeb3799c9ba9c6c0ede23617f32b60ce",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [
+        {
+          "function": "sync_exam_heartbeat",
+          "line": 24,
+          "decorator": "router.post('/{exam_id}/heartbeat')",
+          "signature": "exam_id: str, request: ExamHeartbeatRequest"
+        },
+        {
+          "function": "websocket_proctor_endpoint",
+          "line": 51,
+          "decorator": "router.websocket('/ws/{exam_id}/proctoring')",
+          "signature": "websocket: WebSocket, exam_id: str, student_id: str"
+        }
+      ],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/exams/router.py",
+      "bytes": 6093,
+      "sha256": "ff5c291e362e93a27b6bc31e2991fc4cc53244875fff7e5254dc23b90649d90d",
+      "syntax": "valid",
+      "placeholder_functions": [
+        {
+          "name": "get_db_session",
+          "line": 14
+        }
+      ],
+      "routes": [
+        {
+          "function": "update_exam_mark",
+          "line": 20,
+          "decorator": "router.put('/marks/{mark_id}')",
+          "signature": "mark_id: uuid.UUID, req: UpdateMarkRequest, mark_record: ExamMark=None, token: dict=Depends(require_roles(Role.FACULTY)), db: AsyncSession=Depends(get_db_session)"
+        },
+        {
+          "function": "submit_exam_mark",
+          "line": 47,
+          "decorator": "router.post('/marks/{mark_id}/submit')",
+          "signature": "mark_id: uuid.UUID, mark_record: ExamMark=None, token: dict=Depends(require_roles(Role.FACULTY)), db: AsyncSession=Depends(get_db_session)"
+        },
+        {
+          "function": "approve_exam_mark",
+          "line": 61,
+          "decorator": "router.post('/marks/{mark_id}/approve')",
+          "signature": "mark_id: uuid.UUID, mark_record: ExamMark=None, token: dict=Depends(require_roles(Role.INSTITUTION_ADMIN)), db: AsyncSession=Depends(get_db_session)"
+        },
+        {
+          "function": "request_grade_change",
+          "line": 74,
+          "decorator": "router.post('/marks/{mark_id}/request-change')",
+          "signature": "mark_id: uuid.UUID, req: ChangeRequestPayload, token: dict=Depends(require_roles(Role.FACULTY)), db: AsyncSession=Depends(get_db_session)"
+        },
+        {
+          "function": "sign_change_request",
+          "line": 109,
+          "decorator": "router.post('/requests/{request_id}/sign')",
+          "signature": "request_id: uuid.UUID, req: AdminSignRequest, token: dict=Depends(require_roles(Role.INSTITUTION_ADMIN, Role.SUPER_ADMIN)), db: AsyncSession=Depends(get_db_session)"
+        }
+      ],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/exams/scheduling.py",
+      "bytes": 4124,
+      "sha256": "d542fdad0fd6a3098c44fadf1ae2a7ada081dfc600ebbc6573db0e997b3aefda",
+      "syntax": "valid",
+      "placeholder_functions": [
+        {
+          "name": "get_db_pool",
+          "line": 11
+        }
+      ],
+      "routes": [
+        {
+          "function": "compute_exam_eligibility",
+          "line": 18,
+          "decorator": "router.post('/eligibility/compute')",
+          "signature": "req: EligibilityReq, db_pool: asyncpg.Pool=Depends(get_db_pool)"
+        },
+        {
+          "function": "generate_seating_arrangement",
+          "line": 55,
+          "decorator": "router.post('/seating/allocate')",
+          "signature": "req: SeatingReq, db_pool: asyncpg.Pool=Depends(get_db_pool)"
+        }
+      ],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/exams/schemas.py",
+      "bytes": 606,
+      "sha256": "dbdbb64a1c82c919a39b65685faedf81fea41f85b31049fb7b4fde40dba4461b",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/finance/billing.py",
+      "bytes": 2207,
+      "sha256": "3e3b7ddca5ecd210960e35cf6d9408f5a704dd36321a39e9ab8d4434d5cac76b",
+      "syntax": "valid",
+      "placeholder_functions": [
+        {
+          "name": "get_db_pool",
+          "line": 10
+        }
+      ],
+      "routes": [
+        {
+          "function": "assign_scholarship_waiver",
+          "line": 19,
+          "decorator": "router.post('/scholarships/assign')",
+          "signature": "req: AssignScholarshipReq, db_pool: asyncpg.Pool=Depends(get_db_pool)"
+        }
+      ],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/finance/models.py",
+      "bytes": 1391,
+      "sha256": "5dfc20bb7af69a54879b23fa575102b73495f4be6b1dc688fcab6d75f75cfa35",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/finance/payments.py",
+      "bytes": 4669,
+      "sha256": "9cd4c24ac98e13d63edbe6ecdd071086432ca155153f8d1f45ad1a6478376a00",
+      "syntax": "valid",
+      "placeholder_functions": [
+        {
+          "name": "get_db_pool",
+          "line": 15
+        }
+      ],
+      "routes": [
+        {
+          "function": "orchestrate_payment_gateway",
+          "line": 23,
+          "decorator": "router.post('/gateway/orchestrate')",
+          "signature": "req: InitiatePaymentReq"
+        },
+        {
+          "function": "intake_offline_payment",
+          "line": 58,
+          "decorator": "router.post('/offline/intake')",
+          "signature": "req: OfflinePaymentIntake, db_pool: asyncpg.Pool=Depends(get_db_pool)"
+        },
+        {
+          "function": "generate_official_fee_receipt",
+          "line": 77,
+          "decorator": "router.get('/receipt/{txn_id}/pdf')",
+          "signature": "txn_id: str"
+        }
+      ],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/finance/reconciliation.py",
+      "bytes": 4926,
+      "sha256": "5f04707056d308d7a9dd2a80bbba98d36324f11f957ff6ea5eb437ccb2b775de",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/finance/router.py",
+      "bytes": 4212,
+      "sha256": "c2c88d63bfb2e8b093bf5571cb04376dc09a1dbc772ac59fcdb2befba427eaa0",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [
+        {
+          "function": "process_payment_webhook",
+          "line": 17,
+          "decorator": "router.post('/webhook')",
+          "signature": "request: Request, x_payment_signature: str=Header(None, alias='X-Payment-Signature'), conn: asyncpg.Connection=Depends(get_db_connection), redis_client: aioredis.Redis=Depends(get_redis_client)"
+        }
+      ],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/finance/tasks.py",
+      "bytes": 2034,
+      "sha256": "ea5a3cf229c805a7bb4929a9a6417f1cfcf01ad9b64d6cf7a46952a57a932c98",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/finance/webhook_utils.py",
+      "bytes": 1016,
+      "sha256": "f44c684f2fff0cd9ecff324cc870bddb743c8fa3ca133fccc96554bedbabecd2",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/grievances/tasks.py",
+      "bytes": 2238,
+      "sha256": "426138883de29108b49b717f6f9e843defac0f270032faba3a0791697cc140e3",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/grievances/whistleblower.py",
+      "bytes": 4219,
+      "sha256": "c2e807bdb11540414ecf25b223beef200b144fa8901e7a9546a68ba5a8a97572",
+      "syntax": "valid",
+      "placeholder_functions": [
+        {
+          "name": "get_db_pool",
+          "line": 11
+        }
+      ],
+      "routes": [
+        {
+          "function": "submit_anonymous_grievance",
+          "line": 25,
+          "decorator": "router.post('/submit')",
+          "signature": "req: GrievanceSubmission, request: Request, db_pool: asyncpg.Pool=Depends(get_db_pool)"
+        },
+        {
+          "function": "reporter_sends_reply",
+          "line": 77,
+          "decorator": "router.post('/reply/reporter')",
+          "signature": "req: ReporterReply, db_pool: asyncpg.Pool=Depends(get_db_pool)"
+        }
+      ],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/hostel/allocations.py",
+      "bytes": 3062,
+      "sha256": "f414d564b956e7aa83e6db1c598156aa5a7cb59e47a6fc04829d503b31090ce4",
+      "syntax": "valid",
+      "placeholder_functions": [
+        {
+          "name": "get_db_pool",
+          "line": 17
+        }
+      ],
+      "routes": [
+        {
+          "function": "allocate_hostel_bed",
+          "line": 22,
+          "decorator": "router.post('/allocate')",
+          "signature": "req: AllocateBedRequest, db_pool: asyncpg.Pool=Depends(get_db_pool)"
+        }
+      ],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/hostel/curfew.py",
+      "bytes": 4315,
+      "sha256": "0e5d96fe72a8a366cdbb3e4eb47edbc52873597fca7ce196e2d3c06ce545314d",
+      "syntax": "valid",
+      "placeholder_functions": [
+        {
+          "name": "get_db_pool",
+          "line": 17
+        }
+      ],
+      "routes": [
+        {
+          "function": "request_night_out_pass",
+          "line": 30,
+          "decorator": "router.post('/request-pass')",
+          "signature": "req: NightOutRequest, db_pool: asyncpg.Pool=Depends(get_db_pool)"
+        },
+        {
+          "function": "handle_turnstile_scan",
+          "line": 64,
+          "decorator": "router.post('/turnstile-webhook')",
+          "signature": "scan: TurnstileScan, background_tasks: BackgroundTasks, db_pool: asyncpg.Pool=Depends(get_db_pool)"
+        }
+      ],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/integrations/accounting.py",
+      "bytes": 2169,
+      "sha256": "093f3f4b3bd4820281d785a04a3d25c8665e067ef91711436c8801374224f415",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [
+        {
+          "function": "generate_tally_xml_export",
+          "line": 9,
+          "decorator": "router.get('/export/tally-xml')",
+          "signature": "date_range_start: str, date_range_end: str"
+        }
+      ],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/integrations/communication.py",
+      "bytes": 1507,
+      "sha256": "3c14ba4ef6c7646896d7c6a17dbd6355a425254e8a0cdcab81ed44f5b94c5cc0",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [
+        {
+          "function": "unified_communication_dispatcher",
+          "line": 17,
+          "decorator": "router.post('/dispatch')",
+          "signature": "req: DispatchReq"
+        }
+      ],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/integrations/conferencing.py",
+      "bytes": 1668,
+      "sha256": "4cc16a9c1fc95b39f267258ce93c91bf13a89356d31fbc4e164d1955ab48d07d",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [
+        {
+          "function": "auto_generate_meeting_link",
+          "line": 16,
+          "decorator": "router.post('/generate-link')",
+          "signature": "req: MeetingScheduleReq"
+        }
+      ],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/integrations/crm_webhooks.py",
+      "bytes": 1581,
+      "sha256": "1f48c1415c5acddf57c894a5e353892ba004b36e407a63aae031767b50887705",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [
+        {
+          "function": "nopaperforms_webhook_listener",
+          "line": 13,
+          "decorator": "router.post('/nopaperforms/listener')",
+          "signature": "request: Request, x_npf_signature: str=Header(None)"
+        }
+      ],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/integrations/identity.py",
+      "bytes": 1688,
+      "sha256": "fddd452db0c74d95856d41da3ed3e2bcdaf8e5e5b7782573736bed9d3701a60c",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [
+        {
+          "function": "google_sso_login",
+          "line": 10,
+          "decorator": "router.get('/google/login')",
+          "signature": ""
+        },
+        {
+          "function": "google_sso_callback",
+          "line": 19,
+          "decorator": "router.get('/google/callback')",
+          "signature": "code: str"
+        },
+        {
+          "function": "microsoft_ad_saml_acs",
+          "line": 30,
+          "decorator": "router.post('/saml/acs')",
+          "signature": "request: Request"
+        }
+      ],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/library/circulation.py",
+      "bytes": 5495,
+      "sha256": "bf603eb25579d229188755218dcf3e7c06ff49da4c5f8d384849e6172dbde970",
+      "syntax": "valid",
+      "placeholder_functions": [
+        {
+          "name": "get_db_pool",
+          "line": 14
+        }
+      ],
+      "routes": [
+        {
+          "function": "library_anti_theft_gate_websocket",
+          "line": 17,
+          "decorator": "router.websocket('/ws/hardware/{gate_id}')",
+          "signature": "websocket: WebSocket, gate_id: str"
+        },
+        {
+          "function": "process_batch_rfid_scan",
+          "line": 40,
+          "decorator": "router.post('/rfid/scan')",
+          "signature": "payload: RFIDScanPayload, db_pool: asyncpg.Pool=Depends(get_db_pool)"
+        }
+      ],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/library/tasks.py",
+      "bytes": 2822,
+      "sha256": "45fe6975a95271e2ab669538ccafb9806ccf8ca894ee75167f57f3d99e891178",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/lms/storage.py",
+      "bytes": 3602,
+      "sha256": "48822d8b27fdaa8712b4da5ba162c4ca1e0182c4f77afdfb9d53d64180213880",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [
+        {
+          "function": "generate_presigned_upload",
+          "line": 36,
+          "decorator": "router.post('/assignments/{assignment_id}/upload-url')",
+          "signature": "assignment_id: str, request: UploadIntentRequest, tenant_id: str='mock-tenant'"
+        },
+        {
+          "function": "confirm_submission",
+          "line": 67,
+          "decorator": "router.post('/assignments/{assignment_id}/confirm')",
+          "signature": "assignment_id: str, request: ConfirmSubmissionRequest"
+        }
+      ],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/lms/tasks.py",
+      "bytes": 2076,
+      "sha256": "459732a73fbc11b63db4402fa6c0dc66f1ed642e180be4abdc5112badcb4f780",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/logistics/canteen_transit.py",
+      "bytes": 3784,
+      "sha256": "b046e456606545ada9d711f1dcf8db5e1aca0d4ca023e9d336f08cee59a199a1",
+      "syntax": "valid",
+      "placeholder_functions": [
+        {
+          "name": "get_db_pool",
+          "line": 10
+        }
+      ],
+      "routes": [
+        {
+          "function": "validate_meal_token",
+          "line": 18,
+          "decorator": "router.post('/canteen/scan')",
+          "signature": "req: QRCodeScanReq, db_pool: asyncpg.Pool=Depends(get_db_pool)"
+        },
+        {
+          "function": "ingest_wastage_telemetry",
+          "line": 56,
+          "decorator": "router.post('/canteen/telemetry')",
+          "signature": "req: TelemetryBatchReq, db_pool: asyncpg.Pool=Depends(get_db_pool)"
+        },
+        {
+          "function": "configure_transit_pickup",
+          "line": 76,
+          "decorator": "router.post('/transit/stops')",
+          "signature": "req: TransitRouteConfig, db_pool: asyncpg.Pool=Depends(get_db_pool)"
+        }
+      ],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/logistics/hostel.py",
+      "bytes": 2114,
+      "sha256": "06d7bea698e52922de150975dd8b8bcceff66e6245b894bcd8afea3526261ece",
+      "syntax": "valid",
+      "placeholder_functions": [
+        {
+          "name": "get_db_pool",
+          "line": 10
+        }
+      ],
+      "routes": [
+        {
+          "function": "capture_room_preference",
+          "line": 19,
+          "decorator": "router.post('/preferences/submit')",
+          "signature": "req: PreferenceReq, db_pool: asyncpg.Pool=Depends(get_db_pool)"
+        },
+        {
+          "function": "raise_maintenance_ticket",
+          "line": 36,
+          "decorator": "router.post('/maintenance/ticket')",
+          "signature": "req: TicketReq, db_pool: asyncpg.Pool=Depends(get_db_pool)"
+        }
+      ],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/main.py",
+      "bytes": 6218,
+      "sha256": "fe38309f6cb2e2173d5c5d3368a6af1b91f18b5492530c0d1c5d84d3362e8067",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [
+        {
+          "function": "health_check",
+          "line": 128,
+          "decorator": "app.get('/health', tags=['Diagnostics'])",
+          "signature": ""
+        }
+      ],
+      "missing_absolute_local_imports": [
+        {
+          "module": "app.auth.router",
+          "line": 17
+        }
+      ]
+    },
+    {
+      "path": "backend/app/messaging/tasks.py",
+      "bytes": 4887,
+      "sha256": "deed9ae2af79521050e51a8014603f8bf63c54b19c4dca4554103d058db7e99a",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/messaging/whatsapp.py",
+      "bytes": 2976,
+      "sha256": "793ddf4c751cd0bf51d899623510b62117a7c4be835ffa4a441f35be5e483ae8",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [
+        {
+          "function": "verify_meta_webhook_challenge",
+          "line": 16,
+          "decorator": "router.get('/webhook')",
+          "signature": "request: Request"
+        },
+        {
+          "function": "ingest_whatsapp_events",
+          "line": 33,
+          "decorator": "router.post('/webhook')",
+          "signature": "request: Request"
+        }
+      ],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/migration/etl_engine.py",
+      "bytes": 7061,
+      "sha256": "01af409c20e54dac065203d062eca67cc5d5aac60a04358956c2f528616c4b22",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/oauth/server.py",
+      "bytes": 3617,
+      "sha256": "2e7226e04f0f7f40c58ffc4f142a86b2ff077a209a981270bc3533395da49cae",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [
+        {
+          "function": "register_developer_app",
+          "line": 34,
+          "decorator": "router.post('/developer/apps', status_code=status.HTTP_201_CREATED)",
+          "signature": "app_data: OAuthAppCreate"
+        },
+        {
+          "function": "authorize_prompt",
+          "line": 58,
+          "decorator": "router.get('/authorize')",
+          "signature": "client_id: str, redirect_uri: str, response_type: str, scope: str"
+        },
+        {
+          "function": "exchange_token",
+          "line": 73,
+          "decorator": "router.post('/token')",
+          "signature": "request: TokenRequest"
+        }
+      ],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/payroll/calculator.py",
+      "bytes": 3284,
+      "sha256": "5a6c26dc6586a677400bd2798958f71b649ed3b4e73932b8ff11a6351afa02ce",
+      "syntax": "valid",
+      "placeholder_functions": [
+        {
+          "name": "get_db_pool",
+          "line": 18
+        }
+      ],
+      "routes": [
+        {
+          "function": "compute_faculty_salary_batch",
+          "line": 21,
+          "decorator": "router.post('/calculate-batch')",
+          "signature": "faculty_id: str, working_days: int, present_days: int, paid_leaves: int, db_pool: asyncpg.Pool=Depends(get_db_pool)"
+        }
+      ],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/payroll/disbursement.py",
+      "bytes": 3706,
+      "sha256": "5c9511c97d108effcfa2611b62e9a12e3602e1255d7261d53c123a3a5527c1a9",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [
+        {
+          "function": "approve_and_lock_payroll_register",
+          "line": 13,
+          "decorator": "router.post('/register/{register_id}/approve')",
+          "signature": "register_id: str"
+        },
+        {
+          "function": "export_neft_bank_file",
+          "line": 23,
+          "decorator": "router.get('/register/{register_id}/export-neft')",
+          "signature": "register_id: str"
+        },
+        {
+          "function": "generate_cryptographic_payslip_pdf",
+          "line": 43,
+          "decorator": "router.get('/payslip/{slip_id}/pdf')",
+          "signature": "slip_id: str"
+        }
+      ],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/placements/drives.py",
+      "bytes": 3582,
+      "sha256": "7a3a13128c6681710f91532615988dd35bb2eef1b175286d354799fda5daa009",
+      "syntax": "valid",
+      "placeholder_functions": [
+        {
+          "name": "get_db_pool",
+          "line": 11
+        }
+      ],
+      "routes": [
+        {
+          "function": "apply_for_job_opening",
+          "line": 19,
+          "decorator": "router.post('/jobs/apply')",
+          "signature": "req: ApplyJobRequest, db_pool: asyncpg.Pool=Depends(get_db_pool)"
+        }
+      ],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/placements/resume_matcher.py",
+      "bytes": 4864,
+      "sha256": "e8343dea94a7f26dd4ca3430953ecaf867e123031cfab5c3cfe15507e6c3441c",
+      "syntax": "valid",
+      "placeholder_functions": [
+        {
+          "name": "get_db_pool",
+          "line": 13
+        }
+      ],
+      "routes": [
+        {
+          "function": "rank_candidates_by_vector_distance",
+          "line": 49,
+          "decorator": "router.post('/recruiters/match-candidates')",
+          "signature": "req: JobDescriptionQuery, db_pool: asyncpg.Pool=Depends(get_db_pool)"
+        },
+        {
+          "function": "schedule_technical_interview",
+          "line": 93,
+          "decorator": "router.post('/recruiters/schedule-interview')",
+          "signature": "req: InterviewScheduleReq, db_pool: asyncpg.Pool=Depends(get_db_pool)"
+        }
+      ],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/search/router.py",
+      "bytes": 3244,
+      "sha256": "1118e3d1f36fbfc7b0ad87258ec3628ac1fd03dc213f394b49d251231984daee",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [
+        {
+          "function": "perform_semantic_search",
+          "line": 40,
+          "decorator": "router.post('/semantic', response_model=List[SemanticSearchResponse])",
+          "signature": "req: SemanticSearchRequest, token: dict=Depends(require_roles(Role.STUDENT, Role.PARENT, Role.FACULTY, Role.INSTITUTION_ADMIN)), conn: asyncpg.Connection=Depends(get_db_connection)"
+        }
+      ],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/social/gatepass.py",
+      "bytes": 3914,
+      "sha256": "32bae34129b3849eb6a8b3d8916d37dbd4d419fbfe88fa2b5d180411c9a53ed2",
+      "syntax": "valid",
+      "placeholder_functions": [
+        {
+          "name": "get_db_pool",
+          "line": 10
+        }
+      ],
+      "routes": [
+        {
+          "function": "request_gate_pass",
+          "line": 20,
+          "decorator": "router.post('/request')",
+          "signature": "req: GatePassReq, db_pool: asyncpg.Pool=Depends(get_db_pool)"
+        },
+        {
+          "function": "process_hardware_scan",
+          "line": 55,
+          "decorator": "router.post('/iot/scan')",
+          "signature": "req: IoTHardwareScan, db_pool: asyncpg.Pool=Depends(get_db_pool)"
+        }
+      ],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/social/platform.py",
+      "bytes": 3483,
+      "sha256": "31878e7556a20092dfca3192ff846612ac9d58249f12fb64ca7297c2e9214665",
+      "syntax": "valid",
+      "placeholder_functions": [
+        {
+          "name": "get_db_pool",
+          "line": 10
+        }
+      ],
+      "routes": [
+        {
+          "function": "create_social_post",
+          "line": 19,
+          "decorator": "router.post('/feed/post')",
+          "signature": "req: FeedPostReq, db_pool: asyncpg.Pool=Depends(get_db_pool)"
+        },
+        {
+          "function": "broadcast_enotice",
+          "line": 46,
+          "decorator": "router.post('/enotices/broadcast')",
+          "signature": "req: ENoticeBroadcastReq, db_pool: asyncpg.Pool=Depends(get_db_pool)"
+        },
+        {
+          "function": "acknowledge_enotice",
+          "line": 70,
+          "decorator": "router.post('/enotices/acknowledge')",
+          "signature": "req: ReadReceiptReq, db_pool: asyncpg.Pool=Depends(get_db_pool)"
+        }
+      ],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/students/router.py",
+      "bytes": 4801,
+      "sha256": "bffd8b5cd240897ab3c08b689743576b306cbc72ba911ea99430fa4ca949a590",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [
+        {
+          "function": "list_students",
+          "line": 30,
+          "decorator": "router.get('', response_model=List[StudentResponse])",
+          "signature": "conn: asyncpg.Connection=Depends(get_db_connection)"
+        },
+        {
+          "function": "bulk_upload_students",
+          "line": 54,
+          "decorator": "router.post('/bulk')",
+          "signature": "file: UploadFile=File(...), conn: asyncpg.Connection=Depends(get_db_connection)"
+        }
+      ],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/students/schemas.py",
+      "bytes": 578,
+      "sha256": "aaa1945f17aa7f1be0ae99e79d357b4a15754f12ec9b2509706dd535aa68a651",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/tasks/notifications.py",
+      "bytes": 3558,
+      "sha256": "38df67dfeece3bc588c84e8a312965ee6793567202e2c9664beebd27eebba30b",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/timetable/models.py",
+      "bytes": 1093,
+      "sha256": "08d06ea8f788618046272b0ce4c928a817bb11cfe76b8990b1cd6093bb3a088e",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/timetable/router.py",
+      "bytes": 3232,
+      "sha256": "078f84c287fad352fabfb3aa54d183282462cdd97289f1df30e739bc3548dd7e",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [
+        {
+          "function": "list_courses",
+          "line": 36,
+          "decorator": "router.get('/courses', response_model=List[CourseResponse])",
+          "signature": "conn: asyncpg.Connection=Depends(get_db_connection)"
+        },
+        {
+          "function": "list_faculty",
+          "line": 45,
+          "decorator": "router.get('/faculty', response_model=List[FacultyResponse])",
+          "signature": "conn: asyncpg.Connection=Depends(get_db_connection)"
+        },
+        {
+          "function": "assign_timetable_slot",
+          "line": 59,
+          "decorator": "router.post('/slots')",
+          "signature": "payload: TimetableSlotCreate, conn: asyncpg.Connection=Depends(get_db_connection)"
+        }
+      ],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/timetable/schemas.py",
+      "bytes": 958,
+      "sha256": "aea86daa5d76dbe5d9453fe339c35d11b1595c56ef589300445509287c94dbed",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/app/transport/telemetry.py",
+      "bytes": 5336,
+      "sha256": "89d58484320e24ab6ccfc348e31c314cfaf90a90b5a1fb6ee4d9b2d848065c4b",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [
+        {
+          "function": "ingest_fleet_telemetry",
+          "line": 36,
+          "decorator": "router.websocket('/ws/telemetry/ingest')",
+          "signature": "websocket: WebSocket, device_id: str"
+        },
+        {
+          "function": "stream_fleet_positions",
+          "line": 100,
+          "decorator": "router.websocket('/ws/telemetry/stream')",
+          "signature": "websocket: WebSocket, route_id: str"
+        }
+      ],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/db/migrations/001_master_data.sql",
+      "bytes": 5320,
+      "sha256": "c30e262a565782a1209aa520d209339ddede359b3322d7f7920d65f8a1a79e84"
+    },
+    {
+      "path": "backend/db/migrations/002_oauth_apps.sql",
+      "bytes": 1722,
+      "sha256": "bcb7200c9959d9e03b9d7bc4c5412ec9143207b666444b2cb3a405a20d25f2f8"
+    },
+    {
+      "path": "backend/db/migrations/003_migration_quarantine.sql",
+      "bytes": 1264,
+      "sha256": "0819cf835a5b6f9c5c96b8a0be202220753d9bea690c3cc9b758e815938ff704"
+    },
+    {
+      "path": "backend/db/migrations/004_lms_assignments.sql",
+      "bytes": 1958,
+      "sha256": "fd2a9f6cac902c2faf0ae0b53708d101fb1d9e6887b6d334f0d38d1347623798"
+    },
+    {
+      "path": "backend/db/migrations/005_hostel_residential.sql",
+      "bytes": 2369,
+      "sha256": "45bf3ec33469a4b92b7bce8d14858120b134e7598248cbf155dd93aa2b71ea61"
+    },
+    {
+      "path": "backend/db/migrations/006_payroll.sql",
+      "bytes": 1885,
+      "sha256": "420cec9f83efd4354139f8f5b3954e96febdb070073428bacd32f41ccd48a44e"
+    },
+    {
+      "path": "backend/db/migrations/007_library.sql",
+      "bytes": 1525,
+      "sha256": "5e07560e6049184975ebac27b022e4c79df4472ff200f7576818b49acfabd69d"
+    },
+    {
+      "path": "backend/db/migrations/008_placements.sql",
+      "bytes": 2042,
+      "sha256": "3b61e269e460a23096238eecdf606071ceec37677d1bb7ef1ce525acf9e6072f"
+    },
+    {
+      "path": "backend/db/migrations/009_erp_core.sql",
+      "bytes": 5234,
+      "sha256": "fa07fa375a8814953fd474c4e05dc996649528d98c9ec8f483b32ffea29e6249"
+    },
+    {
+      "path": "backend/db/migrations/009_grievances.sql",
+      "bytes": 1217,
+      "sha256": "87ee5fc919a2ef168e17e4aa928e100454d3302c5326154c7114532d8f274230"
+    },
+    {
+      "path": "backend/db/migrations/010_alumni.sql",
+      "bytes": 2134,
+      "sha256": "1127f06daa4f77c464afb05ce0b8ac7962111993835d5dddbba73f2550ad5ccf"
+    },
+    {
+      "path": "backend/db/migrations/011_admissions.sql",
+      "bytes": 1892,
+      "sha256": "17969951110762c2493f4a3f44d6c4e64e10808fe2b12da0a2ac436ecef7b765"
+    },
+    {
+      "path": "backend/db/migrations/012_finance.sql",
+      "bytes": 2288,
+      "sha256": "38d652457ce60a0236fc3697a6b6647a2a080ec2f16d19651e1954607a84f3af"
+    },
+    {
+      "path": "backend/db/migrations/013_academics_obe.sql",
+      "bytes": 2834,
+      "sha256": "5617468af86ad3c0d49d457e0bc917afe614c8eb882a277c91450a6e319ef29b"
+    },
+    {
+      "path": "backend/db/migrations/014_exams.sql",
+      "bytes": 2156,
+      "sha256": "4e75dafd69dca19dc14ec5fb297f03122e0d1976636800e2b1898b365bfb20b2"
+    },
+    {
+      "path": "backend/db/migrations/015_logistics.sql",
+      "bytes": 2533,
+      "sha256": "972d5fcd22223f802b3c055d05f009b66f58c316b8775fa1a285046af5bd364f"
+    },
+    {
+      "path": "backend/db/migrations/016_social_workflow.sql",
+      "bytes": 2606,
+      "sha256": "e7ec190f3989bc252b84f5d36ca7749cd0d546658b70ca987eca85dbc51fe537"
+    },
+    {
+      "path": "backend/db/migrations/017_community_assets.sql",
+      "bytes": 3141,
+      "sha256": "71410c29fc9c91977bc1cd494be091a0e544bf7b0a4d5136f2a9eec06cc50257"
+    },
+    {
+      "path": "backend/db/migrations/eoy_partitioning.sql",
+      "bytes": 3948,
+      "sha256": "c75888ac1bb35f0f302d5a5ce8b64149dc4aaecde32371d6c8ea413a190c59e5"
+    },
+    {
+      "path": "backend/db/migrations/pgvector_setup.sql",
+      "bytes": 1869,
+      "sha256": "928527667a1130cd02290eee2fb7dc7dbeb254eedec938cf2009613751426417"
+    },
+    {
+      "path": "backend/db/seeders/01_mock_erp_data.py",
+      "bytes": 2861,
+      "sha256": "2a509bd25761363ea81e1c0972a57dde32599b427e7719f028ce6f2cb11fcdc4",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "backend/requirements.txt",
+      "bytes": 214,
+      "sha256": "422687d71568db51243a3f674a0a5032b72a71f602f2a1706b2485956d3638d9"
+    },
+    {
+      "path": "build_ksrmms.py",
+      "bytes": 34436,
+      "sha256": "5f36aa394288512efbf48c3a144aeffceca4d352995ebd8e2c90187c42f96d1a",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "build_missing_pages.py",
+      "bytes": 5418,
+      "sha256": "15b77d4fd2b52c54bb328fdb03917d1372efbc4f1090d88fe913e5c39961b0bc",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "build_modules.py",
+      "bytes": 6124,
+      "sha256": "ee475a7438ad52484afbc3798c9dbc916ac147b4d9a095650c2f4f5d63de2715",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "build_shell.py",
+      "bytes": 6194,
+      "sha256": "4ba44719e55043d62bd0915a511b12e82e76b2d771ee9b0186facb3a5dfe7ad0",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "clgerpreqs",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "data_warehouse/dbt/models/marts/core/dim_student.sql",
+      "bytes": 1050,
+      "sha256": "f164443f1410573430c3491e47c3403e751bf0660f66c06ccb855f4d2851556f"
+    },
+    {
+      "path": "data_warehouse/dbt/models/marts/core/fact_attendance.sql",
+      "bytes": 1267,
+      "sha256": "2e8b3d11d8ecfd6f1ba91776428d0e9a1583724b976195f5d835b06abdb88dd5"
+    },
+    {
+      "path": "deploy_db.sh",
+      "bytes": 3687,
+      "sha256": "8078c83a83127ea353980184e1caaa2f200b8581dceecd075f6d799140d8cbd4"
+    },
+    {
+      "path": "docker-compose.yml",
+      "bytes": 2220,
+      "sha256": "a5d85d61ccca81eeb4251d9e388fde18b0e1f48dd074760d631a39eee60b7597"
+    },
+    {
+      "path": "frontend-mobile/app.json",
+      "bytes": 1704,
+      "sha256": "1ace512830dbda41c47cf2a2530621ed81a791e6b75a0b5f7feb72f1b4d9af16"
+    },
+    {
+      "path": "frontend-mobile/eas.json",
+      "bytes": 945,
+      "sha256": "ce16539ae3430874edbaeb4ae20a272c81c77f4a0fcec791493ee3afba9be344"
+    },
+    {
+      "path": "generate_data.py",
+      "bytes": 3997,
+      "sha256": "d2cc5effe2e822a20a830053bbaa8cab52cab423035ec053d05c67f8f738ae05",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "infrastructure/terraform/global-aurora.tf",
+      "bytes": 3238,
+      "sha256": "b7340732950e1267d9b57662919320fce57ecadb75fece9e3fadc1993fb72e75"
+    },
+    {
+      "path": "init_ledger_triggers.sql",
+      "bytes": 720,
+      "sha256": "66e6a4f6f2f5ae282d6c01a80d3a9c55dd1d3448754c62df1234c3c3347f3d23"
+    },
+    {
+      "path": "init_schema.sql",
+      "bytes": 13649,
+      "sha256": "7b3ba9b4dbbefaf70b2fe473a2e68fbca88e80b34f476d22898c1765a07602e4"
+    },
+    {
+      "path": "k8s/backend.yaml",
+      "bytes": 1660,
+      "sha256": "c2f1b786a885cd6857b5588412836266884f8a0e820530aa5459ac95db61fdf3"
+    },
+    {
+      "path": "k8s/chaos/pod-reaper.yaml",
+      "bytes": 723,
+      "sha256": "c2f5efea8ea744a3715c8b3a3c9851dc23e437b8c8c93780adf889352d283464"
+    },
+    {
+      "path": "k8s/chaos/redis-latency.yaml",
+      "bytes": 544,
+      "sha256": "eb57196dd345a0cd56357fc3e636507e2188044cc6f4b82e744e267600adec38"
+    },
+    {
+      "path": "k8s/charts/klmce-enterprise/Chart.yaml",
+      "bytes": 275,
+      "sha256": "6aa420de0a65066046e13fa4fbf2b647830ee252646263551cc62859e3ba97bc"
+    },
+    {
+      "path": "k8s/charts/klmce-enterprise/templates/backend.yaml",
+      "bytes": 1628,
+      "sha256": "6a8210e11180d13b217608c0b86c2816099130675f58d4494e99eff590a77cc0"
+    },
+    {
+      "path": "k8s/charts/klmce-enterprise/templates/frontend.yaml",
+      "bytes": 1392,
+      "sha256": "2e4dce097ce95a4205437fa8c9b646d79ee159d31f494cd8646a68907ed2e05a"
+    },
+    {
+      "path": "k8s/charts/klmce-enterprise/templates/postgres.yaml",
+      "bytes": 1514,
+      "sha256": "2f75a2c3ad676921fb9d9ed44e6da42419147ede5ed3e9bac27a90c40bf86833"
+    },
+    {
+      "path": "k8s/charts/klmce-enterprise/templates/redis.yaml",
+      "bytes": 955,
+      "sha256": "7b0e09acfd0145bc53ea70f684d9591a76cb191b7427ce629309e742ee99289f"
+    },
+    {
+      "path": "k8s/charts/klmce-enterprise/values.yaml",
+      "bytes": 1420,
+      "sha256": "e90f44ee1185fa71eff39b9974805c0825976a537006cba465d9b40ba1bdfd97"
+    },
+    {
+      "path": "k8s/frontend.yaml",
+      "bytes": 1324,
+      "sha256": "591db5f1298e7887e83d6226f461c848a5a17d0ccf3c5d32b2133327206139bd"
+    },
+    {
+      "path": "k8s/pgbouncer.yaml",
+      "bytes": 1752,
+      "sha256": "0529ebb40c244cffd08b0b0a85061178415dadc70d1bfb8534138dedc163d28d"
+    },
+    {
+      "path": "load_tests/attendance_burst.js",
+      "bytes": 3237,
+      "sha256": "f3b55c7c227a77932a267c72fcd54b770c8774c59360f008394821e625819e0a"
+    },
+    {
+      "path": "merge_admin.py",
+      "bytes": 840,
+      "sha256": "69e08221605709c70c5dd51c78750d48cc5add4c52f119bfc371872689e58dec",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "mobile/src/screens/AttendanceScanner.tsx",
+      "bytes": 5650,
+      "sha256": "5f206785aa422ac1a1b6b53bd64ccaa60e69f4b98c746fed9844b81b87d2eb02"
+    },
+    {
+      "path": "mobile/src/utils/session.ts",
+      "bytes": 1248,
+      "sha256": "65a52eaaa72cb05b4ee7daccd48238ac135e4f6f9569e80fb761025c9d4fa761"
+    },
+    {
+      "path": "next-env.d.ts",
+      "bytes": 288,
+      "sha256": "1862ac4bbbc5192d4bf562161df66ea547ed3e67173100656ab606ae9797db2b"
+    },
+    {
+      "path": "next.config.mjs",
+      "bytes": 1326,
+      "sha256": "266873b94a7cc4b71a7ad249f5e668b65b4db0a9c7d8edfc00e05cfbaa065081"
+    },
+    {
+      "path": "ops/anonymize_db.sql",
+      "bytes": 3280,
+      "sha256": "20640e0cc86edec2e72395b2c18ac42c917f71d02cc087222cc52f69f0b88a53"
+    },
+    {
+      "path": "ops/backup_db.sh",
+      "bytes": 3106,
+      "sha256": "15adab451025e9de0ccf8bba13fd99c063ce399187634b8f5ccf81d95182dcf3"
+    },
+    {
+      "path": "ops/compliance/collect_evidence.py",
+      "bytes": 4687,
+      "sha256": "82db51f8579831532c26a17b82358a36f6fc2c3ffb3fd87cd93d14dcb00716fc",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "ops/debezium_cdc_connector.json",
+      "bytes": 1583,
+      "sha256": "bfd7ae2a5d94153ed4e6d1b97f84524dbfd02c852edba8d9c75292e5648312e3"
+    },
+    {
+      "path": "package-lock.json",
+      "bytes": 493742,
+      "sha256": "7280597eb4ba706e1925af34f0ac8732edc398ac13a8d2d4c44b3b1b52fa1047"
+    },
+    {
+      "path": "package.json",
+      "bytes": 1422,
+      "sha256": "9bdfdd1d82539362f548af3f7d2f823faba2d565408d8e06b2c551981a66cad6"
+    },
+    {
+      "path": "postcss.config.js",
+      "bytes": 82,
+      "sha256": "251ecddd4672c9cf467547e3dc535de00ad2129df26e7e7ae728fa4e5ac45fc5"
+    },
+    {
+      "path": "prisma.config.ts.bak",
+      "bytes": 226,
+      "sha256": "8945a6ff4b004a1a1f63471af12115da41a465548601203669f224ec6a57df1b"
+    },
+    {
+      "path": "prisma/dev.db",
+      "bytes": 245760,
+      "sha256": "689bc3dafedc9097cea9812f4783b4da0bccd0b6e2dcf4cfd767bc2a86163952"
+    },
+    {
+      "path": "prisma/schema.prisma",
+      "bytes": 8396,
+      "sha256": "8be3072bf76636829e04ca2d762507f46e3b94350421563706c3a34861dcbd74"
+    },
+    {
+      "path": "prisma/seed.mjs",
+      "bytes": 5418,
+      "sha256": "62e0e64cde55f0bc8f88ed886cacb5a8793f726bdb2ad11a633e190daec1943b"
+    },
+    {
+      "path": "prisma/seed.ts",
+      "bytes": 3183,
+      "sha256": "4f333b5b6814ffb607d9e14f1aeea74f0984335dc16f4d32a891cdc5434e52ba"
+    },
+    {
+      "path": "public/college-logo.png",
+      "bytes": 13107,
+      "sha256": "e12763e1c6716310f78fcefd6bed83973e715167023cae753afc6ac77a076d9b"
+    },
+    {
+      "path": "public/manifest.json",
+      "bytes": 508,
+      "sha256": "2d65144565f77c58ab9d4d6fd723349ef2afd56d663d0ebffa352933a38e3a7b"
+    },
+    {
+      "path": "public/sw.js",
+      "bytes": 5588,
+      "sha256": "4bd7eaac1f131ef73ff5070fa9141a3c6147c6034f67e457e2d192f9133ddd85"
+    },
+    {
+      "path": "public/workbox-82496e31.js",
+      "bytes": 22073,
+      "sha256": "1f7d7c1f0273ded53eb242990020261c3ab7814d1d2a59b587e507f0ee9757fb"
+    },
+    {
+      "path": "sentry.client.config.ts",
+      "bytes": 145,
+      "sha256": "e417f5ac104463b9b9207cf4e7415ed8bed6883c5c7043fbd789624f114b6c86"
+    },
+    {
+      "path": "sentry.edge.config.ts",
+      "bytes": 145,
+      "sha256": "e417f5ac104463b9b9207cf4e7415ed8bed6883c5c7043fbd789624f114b6c86"
+    },
+    {
+      "path": "sentry.server.config.ts",
+      "bytes": 145,
+      "sha256": "e417f5ac104463b9b9207cf4e7415ed8bed6883c5c7043fbd789624f114b6c86"
+    },
+    {
+      "path": "src/app/(erp)/admin/admissions/actions.ts",
+      "bytes": 1007,
+      "sha256": "c13689a75741894eac8bac5ab3a70ed26b130de58de138d305558f649af88c54"
+    },
+    {
+      "path": "src/app/(erp)/admin/admissions/board/page.tsx",
+      "bytes": 6659,
+      "sha256": "387c63ce11f8d2812848fb632324e501601aa2bf6bb8b2084617fbb857c1b290"
+    },
+    {
+      "path": "src/app/(erp)/admin/admissions/client.tsx",
+      "bytes": 7037,
+      "sha256": "e1a0c57c9faad2696d6bb9e13f883195a142f853eb43a8dd2460ffd9676235f8"
+    },
+    {
+      "path": "src/app/(erp)/admin/admissions/page.tsx",
+      "bytes": 547,
+      "sha256": "5ba201e91143e630d4adc171a9d5b992f9407643116070a3aa777e6a96c5abb2"
+    },
+    {
+      "path": "src/app/(erp)/admin/analytics/page.tsx",
+      "bytes": 8330,
+      "sha256": "fc8cba649428f49ea584512baea595f7864f96f6facb624c038deb01166efd94"
+    },
+    {
+      "path": "src/app/(erp)/admin/bulk-upload/actions.ts",
+      "bytes": 2389,
+      "sha256": "156f2a67f463a5cca5b60b1bdffd4dde3ccdbc1853f1e6aee1bd9e388afbdf1d"
+    },
+    {
+      "path": "src/app/(erp)/admin/bulk-upload/client.tsx",
+      "bytes": 10220,
+      "sha256": "b00a708aa4471bf6c9a01a36ffed3fa5e58f725bb7a496a47eca3a64309b0530"
+    },
+    {
+      "path": "src/app/(erp)/admin/bulk-upload/page.tsx",
+      "bytes": 599,
+      "sha256": "ae850e3fc999acf1c59db0ed52d79925f90d7f3728879eaf5893e4c8f12bd83b"
+    },
+    {
+      "path": "src/app/(erp)/admin/canteen/page.tsx",
+      "bytes": 3816,
+      "sha256": "c3b75370f28b415e095fc6dbc54b31e2726e52e841fca526a61498177dcbaad6"
+    },
+    {
+      "path": "src/app/(erp)/admin/dashboard/page.tsx",
+      "bytes": 4594,
+      "sha256": "bd7de18b901b77388bc481736f656a62aa527cc1a7abb995ae0073f09a9c7766"
+    },
+    {
+      "path": "src/app/(erp)/admin/examinations/actions.ts",
+      "bytes": 683,
+      "sha256": "01a7040a983c743b9d54a2159525c911b5218715bfe41fc35290eeeba830c434"
+    },
+    {
+      "path": "src/app/(erp)/admin/examinations/client.tsx",
+      "bytes": 5601,
+      "sha256": "961bfb2dd7e9babee7b225c97ea7db5b2689ecab1c461f47ad242b7bf14afbb7"
+    },
+    {
+      "path": "src/app/(erp)/admin/examinations/page.tsx",
+      "bytes": 504,
+      "sha256": "d3fc7179e19fba06ece88fff7a55f3fdd53dacee0156f5daa3d50717b83e142a"
+    },
+    {
+      "path": "src/app/(erp)/admin/finance/page.tsx",
+      "bytes": 3926,
+      "sha256": "75d84f28535dbfc4c4f3b9423533465835f13b102be84f229cd73eb1585740ea"
+    },
+    {
+      "path": "src/app/(erp)/admin/hostel/page.tsx",
+      "bytes": 2514,
+      "sha256": "a27c451b6c99f4126ab7ad48c4d028ba712fa96a4392cb8fc7ef8410700dec55"
+    },
+    {
+      "path": "src/app/(erp)/admin/hostels/allocation/page.tsx",
+      "bytes": 8064,
+      "sha256": "d33891b8550c9f8f88e06e4e4fd07b5900a54e6b58788a416c8030ac1829ab09"
+    },
+    {
+      "path": "src/app/(erp)/admin/hostels/page.tsx",
+      "bytes": 3823,
+      "sha256": "0157cab4a939b7322f216025746b54708d2be081db72544864c5d955cf1d3ec8"
+    },
+    {
+      "path": "src/app/(erp)/admin/hr/client.tsx",
+      "bytes": 4384,
+      "sha256": "2ae9418a8c8718956e9892bee0d37713c4ecd06cc55e5711a31ca07c8b9a8d5f"
+    },
+    {
+      "path": "src/app/(erp)/admin/hr/page.tsx",
+      "bytes": 344,
+      "sha256": "6aee03c5ccc640fa0b201c526e139392fdb45a5ac8fa3df27ddcaa54a4817ad7"
+    },
+    {
+      "path": "src/app/(erp)/admin/library/page.tsx",
+      "bytes": 2486,
+      "sha256": "856f0abef567cdbb8b15886d9ae005831a5d7076b7dfa75cc420e3d5999428aa"
+    },
+    {
+      "path": "src/app/(erp)/admin/settings/page.tsx",
+      "bytes": 3827,
+      "sha256": "f7c3e1049a268f0d126f25c34900665c388984356b77d7a32e111a66848fef63"
+    },
+    {
+      "path": "src/app/(erp)/admin/students/client.tsx",
+      "bytes": 7183,
+      "sha256": "1f040f45bf40fc97b16f8b4cb2465997580bee7d446120e9f841bc42685ffefe"
+    },
+    {
+      "path": "src/app/(erp)/admin/students/page.tsx",
+      "bytes": 727,
+      "sha256": "8ff338a4b8a25f5130edaee3edc973440876bb60485ab45848b676a8aa65c1db"
+    },
+    {
+      "path": "src/app/(erp)/admin/timetable/page.tsx",
+      "bytes": 3161,
+      "sha256": "7a10766d954c84d5848300fe376a003b5b0a7eb6b835199723b83cb2e5163fc3"
+    },
+    {
+      "path": "src/app/(erp)/admin/transport/page.tsx",
+      "bytes": 2502,
+      "sha256": "cbeff5f03307dc75ca15142f8409dcf088e108ea2d8612f8a54a7fbd33c256e0"
+    },
+    {
+      "path": "src/app/(erp)/faculty/assessments/page.tsx",
+      "bytes": 1882,
+      "sha256": "873772772556348ac1ee7dd32831f23a0e8bde4be12143d0a38f1acd13ed6fce"
+    },
+    {
+      "path": "src/app/(erp)/faculty/attendance/actions.ts",
+      "bytes": 1637,
+      "sha256": "d0f012b813b0dc53cdbd4e11994780dcdf9b446a15007351c45d703fc95d25ca"
+    },
+    {
+      "path": "src/app/(erp)/faculty/attendance/client.tsx",
+      "bytes": 11207,
+      "sha256": "bc3976cffa0667d03220b03384b1dd1a909b92a1eb930d562affcc76a88892bd"
+    },
+    {
+      "path": "src/app/(erp)/faculty/attendance/page.tsx",
+      "bytes": 1416,
+      "sha256": "8bb8e0db3bf4b823bde1e86a7f62404c2e93339a96cc65fbde7dae4787bef2b4"
+    },
+    {
+      "path": "src/app/(erp)/faculty/courses/page.tsx",
+      "bytes": 2500,
+      "sha256": "9da1332fc6ed98ca55274a196472eebcd19be2d625d00113ae6306465309eaa1"
+    },
+    {
+      "path": "src/app/(erp)/faculty/dashboard/page.tsx",
+      "bytes": 5901,
+      "sha256": "c6fec23148218502dfec4f13fdb6b9084f13164bf9a0be2e49818ff48a89c161"
+    },
+    {
+      "path": "src/app/(erp)/faculty/hr/page.tsx",
+      "bytes": 3450,
+      "sha256": "a60d7885f397c1fccb935dc5e5ef84449b54e26f851297f45f5d18918955f3c5"
+    },
+    {
+      "path": "src/app/(erp)/faculty/marks/page.tsx",
+      "bytes": 5994,
+      "sha256": "4e0eacaeeb2ef2aa31db7f4d6846887bb975fc788600586c1b3197b9709a1415"
+    },
+    {
+      "path": "src/app/(erp)/faculty/mentoring/page.tsx",
+      "bytes": 2714,
+      "sha256": "0c96f5b215b3e6ce13f8e269dc546285072b6d890ddcf3b18fc4e38f30a0f954"
+    },
+    {
+      "path": "src/app/(erp)/faculty/results/actions.ts",
+      "bytes": 1920,
+      "sha256": "85ef17fd65ac408d3379e248f885c1a70436b34cbd8d905d68cdc250a0988768"
+    },
+    {
+      "path": "src/app/(erp)/faculty/results/client.tsx",
+      "bytes": 8789,
+      "sha256": "442e05710724b081d5acd070da39404066d8a43847ea6085f64f08bb707e2e64"
+    },
+    {
+      "path": "src/app/(erp)/faculty/results/page.tsx",
+      "bytes": 1778,
+      "sha256": "7d4d53383f8704d816967e8f6c9969f9183991070b9951576d877f9566504580"
+    },
+    {
+      "path": "src/app/(erp)/faculty/timetable/page.tsx",
+      "bytes": 3814,
+      "sha256": "39549368c876e1d1abdb96c7b97d15895674eee3bfa9c505f01961f47a8b250c"
+    },
+    {
+      "path": "src/app/(erp)/parent/academics/page.tsx",
+      "bytes": 2101,
+      "sha256": "a9b47d85c0d8a7865cfdeafc28032867674fd77b2226f69e8d70df2eaae20362"
+    },
+    {
+      "path": "src/app/(erp)/parent/attendance/page.tsx",
+      "bytes": 2502,
+      "sha256": "3d2c79c49eb8901b93517ba27076d82df488d379992f69ee743a210b360c2552"
+    },
+    {
+      "path": "src/app/(erp)/parent/communication/page.tsx",
+      "bytes": 2673,
+      "sha256": "1c6b2a915acabc12e62e2303978515b61d6a60b5ac3d267cbf11bf5c67da9ad0"
+    },
+    {
+      "path": "src/app/(erp)/parent/dashboard/page.tsx",
+      "bytes": 2498,
+      "sha256": "a008b1751f7cb1e024c5de54797dda5f081091cfd9f0a8425365a34aa8cd61c8"
+    },
+    {
+      "path": "src/app/(erp)/parent/fees/page.tsx",
+      "bytes": 2465,
+      "sha256": "194d7a8d8f4744440b6cddd5939b5af32b6650e19e24496bcde3c8612b2b6e89"
+    },
+    {
+      "path": "src/app/(erp)/student/academics/page.tsx",
+      "bytes": 12085,
+      "sha256": "d23488ae08fb04137af118db646a15f8db9e2e494ea1bcff2477bcb49dd514cb"
+    },
+    {
+      "path": "src/app/(erp)/student/assessments/page.tsx",
+      "bytes": 9297,
+      "sha256": "93b13205cbf60322e9ff2fef335ad9eb8dfff74871d070ec0d0888cf7ae704f0"
+    },
+    {
+      "path": "src/app/(erp)/student/attendance/client.tsx",
+      "bytes": 14361,
+      "sha256": "41b1cf7750a446327b304e5e9b6dc01574368f40e4901437dc95854d4b54954a"
+    },
+    {
+      "path": "src/app/(erp)/student/attendance/page.tsx",
+      "bytes": 4292,
+      "sha256": "b536adb150b29f599901df2bfdc4955ea21d6bcb3bc462786da9e4304e4de965"
+    },
+    {
+      "path": "src/app/(erp)/student/campus/page.tsx",
+      "bytes": 4929,
+      "sha256": "a6285c552dda76a25d7ad14581b9e3d26c93a9fee877a849e6e53063c0e14962"
+    },
+    {
+      "path": "src/app/(erp)/student/classes/page.tsx",
+      "bytes": 9082,
+      "sha256": "b7b7e142e4ddf94a6aa29080492814cbd037911f2725dca80f2365c3f9159758"
+    },
+    {
+      "path": "src/app/(erp)/student/courses/page.tsx",
+      "bytes": 2499,
+      "sha256": "58f42bd82b5f908fadb66faa13ed9f5c44d3e2a4eab6882967d530a0b58aee0f"
+    },
+    {
+      "path": "src/app/(erp)/student/dashboard/page.tsx",
+      "bytes": 15550,
+      "sha256": "f7591c4e167cad8e7f349049c3261fef4ada4b8d7e7ba27a937181ccd6dd1435"
+    },
+    {
+      "path": "src/app/(erp)/student/departments/page.tsx",
+      "bytes": 6398,
+      "sha256": "8e6f5f7bea4f19076e95559a4fa0ea6286b4f087c97f53cd1496bc958ee26faf"
+    },
+    {
+      "path": "src/app/(erp)/student/fees/page.tsx",
+      "bytes": 2476,
+      "sha256": "35e1c18c22aae495be4d239a4f47c0889cb08bed3e18b5224c9db84f839edfea"
+    },
+    {
+      "path": "src/app/(erp)/student/placements/[drive_id]/page.tsx",
+      "bytes": 6593,
+      "sha256": "378962aa47bd8bcf200115cad629cc89df632f3bd8e7bea339d05c026edfaa72"
+    },
+    {
+      "path": "src/app/(erp)/student/placements/actions.ts",
+      "bytes": 1873,
+      "sha256": "abbe9d3d966ab57acefd4936f65c5605f65cc3c3b5749101518792723dc4d4da"
+    },
+    {
+      "path": "src/app/(erp)/student/placements/client.tsx",
+      "bytes": 7222,
+      "sha256": "b3b01a3cc82cfedc5181cdffff57cf2076124ee4707cba9463707d673d4a3871"
+    },
+    {
+      "path": "src/app/(erp)/student/placements/page.tsx",
+      "bytes": 612,
+      "sha256": "177ea4beb783ba552f1b94c722fd53299e4bd4d1155b2f48c0b42d1e9c99ad9f"
+    },
+    {
+      "path": "src/app/(erp)/student/requests/page.tsx",
+      "bytes": 4137,
+      "sha256": "4d9b0ea23814213a7e1f2b8d27090d8ebdb08d1d29b846a0a18206eb14823339"
+    },
+    {
+      "path": "src/app/(erp)/student/results/client.tsx",
+      "bytes": 14188,
+      "sha256": "f6c5b3f57e9d638c05e111e789598dee2213ad2b7335e044fcfc27a545dcfc84"
+    },
+    {
+      "path": "src/app/(erp)/student/results/page.tsx",
+      "bytes": 2747,
+      "sha256": "443fec6faed22f145f2f060703de4065e9bbde35052efe54334dc1597790d236"
+    },
+    {
+      "path": "src/app/api/uploadthing/core.ts",
+      "bytes": 967,
+      "sha256": "15db33b0c10d095bececb6b25474df00260626f4c4311a55b41eb6f820edc00c"
+    },
+    {
+      "path": "src/app/api/uploadthing/route.ts",
+      "bytes": 212,
+      "sha256": "6a012eb36172a5f6e21c66ed77ef9fef1fef8bd81beeaafdf664c2ce1328c091"
+    },
+    {
+      "path": "src/app/auth/login/page.tsx",
+      "bytes": 12968,
+      "sha256": "89e1fd3f62943e157659d3b6d55678cea0319f8ee79093149b16dd6690016904"
+    },
+    {
+      "path": "src/app/error.tsx",
+      "bytes": 1802,
+      "sha256": "e78c15d188bf4136dd460b39894e5ede2cdfd7af52b218856e28fbd47778ae2e"
+    },
+    {
+      "path": "src/app/globals.css",
+      "bytes": 368,
+      "sha256": "fc1289000c5b0b44517bafd3f1bfca50b617c8ddff2081980d59e9454e1d7a30"
+    },
+    {
+      "path": "src/app/layout.tsx",
+      "bytes": 1000,
+      "sha256": "65d08906cbf2c001b10b46a97beb4758d780767fd2f2d49e2196027eed72a4a6"
+    },
+    {
+      "path": "src/app/page.tsx",
+      "bytes": 20549,
+      "sha256": "2b3b5887b1355fa36307747f48698c819ecabf9319d616b86b24b68c4e71e706"
+    },
+    {
+      "path": "src/app/providers.tsx",
+      "bytes": 6548,
+      "sha256": "5d5d6465483e0a970304cd0519c7646508a74212215b38d8ea16f21310259473"
+    },
+    {
+      "path": "src/app/sign-in/[[...sign-in]]/page.tsx",
+      "bytes": 194,
+      "sha256": "ac70c039c08850be84b091112d5fce50ebb028f9791a9e3fb701a57120b28c66"
+    },
+    {
+      "path": "src/app/sign-up/[[...sign-up]]/page.tsx",
+      "bytes": 194,
+      "sha256": "615a61173dd1e0cfe214e5dbde10f1bbe06bb401b778716ecba104d66ee60824"
+    },
+    {
+      "path": "src/components/DemoProvider.tsx",
+      "bytes": 4316,
+      "sha256": "71ce6f5109593efb1a313a5fcedd31964ac163d153304fa1ee193d459be86093"
+    },
+    {
+      "path": "src/components/QRScanner.tsx",
+      "bytes": 3420,
+      "sha256": "a20f7897bedb833f47ee7e2759841c62aac302a4baf7732a17a8644a8bfa2af7"
+    },
+    {
+      "path": "src/components/TimetableBoard.tsx",
+      "bytes": 5503,
+      "sha256": "3a8753674cb6e149260795b312b8346032cd84d188511dc317dde6ba3f9941de"
+    },
+    {
+      "path": "src/components/TimetablePDF.tsx",
+      "bytes": 215,
+      "sha256": "a7355a7b473803afe3ab8a9e5b63ce0bda95474e3574bc39b3601588fb845006"
+    },
+    {
+      "path": "src/components/command-menu.tsx",
+      "bytes": 5744,
+      "sha256": "aa9d486c666e77289c8977f726ade52fbfd191b2b104d1370a523a70c1f36931"
+    },
+    {
+      "path": "src/components/layout/app-shell.tsx",
+      "bytes": 796,
+      "sha256": "4ccb24c19faf81923e881889b28aee63b431c345fcf7221e96e5d60b8187ae5b"
+    },
+    {
+      "path": "src/components/layout/sidebar.tsx",
+      "bytes": 5510,
+      "sha256": "6c4f1497f6c19adc3f2e900f07d8b71e0bee709dcef93fc5876e1273fe01fc5e"
+    },
+    {
+      "path": "src/components/layout/topnav.tsx",
+      "bytes": 2621,
+      "sha256": "6979e43c5b8bf2ccacf79f9c5148eb386d0476030ea1fa24b1c03ba909e4e696"
+    },
+    {
+      "path": "src/components/ui/avatar.tsx",
+      "bytes": 439,
+      "sha256": "319f3901e83843b0d7de6ba2f3e573431403d115c4d1586d68867d5999670b23"
+    },
+    {
+      "path": "src/components/ui/badge.tsx",
+      "bytes": 166,
+      "sha256": "63369495d83406cb64a1d3314231fd0ae8985ae31631435bfce7ebbeffd753f3"
+    },
+    {
+      "path": "src/components/ui/button.tsx",
+      "bytes": 261,
+      "sha256": "fd95af12ce4667dfb192cdb297b4be58d55659fc79139d44ac6515f5236c8e99"
+    },
+    {
+      "path": "src/components/ui/card.tsx",
+      "bytes": 1835,
+      "sha256": "b931beff276cdba176e5af465dc6d3b5b168650c78b146717fde56a577df44a2"
+    },
+    {
+      "path": "src/components/ui/data-table.tsx",
+      "bytes": 6459,
+      "sha256": "ccc3fef4505d28d3c5fa5e4987f3dc1966cd00b79c787cea30ad13a3b6473755"
+    },
+    {
+      "path": "src/components/ui/dialog.tsx",
+      "bytes": 701,
+      "sha256": "56abb262223667672f9c4e6e59b87147407048843ae0ffef8e30c993114700c3"
+    },
+    {
+      "path": "src/components/ui/input-otp.tsx",
+      "bytes": 432,
+      "sha256": "8103dcd511b59a3f36bf81b35e0b2796ce2d9836c936b179b89e14c825a3c171"
+    },
+    {
+      "path": "src/components/ui/input.tsx",
+      "bytes": 254,
+      "sha256": "4f096c86ea12d38019425d11b1ee029b83f230562546ee87e6bb5a535c4954ad"
+    },
+    {
+      "path": "src/components/ui/label.tsx",
+      "bytes": 254,
+      "sha256": "5c7db388f92e52789a5ecb345da1e25357519dde5a7d3e0bd34fca5f9b785678"
+    },
+    {
+      "path": "src/components/ui/scroll-area.tsx",
+      "bytes": 156,
+      "sha256": "7f2c83a405fed6c94d7a2eb3d466c1aabb59a23901369796cd315f10ba486e89"
+    },
+    {
+      "path": "src/components/ui/select.tsx",
+      "bytes": 508,
+      "sha256": "a6fec46d7993aace340f93e1051622c2bd5e3e72f38cb4d6dd9a38e89b817100"
+    },
+    {
+      "path": "src/components/ui/sheet.tsx",
+      "bytes": 589,
+      "sha256": "31b9308130479984449ac25d7a25355a54cfe8fd68dc37d54042d319966b3801"
+    },
+    {
+      "path": "src/components/ui/table.tsx",
+      "bytes": 631,
+      "sha256": "4830b52549716d00f6e5765713da7d6518fb74d556082c85f2268cc1534332ac"
+    },
+    {
+      "path": "src/components/ui/tabs.tsx",
+      "bytes": 477,
+      "sha256": "ee82d2aefd81800aaa77064ca7b370612dcf93207815da55154ab8cc07541dcb"
+    },
+    {
+      "path": "src/components/ui/toast.tsx",
+      "bytes": 533,
+      "sha256": "60af15d26c5c6ca3ef6a5b1d95f656fa89ae9ecabadc8c581b7dc1f915d0444e"
+    },
+    {
+      "path": "src/components/ui/toaster.tsx",
+      "bytes": 68,
+      "sha256": "614169b5b0d5150b06814b758fc5024c69c922f6a9b2f75e074ae03b163b5f63"
+    },
+    {
+      "path": "src/components/ui/use-toast.ts",
+      "bytes": 52,
+      "sha256": "e2083303cefb91d757415a1301da404f7d9b695792e7b541e27e3c48afeee679"
+    },
+    {
+      "path": "src/hooks/api/useAcademics.ts",
+      "bytes": 1187,
+      "sha256": "f536104a1f814d55e7769b5a3935cd1ea5f553bb49beff6085f7576ec1d7b369"
+    },
+    {
+      "path": "src/hooks/api/useAdmissions.ts",
+      "bytes": 3125,
+      "sha256": "08a7b2ff6559f9236c5d6533100fb522d87fa02e76aa5d16f79b765f8d080c54"
+    },
+    {
+      "path": "src/lib/api-client.ts",
+      "bytes": 316,
+      "sha256": "99a78e93332130f6d30f44cb44b560c8496a3a41c20220e755b0720faa65b6cf"
+    },
+    {
+      "path": "src/lib/api/client.ts",
+      "bytes": 2710,
+      "sha256": "c0ef5c32f70f2ba2d04a2fb7f84a789305696a828828e561a452619fa3e50241"
+    },
+    {
+      "path": "src/lib/prisma.ts",
+      "bytes": 375,
+      "sha256": "d140aac7c88ac7dbce3a50950ebc09ba3666e0558d697c15bc216ea881e05ade"
+    },
+    {
+      "path": "src/lib/store.ts",
+      "bytes": 732,
+      "sha256": "1e31e746896aa28e57f23603806cb3a328bc86f074e8cce95a08945407716858"
+    },
+    {
+      "path": "src/lib/syntheticData.ts",
+      "bytes": 28793,
+      "sha256": "19c02e28213ee2bc301791f4baa6ebdb6ed73e0b0694444513bf2523160215e7"
+    },
+    {
+      "path": "src/middleware.ts",
+      "bytes": 2091,
+      "sha256": "acfe0061e8dc472f0e92e57f80f58fe0dda858294338cbbe8559bb5c71ca2acc"
+    },
+    {
+      "path": "src/store/useDemoStore.ts",
+      "bytes": 1801,
+      "sha256": "92c3334297111b4c1c697718146b0f1fbd49a4a86cd69e752ae7baf5e6406b15"
+    },
+    {
+      "path": "src/utils/uploadthing.ts",
+      "bytes": 287,
+      "sha256": "697111fcea8b7a1abb07c318fcf598c528c16445de7cb8392b9021c5205d3af8"
+    },
+    {
+      "path": "stub_ui.py",
+      "bytes": 10668,
+      "sha256": "d01b8f5f7b005e4574546a795b46a35f0626d53ee035915b6214b2e1106f2d53",
+      "syntax": "valid",
+      "placeholder_functions": [],
+      "routes": [],
+      "missing_absolute_local_imports": []
+    },
+    {
+      "path": "tailwind.config.ts",
+      "bytes": 295,
+      "sha256": "d13fcfb0807c8de36b9e980c36b3e3848e1011d5c509d637df8101f337855d07"
+    },
+    {
+      "path": "tests/e2e/academics.spec.ts",
+      "bytes": 2375,
+      "sha256": "646f5635c35550525ef484207238669b8b8b49a3c7a714c88182c72450334237"
+    },
+    {
+      "path": "tests/e2e/admissions.spec.ts",
+      "bytes": 2358,
+      "sha256": "4cda6126c63b96d0d011d61b1d06e8eff1e60e574f902caa7c16b462911f10c0"
+    },
+    {
+      "path": "tests/zero_trust.spec.ts",
+      "bytes": 6327,
+      "sha256": "00723b073642ab49f4eae13625dbbbc5cdbdd34744e5e72c9416cc82fa15ab45"
+    },
+    {
+      "path": "tsconfig.json",
+      "bytes": 746,
+      "sha256": "3704b1bd170db32fee7d83e7502b6dad26f832871acd3b042bb76abb4779e783"
+    },
+    {
+      "path": "vercel.json",
+      "bytes": 952,
+      "sha256": "6e73d1f1328956f2025578e6b84e29abd88b3ca394d68ed1da40c43eb89d6802"
+    }
+  ]
+}
