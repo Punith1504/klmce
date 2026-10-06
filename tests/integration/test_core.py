@@ -99,7 +99,7 @@ def test_authenticated_api_workflows_and_refresh_replay(seeded):
         async with app.router.lifespan_context(app):
             async with httpx.AsyncClient(transport=httpx.ASGITransport(app=app),base_url='https://erp.example.test',headers={'Origin':os.environ['FRONTEND_URL']}) as client:
                 assert (await client.get('/health')).status_code==200
-                assert (await client.get('/api/v1/students/')).status_code==401
+                assert (await client.get('/api/v1/students')).status_code==401
                 response=Response()
                 await issue_session({'user_id':seeded['faculty'],'tenant_id':seeded['tenant'],'role':'FACULTY'},response,redis_manager.client)
                 for cookie in response.headers.getlist('set-cookie'):
