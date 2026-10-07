@@ -1,0 +1,90 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> klmce-enterprise-frontend@1.0.0 build
+> next build
+
+▲ Next.js 16.3.8 (Turbopack)
+✓ Running next.config.mjs took 11ms
+Attention: Next.js now collects completely anonymous telemetry regarding usage.
+This information is used to shape Next.js' roadmap and prioritize features.
+You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+https://nextjs.org/telemetry
+
+
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead.
+
+  To migrate automatically, run:
+  npx @next/codemod@canary middleware-to-proxy .
+
+  Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+  Creating an optimized production build ...
+✓ Compiled successfully in 2.7s
+  Running TypeScript ...
+  Finished TypeScript in 2.0s ...
+  Collecting page data using 8 workers ...
+  Generating static pages using 8 workers (0/47) ...
+  Generating static pages using 8 workers (11/47) 
+  Generating static pages using 8 workers (23/47) 
+  Generating static pages using 8 workers (35/47) 
+✓ Generating static pages using 8 workers (47/47) in 446ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ƒ /admin/admissions
+├ ƒ /admin/admissions/board
+├ ƒ /admin/analytics
+├ ƒ /admin/bulk-upload
+├ ƒ /admin/canteen
+├ ƒ /admin/dashboard
+├ ƒ /admin/examinations
+├ ƒ /admin/finance
+├ ƒ /admin/hostel
+├ ƒ /admin/hostels
+├ ƒ /admin/hostels/allocation
+├ ƒ /admin/hr
+├ ƒ /admin/library
+├ ƒ /admin/settings
+├ ƒ /admin/students
+├ ƒ /admin/timetable
+├ ƒ /admin/transport
+├ ƒ /api/erp/[...path]
+├ ƒ /api/uploadthing
+├ ○ /auth/login
+├ ƒ /faculty/assessments
+├ ƒ /faculty/attendance
+├ ƒ /faculty/courses
+├ ƒ /faculty/dashboard
+├ ƒ /faculty/hr
+├ ƒ /faculty/marks
+├ ƒ /faculty/mentoring
+├ ƒ /faculty/results
+├ ƒ /faculty/timetable
+├ ƒ /parent/academics
+├ ƒ /parent/attendance
+├ ƒ /parent/communication
+├ ƒ /parent/dashboard
+├ ƒ /parent/fees
+├ ƒ /sign-in/[[...sign-in]]
+├ ƒ /sign-up/[[...sign-up]]
+├ ƒ /student/academics
+├ ƒ /student/assessments
+├ ƒ /student/attendance
+├ ƒ /student/campus
+├ ƒ /student/classes
+├ ƒ /student/courses
+├ ƒ /student/dashboard
+├ ƒ /student/departments
+├ ƒ /student/fees
+├ ƒ /student/placements
+├ ƒ /student/placements/[drive_id]
+├ ƒ /student/requests
+└ ƒ /student/results
+
+
+ƒ Proxy (Middleware)
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

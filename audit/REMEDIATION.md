@@ -22,7 +22,7 @@ No claim of 3,000 concurrent users is made. Enrollment count is distinct from co
 1. Use a dedicated PostgreSQL 16 database and Redis 7 service. Copy `.env.example` and generate independent secrets; do not use example passwords. Docker Compose has corrected build paths and binds database/cache/API ports to localhost. Configure HTTPS ingress for the UI; local login cookies require HTTPS.
 2. Start only the database/cache: `docker compose up -d postgres redis`. Export `DATABASE_ADMIN_URL` pointing to localhost and the owner account. Install `backend/requirements.txt` in a virtual environment.
 3. Run `python backend/scripts/migrate.py`. It applies exactly the supported baseline, master data and security migration atomically, with checksums. Do not run all numbered legacy migrations: they target incompatible data models. The runner refuses untracked existing schemas.
-4. Export a generated `ERP_DB_PASSWORD` and run `python backend/scripts/provision_runtime.py`. Use `erp_runtime` in the backend `DATABASE_URL`, never the owner or a role that can bypass RLS. The runtime checks this on startup. Do not expose owner credentials to the backend container in a real deployment; Compose's shared env file is only a staging convenience.
+4. Export a generated `ERP_DB_PASSWORD` and run `python backend/scripts/provision_runtime.py`. Use `erp_runtime` in the backend `DATABASE_URL`, never the owner or a role that can bypass RLS. The runtime checks this on startup. Compose passes only the required runtime secrets to each application; the database owner password is not passed to the backend or frontend.
 5. Configure a real Clerk application, exact `FRONTEND_URL` and `CLERK_ISSUER`, and frontend Clerk keys. Map each user to their `external_subject` and institution using an authorized administrative provisioning process. Map student `user_id`, parent and section; assign faculty and timetable. Staff must enroll and verify a second factor. Never infer a role or institution from an unverified email/domain/client claim.
 6. Start backend/frontend. `/live` is process liveness; `/health` checks database and Redis. Verify role-specific login, real records, logout/revocation, no access by an unmapped account and the approved second-factor flow with the institution's actual Clerk setup.
 
@@ -39,3 +39,21 @@ Before release, perform and time a restore drill, verify row counts, sample reco
 - Real-service tests: use a **fresh disposable** PostgreSQL database, `DATABASE_ADMIN_URL`, restricted `DATABASE_URL` matching the test login, `REDIS_URL`, and `ERP_DISPOSABLE_TEST_DB=1`; run `PYTHONPATH=backend pytest tests/integration -v`. CI supplies these services. Secrets are ephemeral in `tests/conftest.py` only.
 
 The frontend action harness mocks Clerk/network boundaries; it is not browser authentication evidence. The database suite uses the real migration, real RLS, an actual non-owner login, actual HTTP routes and Redis session rotation. Neither substitutes for an institution-specific identity-provider smoke test or a staging load/restore test.
+
+## Verified results — 7 October 2026
+
+GitHub Actions run [37605648211](https://github.com/Punith1504/klmce/actions/runs/37605648211) tested commit `8f8f0df727116dfe5fa0eb0bfc6e62f04deade0c`:
+
+| Check | Result |
+|---|---|
+| Backend unit/security + real PostgreSQL/Redis integration | 46 passed; 1 deprecation warning |
+| Synthetic population | All 3,000 student identities read exactly their own student row through the authenticated API, with 30 requests in flight |
+| Frontend action tests | 16 passed, including authorized faculty forwarding and denied/conflicting mutations |
+| TypeScript, ESLint, production frontend build | Passed |
+| Frontend dependencies, all scopes | 7 high findings remain in the development toolchain; 0 critical |
+
+The full backend suite took 15.26 seconds on the CI worker. This is an in-process HTTP correctness test using actual PostgreSQL and Redis; it does **not** measure deployed network latency, browser performance or 3,000 simultaneous users. No production capacity claim follows from it.
+
+The remaining npm findings stem from the `braces` dependency chain in Tailwind/ESLint glob processing. The installed registry has no patched `braces` version beyond 3.0.3 at this verification. These tools process repository/build input, but the findings remain unresolved; do not describe the repository as vulnerability-free. The previous automated production workflow only printed deployment messages and scanned a hardcoded staging URL. It is now an explicit blocked manual release gate until real infrastructure and authorization are configured.
+
+The legacy Playwright scenarios model obsolete/mock workflows and are not included in the pass count. Their TypeScript is checked separately by `tsc --project tests/tsconfig.json`; the mobile directory is incomplete and has not been certified. Payment integration, complete module workflows, real Clerk setup, authenticated browser tests, representative staging load tests and backup/restore evidence remain release blockers.

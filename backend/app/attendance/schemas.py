@@ -15,7 +15,7 @@ class ScanQRRequest(BaseModel):
 class AdminOverrideRequest(BaseModel):
     status: AttendanceStatus
     override_justification: str = Field(
-        ..., 
-        min_length=20, max_length=2000, 
+        ...,
+        min_length=20, max_length=2000,
         description="Mandatory justification for administrative audit logs."
     )

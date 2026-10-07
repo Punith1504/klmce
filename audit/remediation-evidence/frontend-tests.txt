@@ -1,0 +1,111 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> klmce-enterprise-frontend@1.0.0 test:audit
+> node --test --test-reporter=tap tests/audit/frontend-actions.test.cjs
+
+TAP version 13
+# Subtest: attendance refuses writes without verified faculty identity
+ok 1 - attendance refuses writes without verified faculty identity
+  ---
+  duration_ms: 67.676243
+  type: 'test'
+  ...
+# Subtest: attendance rejects arbitrary statuses
+ok 2 - attendance rejects arbitrary statuses
+  ---
+  duration_ms: 14.642346
+  type: 'test'
+  ...
+# Subtest: attendance rejects retroactive normal submission
+ok 3 - attendance rejects retroactive normal submission
+  ---
+  duration_ms: 10.865629
+  type: 'test'
+  ...
+# Subtest: empty attendance batch is rejected
+ok 4 - empty attendance batch is rejected
+  ---
+  duration_ms: 11.242438
+  type: 'test'
+  ...
+# Subtest: concurrent duplicate attendance has at most one insert
+ok 5 - concurrent duplicate attendance has at most one insert
+  ---
+  duration_ms: 11.366223
+  type: 'test'
+  ...
+# Subtest: results refuse writes without verified faculty identity
+ok 6 - results refuse writes without verified faculty identity
+  ---
+  duration_ms: 8.156458
+  type: 'test'
+  ...
+# Subtest: results reject invalid mark -1
+ok 7 - results reject invalid mark -1
+  ---
+  duration_ms: 7.283622
+  type: 'test'
+  ...
+# Subtest: results reject invalid mark 31
+ok 8 - results reject invalid mark 31
+  ---
+  duration_ms: 9.783583
+  type: 'test'
+  ...
+# Subtest: results reject invalid mark NaN
+ok 9 - results reject invalid mark NaN
+  ---
+  duration_ms: 7.314369
+  type: 'test'
+  ...
+# Subtest: results reject invalid mark Infinity
+ok 10 - results reject invalid mark Infinity
+  ---
+  duration_ms: 6.135148
+  type: 'test'
+  ...
+# Subtest: missing exam schedule is rejected
+ok 11 - missing exam schedule is rejected
+  ---
+  duration_ms: 11.07337
+  type: 'test'
+  ...
+# Subtest: OCR does not mark an arbitrary document as parsed without evidence
+ok 12 - OCR does not mark an arbitrary document as parsed without evidence
+  ---
+  duration_ms: 1.905229
+  type: 'test'
+  ...
+# Subtest: verified faculty attendance reaches authenticated canonical backend
+ok 13 - verified faculty attendance reaches authenticated canonical backend
+  ---
+  duration_ms: 7.464532
+  type: 'test'
+  ...
+# Subtest: student role cannot forward a valid faculty submission
+ok 14 - student role cannot forward a valid faculty submission
+  ---
+  duration_ms: 6.393572
+  type: 'test'
+  ...
+# Subtest: backend attendance conflicts do not report frontend success
+ok 15 - backend attendance conflicts do not report frontend success
+  ---
+  duration_ms: 9.646672
+  type: 'test'
+  ...
+# Subtest: verified faculty can forward a valid mark edit
+ok 16 - verified faculty can forward a valid mark edit
+  ---
+  duration_ms: 11.311483
+  type: 'test'
+  ...
+1..16
+# tests 16
+# suites 0
+# pass 16
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 446.188532

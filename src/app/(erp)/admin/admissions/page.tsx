@@ -1,2 +1,2 @@
-import { ModuleUnavailable } from '@/components/module-unavailable';
-export default function Page() { return <ModuleUnavailable/>; }
+import { ModuleUnavailable } from "@/components/module-unavailable";
+export default function Page() { return <ModuleUnavailable />; }
