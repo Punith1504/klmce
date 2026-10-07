@@ -9,7 +9,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.dependencies import require_roles, Role
 from app.core.orm import get_db_session
 from app.core.redis import get_redis_client
-from app.core.rate_limit import RateLimiter
+from app.core.rate_limit import student_scan_limit
 from .schemas import ScanQRRequest, AdminOverrideRequest
 from .models import TimetableSlot, AttendanceRecord
 from .qr_crypto import generate_qr_payload, verify_and_decrypt_qr_payload
@@ -36,7 +36,7 @@ async def generate_rolling_qr(slot_id:uuid.UUID,token:dict=Depends(require_roles
     return {"qr_payload":generate_qr_payload(token['tenant_id'],str(slot_id),uuid.uuid4().hex),"expires_in_seconds":30}
 
 @router.post("/scan")
-async def scan_qr(req:ScanQRRequest,token:dict=Depends(require_roles(Role.STUDENT)),db:AsyncSession=Depends(get_db_session),redis_client=Depends(get_redis_client),rate_limit=Depends(RateLimiter(120,60))):
+async def scan_qr(req:ScanQRRequest,token:dict=Depends(require_roles(Role.STUDENT)),db:AsyncSession=Depends(get_db_session),redis_client=Depends(get_redis_client),rate_limit=Depends(student_scan_limit)):
     try:
         data=verify_and_decrypt_qr_payload(req.qr_payload)
         slot_id=uuid.UUID(data['slot_id'])
@@ -84,7 +84,7 @@ class RosterSubmission(BaseModel):
 
 @router.post('/roster')
 async def submit_roster(req:RosterSubmission,token:dict=Depends(require_roles(Role.FACULTY)),db:AsyncSession=Depends(get_db_session)):
-    slot=await db.get(TimetableSlot,req.slotId,with_for_update=True)
+    slot=await db.get(TimetableSlot,req.slotId)
     if not slot or str(slot.tenant_id)!=token['tenant_id']: raise HTTPException(404,'Class not found')
     if str(slot.faculty_id)!=token['sub']: raise HTTPException(403,'Faculty not assigned')
     now=datetime.now(timezone.utc)

@@ -16,7 +16,7 @@ const studentNavItems = [
   { name: 'Academics & Analytics', href: '/student/academics', icon: BookOpen },
   { name: 'e-Assessments', href: '/student/assessments', icon: PenTool },
   { name: 'Placement Cell', href: '/student/placements', icon: Briefcase },
-  { name: 'Fees & Payments', href: '/student/fees', icon: Banknote },
+  { name: 'Fee Records', href: '/student/fees', icon: Banknote },
   { name: 'Services & Requests', href: '/student/requests', icon: FileSignature },
   { name: 'Campus (Library/Hostel)', href: '/student/campus', icon: Map },
   { name: 'Faculty Directory', href: '/student/departments', icon: Users },
@@ -28,7 +28,7 @@ const facultyNavItems = [
   { name: 'Attendance Entry', href: '/faculty/attendance', icon: CalendarCheck },
   { name: 'Course & LMS', href: '/faculty/courses', icon: BookOpen },
   { name: 'Assessments', href: '/faculty/assessments', icon: PenTool },
-  { name: 'Marks Entry', href: '/faculty/marks', icon: Award },
+  { name: 'Marks Entry', href: '/faculty/results', icon: Award },
   { name: 'Mentoring', href: '/faculty/mentoring', icon: Users },
   { name: 'HR & Workload', href: '/faculty/hr', icon: Briefcase },
 ];
@@ -37,7 +37,7 @@ const parentNavItems = [
   { name: 'Parent Dashboard', href: '/parent/dashboard', icon: LayoutDashboard },
   { name: 'Attendance & Alerts', href: '/parent/attendance', icon: CalendarCheck },
   { name: 'Academics & Results', href: '/parent/academics', icon: Award },
-  { name: 'Fee Payments', href: '/parent/fees', icon: Banknote },
+  { name: 'Fee Records', href: '/parent/fees', icon: Banknote },
   { name: 'Communication', href: '/parent/communication', icon: FileSignature },
 ];
 

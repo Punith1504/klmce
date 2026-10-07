@@ -332,3 +332,17 @@ def test_grievance_reply_is_encrypted_before_persistence():
         run(reporter_sends_reply(ReporterReply(mnemonic='audit-only', message=plaintext), pool))
     assert error.value.status_code == 503
     conn.execute.assert_not_awaited()
+
+
+def test_scan_limiter_separates_verified_students_on_same_campus_ip():
+    from app.core.rate_limit import student_scan_limit
+    import fakeredis.aioredis
+    async def scenario():
+        async with fakeredis.aioredis.FakeRedis() as cache:
+            one={'tenant_id':str(uuid4()),'sub':str(uuid4())}
+            two={**one,'sub':str(uuid4())}
+            for _ in range(20): await student_scan_limit(request(),one,cache)
+            with pytest.raises(HTTPException) as error: await student_scan_limit(request(),one,cache)
+            assert error.value.status_code==429
+            await student_scan_limit(request(),two,cache)
+    run(scenario())

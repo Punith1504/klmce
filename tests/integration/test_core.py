@@ -131,3 +131,35 @@ def test_authenticated_api_workflows_and_refresh_replay(seeded):
             assert audit['performed_by']==seeded['faculty']
         finally: await admin.close()
     asyncio.run(run())
+
+def test_3000_student_population_isolation(seeded):
+    """Population correctness through real API; not a production throughput claim."""
+    async def run():
+        from app.main import app
+        from app.core.security import create_access_token
+        from app.core.redis import redis_manager
+        tenant=uuid4()
+        profiles=[(uuid4(),uuid4(),str(uuid4())) for _ in range(3000)]
+        conn=await asyncpg.connect(os.environ['DATABASE_ADMIN_URL'])
+        try:
+            await conn.execute("INSERT INTO tenants(tenant_id,name) VALUES($1,'Synthetic population 3000')",tenant)
+            async with conn.transaction():
+                await conn.executemany("INSERT INTO users(user_id,tenant_id,role,first_name,last_name,email,password_hash) VALUES($1,$2,'STUDENT','Synthetic','User',$3,'disabled')",[(u,tenant,f'{u}@example.test') for u,s,sid in profiles])
+                await conn.executemany("INSERT INTO students(student_id,tenant_id,user_id,first_name,last_name,enrollment_number) VALUES($1,$2,$3,'Synthetic','Student',$4)",[(s,tenant,u,str(s)) for u,s,sid in profiles])
+            assert await conn.fetchval('SELECT count(*) FROM students WHERE tenant_id=$1',tenant)==3000
+        finally: await conn.close()
+        async with app.router.lifespan_context(app):
+            async with redis_manager.client.pipeline(transaction=False) as pipe:
+                for user,student,sid in profiles: pipe.set('session:'+sid,str(user),ex=600)
+                await pipe.execute()
+            limiter=asyncio.Semaphore(30)
+            async with httpx.AsyncClient(transport=httpx.ASGITransport(app=app),base_url='https://erp.example.test') as client:
+                async def read(profile):
+                    user,student,sid=profile
+                    token=create_access_token({'sub':str(user),'tenant_id':str(tenant),'role':'STUDENT','sid':sid})
+                    async with limiter:
+                        response=await client.get('/api/v1/students',headers={'Cookie':'access_token='+token})
+                    assert response.status_code==200,response.text
+                    assert [r['student_id'] for r in response.json()]==[str(student)]
+                await asyncio.gather(*(read(p) for p in profiles))
+    asyncio.run(run())

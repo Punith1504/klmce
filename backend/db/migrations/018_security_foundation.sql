@@ -77,7 +77,12 @@ LANGUAGE sql STABLE SECURITY DEFINER SET search_path=public,pg_temp AS $$
 $$;
 REVOKE ALL ON FUNCTION erp_visible_student(uuid) FROM PUBLIC;
 GRANT EXECUTE ON FUNCTION erp_visible_student(uuid) TO app_user;
-CREATE POLICY students_record_scope ON students AS RESTRICTIVE FOR SELECT USING(erp_visible_student(student_id));
+CREATE POLICY students_record_scope ON students AS RESTRICTIVE FOR SELECT USING(
+ current_setting('app.current_user_role',true) IN ('SUPER_ADMIN','INSTITUTION_ADMIN','FINANCE')
+ OR (current_setting('app.current_user_role',true)='STUDENT' AND user_id=nullif(current_setting('app.current_user_id',true),'')::uuid)
+ OR (current_setting('app.current_user_role',true)='PARENT' AND parent_id=nullif(current_setting('app.current_user_id',true),'')::uuid)
+ OR (current_setting('app.current_user_role',true)='FACULTY' AND EXISTS(SELECT 1 FROM timetable_slots t WHERE t.tenant_id=students.tenant_id AND t.section_id=students.section_id AND t.faculty_id=nullif(current_setting('app.current_user_id',true),'')::uuid))
+);
 CREATE POLICY attendance_record_scope ON attendance_records AS RESTRICTIVE FOR ALL USING(erp_visible_student(student_id));
 CREATE POLICY exam_record_scope ON exam_marks AS RESTRICTIVE FOR ALL USING(erp_visible_student(student_id));
 CREATE POLICY fee_record_scope ON fee_transactions AS RESTRICTIVE FOR SELECT USING(erp_visible_student(student_id));

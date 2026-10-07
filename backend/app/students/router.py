@@ -20,8 +20,13 @@ class StudentCreate(BaseModel):
 @router.get('')
 async def list_students(token:dict=Depends(get_active_user),conn=Depends(get_db_connection),
     limit:int=Query(100,ge=1,le=200),offset:int=Query(0,ge=0,le=100000)):
-    rows=await conn.fetch('SELECT student_id::text, first_name,last_name,enrollment_number FROM students WHERE tenant_id=$1 ORDER BY enrollment_number,student_id LIMIT $2 OFFSET $3',
-        UUID(token['tenant_id']),limit,offset)
+    args=[UUID(token['tenant_id']),limit,offset]
+    ownership=''
+    if token['role'] in ('STUDENT','PARENT'):
+        column='user_id' if token['role']=='STUDENT' else 'parent_id'
+        ownership=f' AND {column}=$4'
+        args.append(UUID(token['sub']))
+    rows=await conn.fetch('SELECT student_id::text, first_name,last_name,enrollment_number FROM students WHERE tenant_id=$1'+ownership+' ORDER BY enrollment_number,student_id LIMIT $2 OFFSET $3',*args)
     return [dict(row) for row in rows]
 
 @router.post('',status_code=201)

@@ -10,12 +10,12 @@ class AttendanceStatus(str, enum.Enum):
     LOCKED = "LOCKED"
 
 class ScanQRRequest(BaseModel):
-    qr_payload: str = Field(..., description="The cryptographically secured QR code string.")
+    qr_payload: str = Field(..., max_length=4096, description="The cryptographically secured QR code string.")
 
 class AdminOverrideRequest(BaseModel):
     status: AttendanceStatus
     override_justification: str = Field(
         ..., 
-        min_length=20, 
+        min_length=20, max_length=2000, 
         description="Mandatory justification for administrative audit logs."
     )

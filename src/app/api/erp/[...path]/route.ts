@@ -12,9 +12,24 @@ async function proxy(request: NextRequest, context: {params: Promise<{path: stri
   const token = await session.getToken();
   const base = process.env.ERP_API_URL;
   if (!token || !base) return NextResponse.json({detail:'ERP session unavailable'}, {status:503});
-  const body = request.method === 'GET' ? undefined : await request.text();
-  if (body && new TextEncoder().encode(body).length > 1024*1024)
-    return NextResponse.json({detail:'Request too large'}, {status:413});
+  let body: string | undefined;
+  if (request.method !== 'GET' && request.body) {
+    const reader = request.body.getReader();
+    const decoder = new TextDecoder();
+    let size = 0;
+    body = '';
+    while (true) {
+      const {done,value} = await reader.read();
+      if (done) break;
+      size += value.byteLength;
+      if (size > 1024*1024) {
+        await reader.cancel();
+        return NextResponse.json({detail:'Request too large'}, {status:413});
+      }
+      body += decoder.decode(value,{stream:true});
+    }
+    body += decoder.decode();
+  }
   try {
     const response = await fetch(`${base.replace(/\/$/,'')}/${path.join('/')}${request.nextUrl.search}`, {
       method:request.method, body, cache:'no-store', redirect:'error', signal:AbortSignal.timeout(15000),
