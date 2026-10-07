@@ -1,6 +1,6 @@
 import uuid
 import enum
-from sqlalchemy import Column, String, Date, DateTime, Numeric, Enum as SAEnum, ForeignKey, text
+from sqlalchemy import Column, Boolean, String, Date, DateTime, Numeric, Enum as SAEnum, ForeignKey, text
 from sqlalchemy.dialects.postgresql import UUID, ARRAY
 from sqlalchemy.orm import declarative_base
 
@@ -19,6 +19,8 @@ class ExamMark(Base):
     tenant_id = Column(UUID(as_uuid=True), nullable=False)
     student_id = Column(UUID(as_uuid=True), nullable=False)
     faculty_id = Column(UUID(as_uuid=True), nullable=False)
+    schedule_id = Column(UUID(as_uuid=True), nullable=True)
+    is_entered = Column(Boolean, nullable=False, default=True)
     subject = Column(String(100), nullable=False)
     marks_obtained = Column(Numeric(5, 2), nullable=False)
     max_marks = Column(Numeric(5, 2), nullable=False)

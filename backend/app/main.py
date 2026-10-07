@@ -13,6 +13,7 @@ from app.core.auth import router as auth_router
 from app.students.router import router as students_router
 from app.attendance.router import router as attendance_router
 from app.exams.router import router as exams_router
+from app.exams.schedules import router as schedules_router
 from app.finance.router import router as finance_router
 from app.timetable.router import router as timetable_router
 from app.analytics.router import router as analytics_router
@@ -67,5 +68,5 @@ async def health():
         return JSONResponse(status_code=503,content={'status':'unavailable'})
 
 for prefix,router in [('auth',auth_router),('students',students_router),('attendance',attendance_router),
-    ('exams',exams_router),('finance',finance_router),('timetable',timetable_router),('analytics',analytics_router)]:
+    ('exams',exams_router),('exams',schedules_router),('finance',finance_router),('timetable',timetable_router),('analytics',analytics_router)]:
     app.include_router(router,prefix='/api/v1/'+prefix)

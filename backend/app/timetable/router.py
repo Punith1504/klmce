@@ -34,3 +34,34 @@ async def assign_timetable_slot(payload:TimetableSlotCreate,token:dict=Depends(A
     except asyncpg.ExclusionViolationError: raise HTTPException(409,'Room, section or faculty scheduling conflict') from None
     except asyncpg.ForeignKeyViolationError: raise HTTPException(422,'Course, section or faculty does not belong to this institution') from None
     return dict(row)
+
+from pydantic import BaseModel,Field,ConfigDict
+from decimal import Decimal
+from typing import Literal
+class SectionCreate(BaseModel):
+    model_config=ConfigDict(str_strip_whitespace=True,extra='forbid')
+    name:str=Field(min_length=1,max_length=100)
+class CourseCreate(BaseModel):
+    model_config=ConfigDict(str_strip_whitespace=True,extra='forbid')
+    course_code:str=Field(min_length=1,max_length=50,pattern=r'^[A-Z0-9_-]+$')
+    name:str=Field(min_length=1,max_length=100)
+    credits:Decimal=Field(ge=0,le=30,max_digits=3,decimal_places=1)
+    course_type:Literal['CORE','ELECTIVE','LAB','PROJECT']='CORE'
+
+@router.get('/sections')
+async def list_sections(token=Depends(STAFF),conn=Depends(get_db_connection)):
+    return [dict(r) for r in await conn.fetch('SELECT section_id::text,name FROM sections WHERE tenant_id=$1 ORDER BY name LIMIT 500',UUID(token['tenant_id']))]
+
+@router.post('/sections',status_code=201)
+async def create_section(data:SectionCreate,token=Depends(ADMIN),conn=Depends(get_db_connection)):
+    try:
+        result=await conn.fetchval('INSERT INTO sections(tenant_id,name) VALUES($1,$2) RETURNING section_id',UUID(token['tenant_id']),data.name)
+    except asyncpg.UniqueViolationError:raise HTTPException(409,'Section already exists') from None
+    return {'section_id':str(result)}
+
+@router.post('/courses',status_code=201)
+async def create_course(data:CourseCreate,token=Depends(ADMIN),conn=Depends(get_db_connection)):
+    try:
+        result=await conn.fetchval('INSERT INTO master_data.courses(tenant_id,course_code,name,credits,course_type) VALUES($1,$2,$3,$4,$5) RETURNING course_id',UUID(token['tenant_id']),data.course_code,data.name,data.credits,data.course_type)
+    except asyncpg.UniqueViolationError:raise HTTPException(409,'Course code already exists') from None
+    return {'course_id':str(result)}

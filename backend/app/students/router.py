@@ -1,4 +1,5 @@
 import csv
+import json
 import io
 from uuid import UUID
 from typing import Annotated
@@ -16,6 +17,8 @@ class StudentCreate(BaseModel):
     last_name:str=Field(min_length=1,max_length=100)
     enrollment_number:str=Field(min_length=1,max_length=100)
     section_id:UUID|None=None
+    user_id:UUID|None=None
+    parent_id:UUID|None=None
 
 @router.get('')
 async def list_students(token:dict=Depends(get_active_user),conn=Depends(get_db_connection),
@@ -31,9 +34,12 @@ async def list_students(token:dict=Depends(get_active_user),conn=Depends(get_db_
 
 @router.post('',status_code=201)
 async def create_student(data:StudentCreate,token:dict=Depends(ADMIN),conn=Depends(get_db_connection)):
+    for user_id,role in [(data.user_id,'STUDENT'),(data.parent_id,'PARENT')]:
+        if user_id and not await conn.fetchval('SELECT 1 FROM users WHERE tenant_id=$1 AND user_id=$2 AND role=$3 AND is_active',UUID(token['tenant_id']),user_id,role):
+            raise HTTPException(422,'Linked account must be active, have the correct role, and belong to this institution')
     try:
-        row=await conn.fetchrow('INSERT INTO students(tenant_id,first_name,last_name,enrollment_number,section_id) VALUES($1,$2,$3,$4,$5) RETURNING student_id::text',
-            UUID(token['tenant_id']),data.first_name,data.last_name,data.enrollment_number,data.section_id)
+        row=await conn.fetchrow('INSERT INTO students(tenant_id,first_name,last_name,enrollment_number,section_id,user_id,parent_id) VALUES($1,$2,$3,$4,$5,$6,$7) RETURNING student_id::text',
+            UUID(token['tenant_id']),data.first_name,data.last_name,data.enrollment_number,data.section_id,data.user_id,data.parent_id)
     except asyncpg.UniqueViolationError: raise HTTPException(409,'Enrollment already exists') from None
     except asyncpg.ForeignKeyViolationError: raise HTTPException(422,'Section does not belong to this institution') from None
     return dict(row)
@@ -45,9 +51,12 @@ async def bulk_upload_students(file:UploadFile=File(...),token:dict=Depends(ADMI
     if len(data)>2*1024*1024: raise HTTPException(413,'CSV exceeds 2 MiB')
     try:
         reader=csv.DictReader(io.StringIO(data.decode('utf-8-sig')))
+        if not reader.fieldnames or not set(reader.fieldnames)<= {'first_name','last_name','enrollment_number','section_id'}:
+            raise HTTPException(422,'Unsupported CSV columns')
         rows=[]
         for number,row in enumerate(reader,start=2):
             if number>5001: raise HTTPException(413,'At most 5000 records per import')
+            if row.get('section_id')=='': row['section_id']=None
             item=StudentCreate(**row)
             rows.append((UUID(token['tenant_id']),item.first_name,item.last_name,item.enrollment_number,item.section_id))
     except (UnicodeError,csv.Error,ValidationError,TypeError): raise HTTPException(422,'Invalid CSV; use first_name,last_name,enrollment_number and optional section_id columns') from None
@@ -69,7 +78,21 @@ async def records(token:dict=Depends(get_active_user),conn=Depends(get_db_connec
         column='user_id' if token['role']=='STUDENT' else 'parent_id'
         scope=f' AND student_id IN (SELECT student_id FROM students WHERE {column}=$2 AND tenant_id=$1)'
         args.append(UUID(token['sub']))
-    attendance=await conn.fetch('SELECT student_id::text,date,status FROM attendance_records WHERE tenant_id=$1'+scope+' ORDER BY date DESC LIMIT 200',*args)
-    marks=await conn.fetch("SELECT mark_id::text,student_id::text,subject,marks_obtained,max_marks,exam_date,status FROM exam_marks WHERE tenant_id=$1 AND status='PUBLISHED'"+scope+' ORDER BY exam_date DESC LIMIT 200',*args)
-    fees=await conn.fetch('SELECT transaction_id::text,student_id::text,amount,payment_method,status,transaction_date FROM fee_transactions WHERE tenant_id=$1'+scope+' ORDER BY transaction_date DESC LIMIT 200',*args)
-    return {'attendance':[dict(x) for x in attendance],'marks':[dict(x) for x in marks],'fees':[dict(x) for x in fees]}
+    queries={
+        'attendance':'SELECT student_id::text,date,status FROM attendance_records WHERE tenant_id=$1'+scope+' ORDER BY date DESC LIMIT 200',
+        'marks':"SELECT mark_id::text,student_id::text,subject,marks_obtained::text,max_marks::text,exam_date,status FROM exam_marks WHERE tenant_id=$1 AND status='PUBLISHED'"+scope+' ORDER BY exam_date DESC LIMIT 200',
+        'fees':'SELECT transaction_id::text,student_id::text,amount::text,payment_method,status,transaction_date FROM fee_transactions WHERE tenant_id=$1'+scope+' ORDER BY transaction_date DESC LIMIT 200',
+    }
+    # One statement also gives all three collections the same database snapshot.
+    parts=[f"'{name}',(SELECT coalesce(jsonb_agg(to_jsonb(r)),'[]'::jsonb) FROM ({query}) r)" for name,query in queries.items()]
+    return json.loads(await conn.fetchval('SELECT jsonb_build_object('+','.join(parts)+')',*args))
+
+
+@router.get('/enrollment-options')
+async def enrollment_options(q:str=Query('',max_length=80),token=Depends(ADMIN),conn=Depends(get_db_connection)):
+    users=await conn.fetch("""SELECT user_id::text,first_name||' '||last_name AS name,role FROM users u
+        WHERE tenant_id=$1 AND is_active AND role IN ('STUDENT','PARENT')
+        AND (first_name||' '||last_name) ILIKE $2
+        AND (role='PARENT' OR NOT EXISTS(SELECT 1 FROM students s WHERE s.user_id=u.user_id))
+        ORDER BY role,first_name,last_name,user_id LIMIT 50""",UUID(token['tenant_id']),'%'+q+'%')
+    return [dict(r) for r in users]

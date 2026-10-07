@@ -160,6 +160,7 @@ async def drill():
             finally:await restricted.close()
             REPORT['backup_restore']={'encrypted_bytes':len(encrypted),'round_trip_seconds':round(time.perf_counter()-backup_start,2),'verified_tables':len(before_snapshot),'row_counts_and_sha256_match':True,'restored_rls_and_privileges_verified':True}
         finally:await conn.execute('DROP DATABASE '+restore_db) # only the isolated drill database created above
+        print(json.dumps(REPORT),flush=True)
         assert REPORT['latency_budget_met'],'Measured CI read latency exceeds proposed budget; investigate before release'
     finally:
         await cache.aclose();await conn.close()

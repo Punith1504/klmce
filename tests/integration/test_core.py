@@ -163,3 +163,56 @@ def test_3000_student_population_isolation(seeded):
                     assert [r['student_id'] for r in response.json()]==[str(student)]
                 await asyncio.gather(*(read(p) for p in profiles))
     asyncio.run(run())
+
+def test_academic_setup_enrollment_and_result_publication(seeded):
+    async def run():
+        from app.main import app
+        from app.core.auth import issue_session
+        from app.core.redis import redis_manager
+        from starlette.responses import Response
+        async with app.router.lifespan_context(app):
+            async with httpx.AsyncClient(transport=httpx.ASGITransport(app=app),base_url='https://erp.example.test',headers={'Origin':os.environ['FRONTEND_URL']}) as client:
+                async def identity(user,role):
+                    client.cookies.clear();response=Response()
+                    await issue_session({'user_id':seeded[user],'tenant_id':seeded['tenant'],'role':role},response,redis_manager.client)
+                    for cookie in response.headers.getlist('set-cookie'):
+                        name,value=cookie.split(';')[0].split('=',1);client.cookies.set(name,value)
+                await identity('student_user','STUDENT')
+                assert (await client.post('/api/v1/timetable/sections',json={'name':'Unauthorized'})).status_code==403
+                await identity('admin','INSTITUTION_ADMIN')
+                assert (await client.post('/api/v1/timetable/sections',json={'name':'New section'})).status_code==201
+                assert (await client.post('/api/v1/timetable/sections',json={'name':'New section'})).status_code==409
+                assert (await client.post('/api/v1/timetable/courses',json={'course_code':'NEW101','name':'New course','credits':3})).status_code==201
+                student={'first_name':'Admitted','last_name':'Student','enrollment_number':'NEW001','section_id':str(seeded['section'])}
+                assert (await client.post('/api/v1/students',json={**student,'user_id':str(seeded['faculty'])})).status_code==422
+                assert (await client.post('/api/v1/students',json={**student,'parent_id':str(seeded['other_user'])})).status_code==422
+                assert (await client.post('/api/v1/students',json=student)).status_code==201
+                assert (await client.post('/api/v1/students',json=student)).status_code==409
+                payload={'section_id':str(seeded['section']),'course_id':str(seeded['course']),'faculty_id':str(seeded['faculty']),'name':'Integration exam','exam_date':datetime.now(ZoneInfo('Asia/Kolkata')).date().isoformat(),'max_marks':30}
+                created=await client.post('/api/v1/exams/schedules',json=payload)
+                assert created.status_code==201,created.text
+                schedule=created.json()['schedule_id']
+                assert (await client.post('/api/v1/exams/schedules',json=payload)).status_code==409
+                assert (await client.post(f'/api/v1/exams/schedules/{schedule}/publish')).status_code==409
+                await identity('faculty','FACULTY')
+                assert (await client.post(f'/api/v1/exams/schedules/{schedule}/submit')).status_code==409
+                marks=(await client.get('/api/v1/exams/marks')).json()
+                ours=[m for m in marks if m['subject']=='Integration exam'];assert len(ours)==3
+                for mark in ours:
+                    assert mark['is_entered'] is False
+                    assert (await client.put(f"/api/v1/exams/marks/{mark['id']}",json={'marks_obtained':23})).status_code==200
+                assert (await client.post(f'/api/v1/exams/schedules/{schedule}/submit')).status_code==200
+                assert (await client.post(f'/api/v1/exams/schedules/{schedule}/approve')).status_code==403
+                await identity('student_user','STUDENT')
+                assert not any(m['subject']=='Integration exam' for m in (await client.get('/api/v1/students/records')).json()['marks'])
+                await identity('admin','INSTITUTION_ADMIN')
+                assert (await client.post(f'/api/v1/exams/schedules/{schedule}/publish')).status_code==409
+                approved=await client.post(f'/api/v1/exams/schedules/{schedule}/approve');assert approved.status_code==200,approved.text
+                assert (await client.post(f'/api/v1/exams/schedules/{schedule}/publish')).status_code==200
+                assert (await client.post(f'/api/v1/exams/schedules/{schedule}/publish')).status_code==200
+                await identity('student_user','STUDENT')
+                published=(await client.get('/api/v1/students/records')).json()['marks']
+                assert len([m for m in published if m['subject']=='Integration exam'])==1
+                await identity('faculty','FACULTY')
+                assert (await client.put(f"/api/v1/exams/marks/{ours[0]['id']}",json={'marks_obtained':24})).status_code==409
+    asyncio.run(run())

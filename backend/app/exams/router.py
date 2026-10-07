@@ -38,6 +38,10 @@ async def update_exam_mark(
         from fastapi import HTTPException
         raise HTTPException(422, "Marks exceed the exam maximum")
     mark_record.marks_obtained = req.marks_obtained
+    mark_record.is_entered = True
+    if mark_record.status in (ExamStatus.LOCKED,ExamStatus.PUBLISHED):
+        mark_record.status = ExamStatus.SUBMITTED
+        mark_record.revision_window_until = None
     
     # On commit, the Postgres Audit Trigger computed dynamically intercepts this UPDATE.
     # It reliably records user_id, timestamp, old grade, and new grade into `audit_logs`
@@ -57,6 +61,9 @@ async def submit_exam_mark(
 
     mark_record = await db.get(ExamMark, mark_id, with_for_update=True)
     """FACULTY: Transitions draft to SUBMITTED state."""
+    if not mark_record.is_entered:
+        from fastapi import HTTPException
+        raise HTTPException(409, "Enter a mark before submitting")
     mark_record.status = ExamStatus.SUBMITTED
     await db.commit()
     return {"message": "Grade formally submitted for administrative approval."}
@@ -75,7 +82,7 @@ async def approve_exam_mark(
     """ADMIN: Approves and transitions row to LOCKED, triggering Hard Tamper Resistance."""
     mark_record.status = ExamStatus.LOCKED
     await db.commit()
-    return {"message": "Grade approved and cryptographically locked."}
+    return {"message": "Grade approved and locked."}
 
 
 @router.post("/marks/{mark_id}/request-change")
@@ -173,4 +180,4 @@ from sqlalchemy import select
 async def list_assigned_marks(token:dict=Depends(require_roles(Role.FACULTY)),db:AsyncSession=Depends(get_db_session)):
     result=await db.execute(select(ExamMark).where(ExamMark.tenant_id==uuid.UUID(token['tenant_id']),ExamMark.faculty_id==uuid.UUID(token['sub'])).order_by(ExamMark.exam_date.desc()).limit(200))
     return [{'id':str(m.mark_id),'student_id':str(m.student_id),'subject':m.subject,'marks':str(m.marks_obtained),
-        'maximum':str(m.max_marks),'status':m.status.value} for m in result.scalars()]
+        'maximum':str(m.max_marks),'status':m.status.value,'is_entered':m.is_entered} for m in result.scalars()]
