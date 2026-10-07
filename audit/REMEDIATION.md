@@ -50,6 +50,8 @@ GitHub Actions run [37605648211](https://github.com/Punith1504/klmce/actions/run
 | Synthetic population | All 3,000 student identities read exactly their own student row through the authenticated API, with 30 requests in flight |
 | Frontend action tests | 16 passed, including authorized faculty forwarding and denied/conflicting mutations |
 | TypeScript, ESLint, production frontend build | Passed |
+| Frontend production dependencies | No known vulnerabilities reported by npm audit |
+| Python runtime dependencies | No known vulnerabilities reported across 55 resolved packages after replacing python-jose with PyJWT |
 | Frontend dependencies, all scopes | 7 high findings remain in the development toolchain; 0 critical |
 
 The full backend suite took 15.26 seconds on the CI worker. This is an in-process HTTP correctness test using actual PostgreSQL and Redis; it does **not** measure deployed network latency, browser performance or 3,000 simultaneous users. No production capacity claim follows from it.
@@ -57,3 +59,5 @@ The full backend suite took 15.26 seconds on the CI worker. This is an in-proces
 The remaining npm findings stem from the `braces` dependency chain in Tailwind/ESLint glob processing. The installed registry has no patched `braces` version beyond 3.0.3 at this verification. These tools process repository/build input, but the findings remain unresolved; do not describe the repository as vulnerability-free. The previous automated production workflow only printed deployment messages and scanned a hardcoded staging URL. It is now an explicit blocked manual release gate until real infrastructure and authorization are configured.
 
 The legacy Playwright scenarios model obsolete/mock workflows and are not included in the pass count. Their TypeScript is checked separately by `tsc --project tests/tsconfig.json`; the mobile directory is incomplete and has not been certified. Payment integration, complete module workflows, real Clerk setup, authenticated browser tests, representative staging load tests and backup/restore evidence remain release blockers.
+
+JWT verification uses PyJWT 2.15.1 with explicit per-issuer algorithms and required claims. This replaces the python-jose/ecdsa dependency chain; `audit/remediation-evidence/python-audit.json` records the clean requirements scan. No dependency scan proves absence of unknown vulnerabilities.

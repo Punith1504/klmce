@@ -1,8 +1,3 @@
-......................................                                   [100%]
-=============================== warnings summary ===============================
-../venv/lib/python3.12/site-packages/fastapi/testclient.py:1
-  /workspace/scratch/97bfbce5feb7/venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
-    from starlette.testclient import TestClient as TestClient  # noqa
-
--- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-38 passed, 1 warning in 2.77s
+Local verification after PyJWT migration: PYTHONPATH=backend python -m pytest tests/audit -q
+38 passed, 1 warning in 2.63s
+Warning: Starlette TestClient httpx adapter is deprecated; no test failures.
