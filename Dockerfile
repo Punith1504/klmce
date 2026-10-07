@@ -2,6 +2,7 @@ FROM node:22-bookworm-slim AS build
 WORKDIR /app
 COPY package*.json ./
 COPY prisma ./prisma
+COPY scripts ./scripts
 RUN npm ci
 COPY . .
 ARG NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY

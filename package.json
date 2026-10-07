@@ -7,9 +7,12 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint src --quiet",
-    "postinstall": "prisma generate",
+    "postinstall": "node scripts/patch-braces.cjs && prisma generate",
     "typecheck": "tsc --noEmit --incremental false",
-    "test:audit": "node --test --test-reporter=tap tests/audit/frontend-actions.test.cjs"
+    "test:audit": "node --test --test-reporter=tap tests/audit/frontend-actions.test.cjs",
+    "test:security": "node --test tests/security/*.test.cjs",
+    "prebuild": "node scripts/patch-braces.cjs",
+    "prelint": "node scripts/patch-braces.cjs"
   },
   "dependencies": {
     "@clerk/nextjs": "^7.9.10",

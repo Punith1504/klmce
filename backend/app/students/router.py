@@ -63,7 +63,13 @@ async def bulk_upload_students(file:UploadFile=File(...),token:dict=Depends(ADMI
 async def records(token:dict=Depends(get_active_user),conn=Depends(get_db_connection)):
     # RLS provides record-level ownership; explicit tenant predicate is defense in depth.
     tenant=UUID(token['tenant_id'])
-    attendance=await conn.fetch('SELECT student_id::text,date,status FROM attendance_records WHERE tenant_id=$1 ORDER BY date DESC LIMIT 200',tenant)
-    marks=await conn.fetch("SELECT mark_id::text,student_id::text,subject,marks_obtained,max_marks,exam_date,status FROM exam_marks WHERE tenant_id=$1 AND status='PUBLISHED' ORDER BY exam_date DESC LIMIT 200",tenant)
-    fees=await conn.fetch('SELECT transaction_id::text,student_id::text,amount,payment_method,status,transaction_date FROM fee_transactions WHERE tenant_id=$1 ORDER BY transaction_date DESC LIMIT 200',tenant)
+    args=[tenant]
+    scope=''
+    if token['role'] in ('STUDENT','PARENT'):
+        column='user_id' if token['role']=='STUDENT' else 'parent_id'
+        scope=f' AND student_id IN (SELECT student_id FROM students WHERE {column}=$2 AND tenant_id=$1)'
+        args.append(UUID(token['sub']))
+    attendance=await conn.fetch('SELECT student_id::text,date,status FROM attendance_records WHERE tenant_id=$1'+scope+' ORDER BY date DESC LIMIT 200',*args)
+    marks=await conn.fetch("SELECT mark_id::text,student_id::text,subject,marks_obtained,max_marks,exam_date,status FROM exam_marks WHERE tenant_id=$1 AND status='PUBLISHED'"+scope+' ORDER BY exam_date DESC LIMIT 200',*args)
+    fees=await conn.fetch('SELECT transaction_id::text,student_id::text,amount,payment_method,status,transaction_date FROM fee_transactions WHERE tenant_id=$1'+scope+' ORDER BY transaction_date DESC LIMIT 200',*args)
     return {'attendance':[dict(x) for x in attendance],'marks':[dict(x) for x in marks],'fees':[dict(x) for x in fees]}
