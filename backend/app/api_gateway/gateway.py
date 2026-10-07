@@ -2,7 +2,7 @@ import time
 import stripe
 from fastapi import APIRouter, Depends, HTTPException, Request, Header
 import redis.asyncio as redis
-from jose import jwt
+import jwt
 
 # Note: In a real architecture, these are loaded from Env variables
 stripe.api_key = "sk_test_mock_stripe_key"

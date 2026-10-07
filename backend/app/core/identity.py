@@ -2,7 +2,8 @@
 import os
 import json
 import httpx
-from jose import jwt, JWTError
+import jwt
+from jwt import PyJWTError as JWTError
 from fastapi import HTTPException
 from .redis import get_redis_client
 
@@ -26,8 +27,8 @@ async def verify_clerk_token(token):
             await redis.delete(cache_key)
             raise ValueError()
         audience=os.getenv("CLERK_AUDIENCE")
-        claims=jwt.decode(token,key,algorithms=["RS256"],issuer=issuer,audience=audience,
-            options={"require_exp":True,"require_sub":True,"verify_aud":bool(audience)})
+        claims=jwt.decode(token,jwt.PyJWK.from_dict(key,algorithm='RS256').key,algorithms=["RS256"],issuer=issuer,audience=audience,
+            options={"require":["exp","sub","iss"],"verify_aud":bool(audience)})
         if claims.get("azp") != os.environ["FRONTEND_URL"] or claims.get("sts")=="pending" or claims.get("act"):
             raise ValueError()
         if not isinstance(claims.get("sid"),str) or claims.get("v")!=2: raise ValueError()

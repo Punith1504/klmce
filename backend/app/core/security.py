@@ -3,7 +3,8 @@ from datetime import datetime, timedelta, timezone
 from uuid import UUID, uuid4
 import bcrypt
 import pyotp
-from jose import jwt, JWTError
+import jwt
+from jwt import PyJWTError as JWTError
 from fastapi import HTTPException
 from fastapi.responses import JSONResponse
 
@@ -57,7 +58,7 @@ def decode_token(token, purpose):
     try:
         payload = jwt.decode(token, validate_secret(SECRET_KEY,"SECRET_KEY"),
             algorithms=[ALGORITHM], issuer=ISSUER, audience=AUDIENCE,
-            options={"require_exp":True,"require_iat":True,"require_sub":True,"require_jti":True})
+            options={"require":["exp","iat","sub","jti","iss","aud"]})
         UUID(payload["sub"]); UUID(payload["tenant_id"])
         if payload["type"] != purpose or payload["role"] not in ROLES:
             raise ValueError("Invalid purpose or role")

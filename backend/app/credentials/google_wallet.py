@@ -4,7 +4,7 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
 try:
-    from jose import jwt
+    import jwt
 except ImportError:
     pass # Managed in requirements.txt
 

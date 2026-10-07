@@ -6,7 +6,7 @@ from types import SimpleNamespace
 from unittest.mock import AsyncMock
 from uuid import uuid4
 import pytest
-from jose import jwt, jwk
+import jwt
 from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.hazmat.primitives import serialization
 from fastapi import HTTPException
@@ -17,7 +17,7 @@ def signer(monkeypatch):
     key=rsa.generate_private_key(public_exponent=65537,key_size=2048)
     private=key.private_bytes(serialization.Encoding.PEM,serialization.PrivateFormat.PKCS8,serialization.NoEncryption())
     public=key.public_key().public_bytes(serialization.Encoding.PEM,serialization.PublicFormat.SubjectPublicKeyInfo)
-    data=jwk.construct(public,'RS256').to_dict();data['kid']='test-key'
+    data=jwt.algorithms.RSAAlgorithm.to_jwk(key.public_key(), as_dict=True);data['kid']='test-key'
     cache=SimpleNamespace(get=AsyncMock(return_value=json.dumps({'keys':[data]})),delete=AsyncMock())
     monkeypatch.setattr(identity,'get_redis_client',AsyncMock(return_value=cache))
     monkeypatch.setenv('CLERK_ISSUER','https://identity.example.test')

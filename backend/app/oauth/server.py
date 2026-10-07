@@ -3,7 +3,7 @@ from datetime import datetime, timedelta, timezone
 from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException, status, Request
 from pydantic import BaseModel
-from jose import jwt
+import jwt
 
 
 # Note: In a real architecture, these are imported from core config
