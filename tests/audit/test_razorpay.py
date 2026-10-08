@@ -1,7 +1,6 @@
 import hashlib
 import hmac
 import json
-from dataclasses import replace
 from uuid import uuid4
 import pytest
 from fastapi import HTTPException

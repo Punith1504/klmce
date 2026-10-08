@@ -1,5 +1,6 @@
 import asyncio
 import os
+import time
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
@@ -48,7 +49,10 @@ async def protect_requests(request:Request,call_next):
         webhook=request.url.path in ('/api/v1/finance/webhook','/api/v1/finance/razorpay/webhook')
         if not bearer and not webhook and request.headers.get('origin')!=os.getenv('FRONTEND_URL'):
             return JSONResponse(status_code=403,content={'detail':'Untrusted request origin'})
+    started=time.perf_counter()
     response=await call_next(request)
+    if os.getenv('ERP_PERF_DIAGNOSTICS')=='1':
+        response.headers['Server-Timing']=f'app;dur={(time.perf_counter()-started)*1000:.2f}'
     response.headers['Cache-Control']='no-store'
     response.headers['X-Content-Type-Options']='nosniff'
     response.headers['Referrer-Policy']='same-origin'

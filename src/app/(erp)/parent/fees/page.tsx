@@ -1,2 +1,3 @@
 import { StudentRecords } from '@/components/student-records';
-export default function Page() { return <StudentRecords area='fees' roles={['PARENT']}/>; }
+import { SandboxInvoices } from '@/components/sandbox-invoices';
+export default function Page() { return <><StudentRecords area='fees' roles={['PARENT']}/><SandboxInvoices roles={['PARENT']}/></>; }

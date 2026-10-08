@@ -3,7 +3,8 @@ import { NextRequest, NextResponse } from 'next/server';
 export const dynamic = 'force-dynamic';
 async function proxy(request: NextRequest, context: {params: Promise<{path: string[]}>}) {
   const {path} = await context.params;
-  if (!['auth','students','attendance','exams','timetable','analytics'].includes(path[0]) || path.some(x => !/^[a-zA-Z0-9_-]+$/.test(x)))
+  const finance = path[0]==='finance' && path[1]==='razorpay' && ['invoices','orders'].includes(path[2]);
+  if ((!finance && !['auth','students','attendance','exams','timetable','analytics'].includes(path[0])) || path.some(x => !/^[a-zA-Z0-9_-]+$/.test(x)))
     return NextResponse.json({detail:'Route not available'}, {status:404});
   if (!['GET','HEAD'].includes(request.method) && request.headers.get('origin') !== request.nextUrl.origin)
     return NextResponse.json({detail:'Untrusted request origin'}, {status:403});

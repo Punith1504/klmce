@@ -8,7 +8,7 @@ export function ERPForm({title,endpoint,fields,initial={}}:{title:string,endpoin
   return <form className="space-y-4 rounded-xl border border-white/20 p-6" onSubmit={async event=>{
     event.preventDefault();setBusy(true);setMessage('');const form=event.currentTarget;
     const values:Record<string,unknown>={};const data=new FormData(form);
-    for(const field of fields){const value=String(data.get(field.name)??'');values[field.name]=value===''?null:value;}
+    for(const field of fields){const value=String(data.get(field.name)??'');values[field.name]=value===''?null:field.type==='number'?Number(value):value;}
     try{
       const response=await fetch('/api/erp/'+endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(values)});
       const result=await response.json();

@@ -90,7 +90,7 @@ async def drill():
                 REPORT['restricted_history_plan']=[r[0] for r in plan]
                 print(json.dumps({'restricted_history_plan':REPORT['restricted_history_plan']}),flush=True)
         finally:await restricted.close()
-        env={**os.environ,'PYTHONPATH':str(ROOT/'backend')}
+        env={**os.environ,'PYTHONPATH':str(ROOT/'backend'),'ERP_PERF_DIAGNOSTICS':'1'}
         with open(ROOT/'operational-server.log','w') as log:
             server=subprocess.Popen([sys.executable,'-m','uvicorn','app.main:app','--host','127.0.0.1','--port','8097','--workers','2','--no-access-log'],env=env,stdout=log,stderr=log)
             try:
@@ -102,19 +102,23 @@ async def drill():
                         await asyncio.sleep(.1)
                     else:raise RuntimeError('Backend did not become ready')
                     for concurrency in (50,150,300):
-                        latencies=[];errors=[];sem=asyncio.Semaphore(concurrency)
+                        latencies=[];server_latencies=[];errors=[];sem=asyncio.Semaphore(concurrency)
                         async def read(p):
                             async with sem:
                                 before=time.perf_counter()
                                 r=await client.get('/api/v1/students/records',headers={'Cookie':'access_token='+p['token']})
                                 latencies.append((time.perf_counter()-before)*1000)
+                                server_latencies.append(float(r.headers['server-timing'].split('dur=')[1]))
                                 if r.status_code!=200:errors.append(r.status_code);return
                                 body=r.json()
                                 assert len(body['attendance'])==60 and len(body['marks'])==10
                                 assert all(x['student_id']==p['student'] for kind in body.values() for x in kind),'Record disclosure'
+                        client_cpu=time.process_time()
                         before=time.perf_counter();await asyncio.gather(*(read(p) for p in profiles))
                         elapsed=time.perf_counter()-before
                         REPORT[f'reads_{concurrency}']={**stats(latencies),'errors':len(errors),'duration_seconds':round(elapsed,2),'requests_per_second':round(len(profiles)/elapsed,2)}
+                        REPORT[f'reads_{concurrency}']['server_processing']=stats(server_latencies)
+                        REPORT[f'reads_{concurrency}']['client_cpu_seconds']=round(time.process_time()-client_cpu,2)
                         print(json.dumps({f'reads_{concurrency}':REPORT[f'reads_{concurrency}']}),flush=True)
                         assert not errors,'HTTP read errors'
                     # Fresh shared classroom QR for each of the 60 sections.

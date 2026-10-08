@@ -1,7 +1,7 @@
 import { headers } from 'next/headers';
 import { requireRole } from '@/lib/server-api';
 import { ModuleUnavailable } from '@/components/module-unavailable';
-const liveRoutes = new Set(['/admin/dashboard','/admin/students','/admin/analytics','/admin/admissions','/admin/timetable','/admin/examinations',
+const liveRoutes = new Set(['/admin/dashboard','/admin/students','/admin/analytics','/admin/admissions','/admin/timetable','/admin/examinations','/admin/finance',
   '/faculty/attendance','/faculty/results','/student/attendance','/student/results','/student/fees',
   '/parent/dashboard','/parent/attendance','/parent/fees']);
 export default async function ERPLayout({children}:{children:React.ReactNode}) {

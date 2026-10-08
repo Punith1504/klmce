@@ -5,7 +5,7 @@ import json
 import os
 import re
 from contextlib import asynccontextmanager
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from uuid import UUID
 
 import asyncpg
@@ -26,8 +26,8 @@ class Config:
     tenant: UUID
     account: str
     key_id: str
-    secret: str
-    webhook_secret: str
+    secret: str = field(repr=False)
+    webhook_secret: str = field(repr=False)
 
 
 def config():
@@ -35,11 +35,12 @@ def config():
         c = Config(UUID(os.environ['RAZORPAY_TENANT_ID']), os.environ['RAZORPAY_ACCOUNT_ID'],
                    os.environ['RAZORPAY_KEY_ID'], os.environ['RAZORPAY_KEY_SECRET'],
                    os.environ['RAZORPAY_WEBHOOK_SECRET'])
-        assert os.getenv('RAZORPAY_ENABLED') == 'true'
-        assert c.key_id.startswith('rzp_test_') and ID.fullmatch(c.key_id)
-        assert c.account.startswith('acc_') and ID.fullmatch(c.account)
-        assert len(c.secret) >= 16 and len(c.webhook_secret) >= 32
-    except (KeyError, ValueError, AssertionError):
+        if (os.getenv('RAZORPAY_ENABLED') != 'true'
+            or not c.key_id.startswith('rzp_test_') or not ID.fullmatch(c.key_id)
+            or not c.account.startswith('acc_') or not ID.fullmatch(c.account)
+            or len(c.secret) < 16 or len(c.webhook_secret) < 32):
+            raise ValueError('Invalid sandbox configuration')
+    except (KeyError, ValueError):
         raise HTTPException(503, 'Razorpay sandbox is not configured; live keys are not supported') from None
     return c
 
