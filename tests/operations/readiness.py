@@ -81,6 +81,15 @@ async def drill():
             await pipe.execute()
         REPORT['dataset']={'students':3000,'historical_attendance':180000,'published_marks':30000,'sections':60}
         await conn.execute('ANALYZE')
+        # Diagnose the real restricted-role query, not an owner/RLS-bypass plan.
+        restricted=await asyncpg.connect(os.environ['DATABASE_URL'])
+        try:
+            async with restricted.transaction():
+                await restricted.execute("SELECT set_config('app.current_tenant_id',$1,true),set_config('app.current_user_id',$2,true),set_config('app.current_user_role','STUDENT',true)",str(tenant),str(people[0]['user_id']))
+                plan=await restricted.fetch("EXPLAIN (ANALYZE, BUFFERS, FORMAT TEXT) SELECT student_id::text,date,status FROM attendance_records WHERE tenant_id=$1 AND student_id IN (SELECT student_id FROM students WHERE user_id=$2 AND tenant_id=$1) ORDER BY date DESC LIMIT 200",tenant,people[0]['user_id'])
+                REPORT['restricted_history_plan']=[r[0] for r in plan]
+                print(json.dumps({'restricted_history_plan':REPORT['restricted_history_plan']}),flush=True)
+        finally:await restricted.close()
         env={**os.environ,'PYTHONPATH':str(ROOT/'backend')}
         with open(ROOT/'operational-server.log','w') as log:
             server=subprocess.Popen([sys.executable,'-m','uvicorn','app.main:app','--host','127.0.0.1','--port','8097','--workers','2','--no-access-log'],env=env,stdout=log,stderr=log)
