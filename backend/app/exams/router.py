@@ -8,22 +8,23 @@ from ..core.security import RFC7807Exception
 from .models import ExamMark, ExamStatus, ExamChangeRequest, ChangeRequestStatus
 from .schemas import UpdateMarkRequest, ChangeRequestPayload, AdminSignRequest
 from .decorators import validate_exam_state
+from app.core.orm import get_db_session
 
-router = APIRouter(prefix="/exams", tags=["exams"])
+router = APIRouter(tags=["exams"])
 
-async def get_db_session() -> AsyncSession:
-    raise NotImplementedError("Session dependency not injected")
 
 
 @router.put("/marks/{mark_id}")
-@validate_exam_state([ExamStatus.DRAFT])
+@validate_exam_state([ExamStatus.DRAFT], allow_revision=True)
 async def update_exam_mark(
     mark_id: uuid.UUID,
     req: UpdateMarkRequest,
-    mark_record: ExamMark = None,  # Injected directly by the @validate_exam_state decorator
+
     token: dict = Depends(require_roles(Role.FACULTY)),
     db: AsyncSession = Depends(get_db_session)
 ):
+
+    mark_record = await db.get(ExamMark, mark_id, with_for_update=True)
     """
     FACULTY: Modifies grades.
     Hard Tamper Resistance ensures this rejects requests on LOCKED/PUBLISHED rows 
@@ -33,7 +34,14 @@ async def update_exam_mark(
     if str(mark_record.tenant_id) != token["tenant_id"]:
         raise RFC7807Exception(status_code=403, type="about:blank", title="Forbidden", detail="Tenant mismatch")
         
+    if req.marks_obtained > mark_record.max_marks:
+        from fastapi import HTTPException
+        raise HTTPException(422, "Marks exceed the exam maximum")
     mark_record.marks_obtained = req.marks_obtained
+    mark_record.is_entered = True
+    if mark_record.status in (ExamStatus.LOCKED,ExamStatus.PUBLISHED):
+        mark_record.status = ExamStatus.SUBMITTED
+        mark_record.revision_window_until = None
     
     # On commit, the Postgres Audit Trigger computed dynamically intercepts this UPDATE.
     # It reliably records user_id, timestamp, old grade, and new grade into `audit_logs`
@@ -46,11 +54,16 @@ async def update_exam_mark(
 @validate_exam_state([ExamStatus.DRAFT])
 async def submit_exam_mark(
     mark_id: uuid.UUID,
-    mark_record: ExamMark = None,
+
     token: dict = Depends(require_roles(Role.FACULTY)),
     db: AsyncSession = Depends(get_db_session)
 ):
+
+    mark_record = await db.get(ExamMark, mark_id, with_for_update=True)
     """FACULTY: Transitions draft to SUBMITTED state."""
+    if not mark_record.is_entered:
+        from fastapi import HTTPException
+        raise HTTPException(409, "Enter a mark before submitting")
     mark_record.status = ExamStatus.SUBMITTED
     await db.commit()
     return {"message": "Grade formally submitted for administrative approval."}
@@ -60,14 +73,16 @@ async def submit_exam_mark(
 @validate_exam_state([ExamStatus.SUBMITTED])
 async def approve_exam_mark(
     mark_id: uuid.UUID,
-    mark_record: ExamMark = None,
+
     token: dict = Depends(require_roles(Role.INSTITUTION_ADMIN)),
     db: AsyncSession = Depends(get_db_session)
 ):
+
+    mark_record = await db.get(ExamMark, mark_id, with_for_update=True)
     """ADMIN: Approves and transitions row to LOCKED, triggering Hard Tamper Resistance."""
     mark_record.status = ExamStatus.LOCKED
     await db.commit()
-    return {"message": "Grade approved and cryptographically locked."}
+    return {"message": "Grade approved and locked."}
 
 
 @router.post("/marks/{mark_id}/request-change")
@@ -81,10 +96,13 @@ async def request_grade_change(
     tenant_id = token["tenant_id"]
     faculty_id = token["sub"]
     
-    mark = await db.get(ExamMark, mark_id)
+    mark = await db.get(ExamMark, mark_id, with_for_update=True)
     if not mark or str(mark.tenant_id) != tenant_id:
         raise RFC7807Exception(status_code=404, type="about:blank", title="Not Found", detail="Mark not found.")
         
+    if str(mark.faculty_id) != faculty_id:
+        from fastapi import HTTPException
+        raise HTTPException(403, "Faculty not assigned")
     if mark.status not in [ExamStatus.LOCKED, ExamStatus.PUBLISHED]:
         raise RFC7807Exception(status_code=400, type="about:blank", title="Bad Request", detail="Mark is not locked.")
         
@@ -119,7 +137,7 @@ async def sign_change_request(
     tenant_id = token["tenant_id"]
     admin_id = uuid.UUID(token["sub"])
     
-    change_req = await db.get(ExamChangeRequest, request_id)
+    change_req = await db.get(ExamChangeRequest, request_id, with_for_update=True)
     if not change_req or str(change_req.tenant_id) != tenant_id:
         raise RFC7807Exception(status_code=404, type="about:blank", title="Not Found", detail="Request not found.")
         
@@ -131,6 +149,9 @@ async def sign_change_request(
         await db.commit()
         return {"message": "Change request safely rejected."}
         
+    if str(change_req.requested_by) == str(admin_id):
+        from fastapi import HTTPException
+        raise HTTPException(403, "Requester cannot approve their own change")
     signatures = list(change_req.admin_signatures)
     if admin_id in signatures:
         raise RFC7807Exception(status_code=400, type="about:blank", title="Duplicate Signature", detail="You have already signed this request.")
@@ -141,7 +162,7 @@ async def sign_change_request(
     # Dual-Signature Authorization Threshold Met
     if len(change_req.admin_signatures) >= 2:
         change_req.status = ChangeRequestStatus.APPROVED
-        mark = await db.get(ExamMark, change_req.mark_id)
+        mark = await db.get(ExamMark, change_req.mark_id, with_for_update=True)
         
         # Unlock safely via an ephemeral 1-hour window rather than permanently altering states
         mark.revision_window_until = datetime.now(timezone.utc) + timedelta(hours=1)
@@ -153,3 +174,10 @@ async def sign_change_request(
         return {"message": "Final signature applied. Target row temporarily unlocked for 1 hour."}
         
     return {"message": "First signature applied successfully. Awaiting secondary admin signature."}
+
+from sqlalchemy import select
+@router.get('/marks')
+async def list_assigned_marks(token:dict=Depends(require_roles(Role.FACULTY)),db:AsyncSession=Depends(get_db_session)):
+    result=await db.execute(select(ExamMark).where(ExamMark.tenant_id==uuid.UUID(token['tenant_id']),ExamMark.faculty_id==uuid.UUID(token['sub'])).order_by(ExamMark.exam_date.desc()).limit(200))
+    return [{'id':str(m.mark_id),'student_id':str(m.student_id),'subject':m.subject,'marks':str(m.marks_obtained),
+        'maximum':str(m.max_marks),'status':m.status.value,'is_entered':m.is_entered} for m in result.scalars()]

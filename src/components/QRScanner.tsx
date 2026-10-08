@@ -22,34 +22,12 @@ export default function QRScanner() {
       // 1. Pause immediately upon capture to prevent spam scanning
       scanner.pause();
       setStatus("IDLE");
-      setMessage("Acquiring GPS Fix & Verifying cryptography...");
-
+      setMessage("Verifying attendance code...");
       try {
-        // 2. Capture Geolocation
-        const pos = await new Promise<GeolocationPosition>((resolve, reject) => {
-          navigator.geolocation.getCurrentPosition(resolve, reject, {
-            enableHighAccuracy: true,
-            timeout: 5000,
-          });
-        });
-
-        const coords = {
-          lat: pos.coords.latitude,
-          lng: pos.coords.longitude,
-          accuracy: pos.coords.accuracy,
-        };
-
-        // 3. Post strictly to backend 
-        await fetchClient("/attendance/scan", {
-          method: "POST",
-          body: JSON.stringify({
-            qr_payload: decodedText,
-            location: coords,
-          }),
-        });
+        await fetchClient.post("/attendance/scan", {qr_payload: decodedText});
 
         setStatus("SUCCESS");
-        setMessage("Attendance marked and cryptographically verified.");
+        setMessage("Attendance recorded.");
       } catch (err: any) {
         setStatus("ERROR");
         setMessage(err.message || "Failed to verify QR code constraints.");

@@ -24,17 +24,17 @@ export default function GlobalError({
           </svg>
         </div>
         
-        <h2 className="text-2xl font-bold mb-3 tracking-tight">System Recovering</h2>
+        <h2 className="text-2xl font-bold mb-3 tracking-tight">Unable to load this page</h2>
         
         <p className="text-gray-400 mb-10 text-sm leading-relaxed">
-          The education matrix encountered an unexpected paradox. Our engineering team has been automatically notified with the full cryptographic telemetry trace.
+          This page could not be loaded. Please retry. If it keeps failing, contact your institution administrator.
         </p>
         
         <button
           onClick={() => reset()}
           className="w-full py-3.5 px-4 bg-white hover:bg-gray-100 text-black font-bold rounded-xl transition-all shadow-lg hover:shadow-white/20 active:scale-[0.98]"
         >
-          Reboot Interface
+          Try again
         </button>
       </div>
     </div>

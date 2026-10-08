@@ -12,7 +12,7 @@ RUN apt-get update && \
 
 # Copy requirements and build binary wheels
 COPY requirements.txt .
-RUN pip wheel --no-cache-dir --no-deps --wheel-dir /build/wheels -r requirements.txt
+RUN pip wheel --no-cache-dir --wheel-dir /build/wheels -r requirements.txt
 
 
 # ==========================================
@@ -50,4 +50,4 @@ USER appuser
 EXPOSE 8000
 
 # Command to execute Uvicorn directly for production
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--proxy-headers", "--forwarded-allow-ips='*'"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--no-proxy-headers"]

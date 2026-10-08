@@ -1,4 +1,4 @@
-from pydantic import BaseModel, field_validator, model_validator
+from pydantic import BaseModel, Field, ConfigDict, field_validator, model_validator
 import uuid
 from datetime import time
 
@@ -6,7 +6,7 @@ class TimetableSlotCreate(BaseModel):
     course_id: uuid.UUID
     section_id: uuid.UUID
     faculty_id: uuid.UUID
-    room_number: str
+    room_number: str = Field(min_length=1,max_length=50)
     day_of_week: str
     start_time: time
     end_time: time
@@ -28,5 +28,4 @@ class TimetableSlotCreate(BaseModel):
 class TimetableSlotResponse(TimetableSlotCreate):
     slot_id: uuid.UUID
     
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)

@@ -6,63 +6,37 @@ import time
 from base64 import urlsafe_b64encode, urlsafe_b64decode
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 
-# In production, these should be loaded from secure secrets management (e.g. AWS Secrets Manager, HashiCorp Vault)
-AES_KEY = os.environ.get("ATTENDANCE_AES_KEY", os.urandom(32))  # 32 bytes for AES-256-GCM
-HMAC_KEY = os.environ.get("ATTENDANCE_HMAC_KEY", os.urandom(32)).encode('utf-8')
+def key_bytes(name):
+    value=os.getenv(name, "")
+    try: key=bytes.fromhex(value)
+    except ValueError: key=b""
+    # Accept a 32-byte literal for backwards compatibility; recommend 64 hex chars.
+    if len(key)!=32: key=value.encode()
+    if len(key)!=32: raise RuntimeError(f"{name} must encode exactly 32 bytes")
+    return key
 
-def generate_qr_payload(tenant_id: str, slot_id: str, nonce: str) -> str:
-    """
-    Constructs a rolling QR payload: AES_GCM_ENCRYPT(tenant, slot, ts, nonce) + HMAC-SHA256 signature.
-    """
-    timestamp = int(time.time())
-    payload_dict = {
-        "tenant_id": tenant_id,
-        "slot_id": slot_id,
-        "ts": timestamp,
-        "nonce": nonce
-    }
-    payload_bytes = json.dumps(payload_dict).encode('utf-8')
-    
-    # AES-GCM Encryption
-    aesgcm = AESGCM(AES_KEY)
-    iv = os.urandom(12)
-    ciphertext = aesgcm.encrypt(iv, payload_bytes, None)
-    
-    encrypted_blob = iv + ciphertext
-    b64_encrypted = urlsafe_b64encode(encrypted_blob).decode('utf-8')
-    
-    # HMAC-SHA256 Signature to prevent tampering
-    signature = hmac.new(HMAC_KEY, b64_encrypted.encode('utf-8'), hashlib.sha256).hexdigest()
-    
-    return f"{b64_encrypted}.{signature}"
+# No random per-worker keys. Secrets are validated at startup and on use.
+AES_KEY = None
+HMAC_KEY = None
 
-def verify_and_decrypt_qr_payload(token: str) -> dict:
-    """
-    Verifies the HMAC signature and decrypts the AES-GCM payload.
-    """
-    parts = token.split('.')
-    if len(parts) != 2:
-        raise ValueError("Malformed cryptographic token")
-        
-    b64_encrypted, signature = parts
-    
-    # Verify HMAC
-    expected_signature = hmac.new(HMAC_KEY, b64_encrypted.encode('utf-8'), hashlib.sha256).hexdigest()
-    if not hmac.compare_digest(expected_signature, signature):
-        raise ValueError("Cryptographic signature mismatch. Payload was tampered with.")
-        
-    # Decrypt
-    encrypted_blob = urlsafe_b64decode(b64_encrypted)
-    if len(encrypted_blob) <= 12:
-        raise ValueError("Invalid encrypted block size.")
-        
-    iv = encrypted_blob[:12]
-    ciphertext = encrypted_blob[12:]
-    
-    aesgcm = AESGCM(AES_KEY)
+def generate_qr_payload(tenant_id,slot_id,nonce):
+    payload=json.dumps({"tenant_id":tenant_id,"slot_id":slot_id,"nonce":nonce,"ts":int(time.time())}).encode()
+    iv=os.urandom(12)
+    blob=urlsafe_b64encode(iv+AESGCM(AES_KEY or key_bytes("ATTENDANCE_AES_KEY")).encrypt(iv,payload,None)).decode()
+    mac=hmac.new(HMAC_KEY or key_bytes("ATTENDANCE_HMAC_KEY"),blob.encode(),hashlib.sha256).hexdigest()
+    return blob+"."+mac
+
+def verify_and_decrypt_qr_payload(token):
     try:
-        decrypted_bytes = aesgcm.decrypt(iv, ciphertext, None)
-    except Exception:
-        raise ValueError("Decryption failed. Potential tampering or incorrect AES key.")
-        
-    return json.loads(decrypted_bytes.decode('utf-8'))
+        if len(token)>4096: raise ValueError()
+        blob,signature=token.split('.')
+        mac=hmac.new(HMAC_KEY or key_bytes("ATTENDANCE_HMAC_KEY"),blob.encode(),hashlib.sha256).hexdigest()
+        if not hmac.compare_digest(signature,mac): raise ValueError()
+        data=urlsafe_b64decode(blob)
+        payload=json.loads(AESGCM(AES_KEY or key_bytes("ATTENDANCE_AES_KEY")).decrypt(data[:12],data[12:],None))
+        if not isinstance(payload,dict) or not isinstance(payload.get('ts'),int): raise ValueError()
+        for name in ('tenant_id','slot_id','nonce'):
+            if not isinstance(payload.get(name),str): raise ValueError()
+        return payload
+    except Exception as exc:
+        raise ValueError("Invalid QR payload") from exc

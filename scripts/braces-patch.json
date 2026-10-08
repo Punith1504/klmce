@@ -1,0 +1,46 @@
+{
+  "advisory": "GHSA-vfj7-8cjw-p6xm",
+  "upstream": "braces@3.0.3",
+  "files": {
+    "lib/parse.js": {
+      "originalSha": "e572166565f15fa6ad9865ae49d678218e32aabfd1b3720f6d0d43d39800d310",
+      "patchedSha": "2758565d7d11c17c7bce9b604e53ace341f4acfd4b3f6174cb750b2fcc7841a7",
+      "replacements": [
+        {
+          "before": "      stack.push(block);",
+          "after": "      if (stack.length >= 128) {\n        const error = new SyntaxError('Brace pattern exceeds safe nesting depth');\n        error.code = 'ERR_BRACES_DEPTH'; throw error;\n      }\n      stack.push(block);"
+        }
+      ]
+    },
+    "lib/compile.js": {
+      "originalSha": "dc98f22eee3d511785d92a00758d5f0d48efed5f5813bdecc2de430c529b5c9f",
+      "patchedSha": "a510c72a3b19bc6d4b977fdf4f95dc6772eb8ab2a79a157e6fcfd1da4972dfe4",
+      "replacements": [
+        {
+          "before": "const compile = (ast, options = {}) => {",
+          "after": "const compile = (ast, options = {}) => {\n  require('./depth-guard')(ast);"
+        }
+      ]
+    },
+    "lib/expand.js": {
+      "originalSha": "41ccc196ebfa7b7781a634e721eb744e4e7bcb54cba427a7e3d6806a1b9e58f7",
+      "patchedSha": "5d1ce7db79681c0b5d2badedfa33874d066b5dbd71e95a84918df4a6801f51e4",
+      "replacements": [
+        {
+          "before": "const expand = (ast, options = {}) => {",
+          "after": "const expand = (ast, options = {}) => {\n  require('./depth-guard')(ast);"
+        }
+      ]
+    },
+    "lib/stringify.js": {
+      "originalSha": "379f22d77bfa1478341ccd49c5e4267464aabcbba03558bab332aac23fc6f23a",
+      "patchedSha": "1397d63ee729537996592e4e45e31846afb661e19a9e3378090d75af4abb2c77",
+      "replacements": [
+        {
+          "before": "module.exports = (ast, options = {}) => {",
+          "after": "module.exports = (ast, options = {}) => {\n  require('./depth-guard')(ast);"
+        }
+      ]
+    }
+  }
+}

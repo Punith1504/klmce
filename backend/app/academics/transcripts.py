@@ -1,7 +1,7 @@
 import io
 import qrcode
 from datetime import datetime, timezone
-from jose import jwt
+import jwt
 from fastapi import APIRouter, HTTPException, Depends
 
 # ReportLab for programmatic PDF generation

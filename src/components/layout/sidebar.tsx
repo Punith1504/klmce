@@ -16,7 +16,7 @@ const studentNavItems = [
   { name: 'Academics & Analytics', href: '/student/academics', icon: BookOpen },
   { name: 'e-Assessments', href: '/student/assessments', icon: PenTool },
   { name: 'Placement Cell', href: '/student/placements', icon: Briefcase },
-  { name: 'Fees & Payments', href: '/student/fees', icon: Banknote },
+  { name: 'Fee Records', href: '/student/fees', icon: Banknote },
   { name: 'Services & Requests', href: '/student/requests', icon: FileSignature },
   { name: 'Campus (Library/Hostel)', href: '/student/campus', icon: Map },
   { name: 'Faculty Directory', href: '/student/departments', icon: Users },
@@ -28,7 +28,7 @@ const facultyNavItems = [
   { name: 'Attendance Entry', href: '/faculty/attendance', icon: CalendarCheck },
   { name: 'Course & LMS', href: '/faculty/courses', icon: BookOpen },
   { name: 'Assessments', href: '/faculty/assessments', icon: PenTool },
-  { name: 'Marks Entry', href: '/faculty/marks', icon: Award },
+  { name: 'Marks Entry', href: '/faculty/results', icon: Award },
   { name: 'Mentoring', href: '/faculty/mentoring', icon: Users },
   { name: 'HR & Workload', href: '/faculty/hr', icon: Briefcase },
 ];
@@ -37,7 +37,7 @@ const parentNavItems = [
   { name: 'Parent Dashboard', href: '/parent/dashboard', icon: LayoutDashboard },
   { name: 'Attendance & Alerts', href: '/parent/attendance', icon: CalendarCheck },
   { name: 'Academics & Results', href: '/parent/academics', icon: Award },
-  { name: 'Fee Payments', href: '/parent/fees', icon: Banknote },
+  { name: 'Fee Records', href: '/parent/fees', icon: Banknote },
   { name: 'Communication', href: '/parent/communication', icon: FileSignature },
 ];
 
@@ -69,7 +69,7 @@ export function Sidebar() {
         ? adminNavItems
         : studentNavItems;
 
-  const NavContent = () => (
+  const navContent = (
     <div className="flex flex-col h-full bg-[#221F32]/80 backdrop-blur-md border-r border-white/10">
       <div className="h-16 flex items-center px-6 border-b border-white/10">
         <img src="/college-logo.png" alt="KLMCEW Logo" className="w-10 h-10 object-contain mr-3 drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]" />
@@ -100,7 +100,7 @@ export function Sidebar() {
     <>
       {/* Desktop Sidebar (w-64 = 16rem = 256px) */}
       <aside className="hidden md:flex flex-col w-64 fixed inset-y-0 z-50">
-        <NavContent />
+        {navContent}
       </aside>
 
       {/* Mobile Sidebar Trigger (Header part usually, but placed here for isolation) */}
@@ -112,7 +112,7 @@ export function Sidebar() {
             </Button>
           </SheetTrigger>
           <SheetContent side="left" className="p-0 w-64 border-none bg-transparent">
-            <NavContent />
+            {navContent}
           </SheetContent>
         </Sheet>
       </div>

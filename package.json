@@ -6,24 +6,25 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "postinstall": "prisma generate"
+    "lint": "eslint src --quiet",
+    "postinstall": "node scripts/patch-braces.cjs && prisma generate",
+    "typecheck": "tsc --noEmit --incremental false",
+    "test:audit": "node --test --test-reporter=tap tests/audit/frontend-actions.test.cjs",
+    "test:security": "node --test tests/security/*.test.cjs",
+    "prebuild": "node scripts/patch-braces.cjs",
+    "prelint": "node scripts/patch-braces.cjs"
   },
   "dependencies": {
     "@clerk/nextjs": "^7.9.10",
-    "@clerk/themes": "^2.4.57",
-    "@ducanh2912/next-pwa": "^10.2.9",
     "@hello-pangea/dnd": "^18.0.1",
     "@hookform/resolvers": "^5.9.1",
     "@prisma/client": "^5.22.0",
     "@react-pdf/renderer": "^3.4.4",
-    "@sentry/nextjs": "^8.55.2",
+    "@sentry/nextjs": "^11.4.0",
     "@tanstack/react-query": "^5.104.0",
     "@tanstack/react-table": "^8.20.5",
     "@types/papaparse": "^5.5.2",
-    "@uploadthing/react": "^7.3.3",
     "axios": "^1.20.0",
-    "effect": "^3.17.7",
     "framer-motion": "^13.4.6",
     "html5-qrcode": "^2.3.8",
     "lucide-react": "^0.424.0",
@@ -34,21 +35,23 @@
     "react-dom": "^18",
     "react-hook-form": "^7.89.0",
     "recharts": "^2.12.7",
-    "uploadthing": "^7.7.4",
-    "xlsx": "^0.18.5",
     "zod": "^3.25.76",
     "zustand": "^5.0.15"
   },
   "devDependencies": {
+    "@playwright/test": "^1.63.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.6.1",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.5",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "^16.3.8",
     "postcss": "^8",
     "prisma": "^5.22.0",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
+  },
+  "overrides": {
+    "postcss-selector-parser": "^7.1.6"
   }
 }

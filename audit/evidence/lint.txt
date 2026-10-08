@@ -1,0 +1,6 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> klmce-enterprise-frontend@1.0.0 lint
+> next lint
+
+Invalid project directory provided, no such directory: /workspace/scratch/97bfbce5feb7/klmce/lint

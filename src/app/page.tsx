@@ -158,7 +158,7 @@ export default function UnifiedAuthPortal() {
                                 </button>
 
                                 <p className="text-center text-sm text-violet-200/60 mt-6">
-                                    Don't have an account? <button type="button" onClick={() => switchView('register')} className="text-fuchsia-400 hover:text-white transition-colors font-medium">Create one</button>
+                                    Don&apos;t have an account? <button type="button" onClick={() => switchView('register')} className="text-fuchsia-400 hover:text-white transition-colors font-medium">Create one</button>
                                 </p>
                             </motion.form>
                         )}

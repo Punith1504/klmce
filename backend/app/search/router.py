@@ -4,7 +4,8 @@ import asyncpg
 from typing import List
 
 from app.core.database import get_db_connection
-from app.core.security import require_roles, Role, RFC7807Exception
+from app.core.dependencies import require_roles, Role
+from app.core.security import RFC7807Exception
 
 router = APIRouter()
 

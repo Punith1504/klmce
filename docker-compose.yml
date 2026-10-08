@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   # ==========================================
   # PostgreSQL Database (Primary Datastore)
@@ -13,12 +11,9 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
     ports:
-      - "5432:5432"
+      - "127.0.0.1:5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      # Mount the initialization schema directly into the standard init path
-      - ./init_schema.sql:/docker-entrypoint-initdb.d/000_init_schema.sql:ro
-      - ./backend/db/migrations/001_master_data.sql:/docker-entrypoint-initdb.d/001_master_data.sql:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 5s
@@ -33,7 +28,7 @@ services:
     container_name: klmce_redis
     restart: unless-stopped
     ports:
-      - "6379:6379"
+      - "127.0.0.1:6379:6379"
     command: redis-server --requirepass ${REDIS_PASSWORD}
     volumes:
       - redis_data:/data
@@ -52,9 +47,29 @@ services:
       dockerfile: Dockerfile
     container_name: klmce_backend
     restart: unless-stopped
-    env_file: .env
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      REDIS_URL: ${REDIS_URL}
+      SECRET_KEY: ${SECRET_KEY}
+      ATTENDANCE_AES_KEY: ${ATTENDANCE_AES_KEY}
+      ATTENDANCE_HMAC_KEY: ${ATTENDANCE_HMAC_KEY}
+      PAYMENT_WEBHOOK_SECRET: ${PAYMENT_WEBHOOK_SECRET}
+      WEBHOOK_SECRET: ${WEBHOOK_SECRET}
+      RAZORPAY_ENABLED: ${RAZORPAY_ENABLED:-false}
+      RAZORPAY_TENANT_ID: ${RAZORPAY_TENANT_ID:-}
+      RAZORPAY_ACCOUNT_ID: ${RAZORPAY_ACCOUNT_ID:-}
+      RAZORPAY_KEY_ID: ${RAZORPAY_KEY_ID:-}
+      RAZORPAY_KEY_SECRET: ${RAZORPAY_KEY_SECRET:-}
+      RAZORPAY_WEBHOOK_SECRET: ${RAZORPAY_WEBHOOK_SECRET:-}
+      DB_STATEMENT_CACHE_SIZE: ${DB_STATEMENT_CACHE_SIZE:-100}
+      FRONTEND_URL: ${FRONTEND_URL}
+      CLERK_ISSUER: ${CLERK_ISSUER}
+      CLERK_AUDIENCE: ${CLERK_AUDIENCE:-}
+      DB_MIN_CONNS: ${DB_MIN_CONNS:-2}
+      DB_MAX_CONNS: ${DB_MAX_CONNS:-10}
+      REDIS_MAX_CONNS: ${REDIS_MAX_CONNS:-100}
     ports:
-      - "8000:8000"
+      - "127.0.0.1:8000:8000"
     depends_on:
       postgres:
         condition: service_healthy
@@ -66,11 +81,16 @@ services:
   # ==========================================
   frontend:
     build:
-      context: ./frontend
+      context: .
       dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
     container_name: klmce_frontend
     restart: unless-stopped
-    env_file: .env
+    environment:
+      ERP_API_URL: ${ERP_API_URL}
+      NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
+      CLERK_SECRET_KEY: ${CLERK_SECRET_KEY}
     ports:
       - "3000:3000"
     depends_on:
