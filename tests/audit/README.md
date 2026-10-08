@@ -1,5 +1,10 @@
 # ERP acceptance tests
 
+Current remediation results and commands are in `audit/REMEDIATION.md` and
+`audit/PHASE_TWO_VERIFICATION.md`. The following text describes the original
+audit baseline, not current test failures. Current suites also include real
+PostgreSQL/Redis integration and an explicitly disposable HTTP/restore drill.
+
 These tests describe required behavior and intentionally remain red for defects
 in commit `41976c777add05b4cc7ee2394a9a81bb3decfe56`. They do not change application
 behavior. Do not weaken assertions or add xfail markers to manufacture a pass.

@@ -2,6 +2,13 @@
 
 The original audit remains in this directory as baseline evidence. This branch fixes the core trust boundary and deliberately reduces exposed functionality. A passing test for a disabled module establishes containment, not a completed ERP feature.
 
+**8 October update:** admissions linking, academic setup/exam publication and
+an isolated Razorpay sandbox have since been implemented. Read
+[`PHASE_TWO_VERIFICATION.md`](PHASE_TWO_VERIFICATION.md) for current results,
+including the still-failing high-concurrency latency gate, and
+[`RAZORPAY_SANDBOX.md`](RAZORPAY_SANDBOX.md) before configuring test payments.
+The dated results below are retained as earlier evidence, not current totals.
+
 ## Implemented
 
 - Mandatory configured JWT and attendance keys, fixed JWT purposes/issuer/audience, valid bcrypt hashing, active database membership lookup, staff MFA, revocable local sessions and single-use refresh rotation.
@@ -13,7 +20,7 @@ The original audit remains in this directory as baseline evidence. This branch f
 
 ## Explicitly unfinished
 
-Payment provider verification/posting, invoices/refunds/reconciliation, uploads and malware scanning, encrypted grievance workflows, admissions automation, full exam scheduling/publication UI, CBCS concurrency, HR/payroll, hostel/transport/library and mobile workflows remain unavailable or outside the mounted API. Their old prototype source is not an approved production implementation. The restricted core screens are listed in `src/app/(erp)/layout.tsx`.
+Live payment posting, refunds/settlement reconciliation, uploads and malware scanning, encrypted grievance workflows, admissions automation beyond enrollment of existing accounts, CBCS concurrency, HR/payroll, hostel/transport/library and mobile workflows remain unavailable or outside the mounted API. Their old prototype source is not an approved production implementation. The restricted core screens are listed in `src/app/(erp)/layout.tsx`. Razorpay test captures are isolated from real fees; exam setup/publication now has an authenticated workflow.
 
 No claim of 3,000 concurrent users is made. Enrollment count is distinct from concurrency. Run the scenarios in the capacity section of `ERP_READINESS_AUDIT.md` and `tests/audit/read-capacity.k6.js` against a representative staging environment before capacity approval, including a realistic historical dataset, 300 simultaneous users, the attendance burst, database pool saturation and dependency failure. Record p95/p99 latency, errors, resource saturation and evidence of no duplicate/lost writes.
 
@@ -30,11 +37,11 @@ No claim of 3,000 concurrent users is made. Enrollment count is distinct from co
 
 Do not apply the new migration blindly to a populated legacy installation. First take an encrypted backup and restore it into an isolated staging database. Compare actual schema and migration history. Reconcile missing sections, tenant-mismatched references, duplicate attendance and out-of-range marks; never silently delete conflicting records. Adopt checksums only after an administrator has verified the exact baseline. Test the upgrade on the restored copy, including audit attribution and role isolation.
 
-Before release, perform and time a restore drill, verify row counts, sample records, constraints and audit history, then document RPO/RTO and backup retention. Rollback requires the tested application image and verified database restore plan; do not reverse integrity constraints by deleting data. These operational checks require access to the deployment and have not been executed by this change.
+Before release, perform and time a restore drill on the actual deployment, verify row counts, sample records, constraints and audit history, then document RPO/RTO and backup retention. Rollback requires the tested application image and verified database restore plan; do not reverse integrity constraints by deleting data. An encrypted disposable-CI restore has now passed (see phase-two evidence); actual deployment backup storage, key recovery and operational RPO/RTO remain unverified.
 
 ## Repeatable checks
 
-- `npm ci && npm run typecheck && npm run lint && npm run test:audit && npm run build`
+- `npm ci && npm run typecheck && npm run lint && npm run test:audit && npm run test:security && npm run build`
 - `pip install -r tests/audit/requirements.txt` then `PYTHONPATH=backend pytest tests/audit -v`
 - Real-service tests: use a **fresh disposable** PostgreSQL database, `DATABASE_ADMIN_URL`, restricted `DATABASE_URL` matching the test login, `REDIS_URL`, and `ERP_DISPOSABLE_TEST_DB=1`; run `PYTHONPATH=backend pytest tests/integration -v`. CI supplies these services. Secrets are ephemeral in `tests/conftest.py` only.
 

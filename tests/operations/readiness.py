@@ -1,7 +1,8 @@
 """Disposable CI readiness drill. Real TCP/HTTP, PostgreSQL, Redis and pg_dump/restore.
 No production URL is accepted. Credentials, dumps and encryption keys are not artifacts.
 """
-import asyncio, hashlib, json, os, secrets, subprocess, sys, tempfile, time, resource
+import asyncio, hashlib, json, os, secrets, subprocess, sys, tempfile, time, resource, ssl
+from contextlib import AsyncExitStack
 from pathlib import Path
 from uuid import uuid4
 from urllib.parse import urlsplit,urlunsplit
@@ -18,6 +19,7 @@ from app.core.security import create_access_token
 from app.attendance.qr_crypto import generate_qr_payload
 
 REPORT={'environment':'disposable GitHub runner; loopback HTTP; not production certification'}
+TLS_CONTEXT=ssl.create_default_context()
 
 def command(*args,**kwargs):
     return subprocess.run(args,check=True,capture_output=True,**kwargs)
@@ -26,6 +28,21 @@ def stats(samples):
     ordered=sorted(samples)
     return {'requests':len(samples),'p50_ms':round(ordered[int((len(ordered)-1)*.50)],2),
         'p95_ms':round(ordered[int((len(ordered)-1)*.95)],2),'p99_ms':round(ordered[int((len(ordered)-1)*.99)],2)}
+
+async def workload(profiles,concurrency,handler):
+    # One bounded connection pool per virtual user. A single shared HTTPX pool
+    # spent nearly an entire client CPU core arbitrating hundreds of connections,
+    # obscuring the server's measured 4.6 ms p95 with seconds of local delay.
+    # Client setup is outside request latency; TCP establishment remains inside.
+    async with AsyncExitStack() as stack:
+        clients=[await stack.enter_async_context(httpx.AsyncClient(
+            base_url='http://127.0.0.1:8097',timeout=20,trust_env=False,verify=TLS_CONTEXT,
+            limits=httpx.Limits(max_connections=1,max_keepalive_connections=1))) for _ in range(concurrency)]
+        async def worker(index,client):
+            for profile in profiles[index::concurrency]: await handler(client,profile)
+        cpu=time.process_time();before=time.perf_counter()
+        await asyncio.gather(*(worker(i,client) for i,client in enumerate(clients)))
+        return time.perf_counter()-before,time.process_time()-cpu
 
 async def fingerprints(conn):
     result={}
@@ -80,6 +97,7 @@ async def drill():
                     'token':create_access_token({'sub':str(p['user_id']),'tenant_id':str(tenant),'role':'STUDENT','sid':sid})})
             await pipe.execute()
         REPORT['dataset']={'students':3000,'historical_attendance':180000,'published_marks':30000,'sections':60}
+        REPORT['load_generator']='independent virtual users, one connection each; per-user sequential requests'
         await conn.execute('ANALYZE')
         # Diagnose the real restricted-role query, not an owner/RLS-bypass plan.
         restricted=await asyncpg.connect(os.environ['DATABASE_URL'])
@@ -102,39 +120,35 @@ async def drill():
                         await asyncio.sleep(.1)
                     else:raise RuntimeError('Backend did not become ready')
                     for concurrency in (50,150,300):
-                        latencies=[];server_latencies=[];errors=[];sem=asyncio.Semaphore(concurrency)
-                        async def read(p):
-                            async with sem:
-                                before=time.perf_counter()
-                                r=await client.get('/api/v1/students/records',headers={'Cookie':'access_token='+p['token']})
-                                latencies.append((time.perf_counter()-before)*1000)
-                                server_latencies.append(float(r.headers['server-timing'].split('dur=')[1]))
-                                if r.status_code!=200:errors.append(r.status_code);return
-                                body=r.json()
-                                assert len(body['attendance'])==60 and len(body['marks'])==10
-                                assert all(x['student_id']==p['student'] for kind in body.values() for x in kind),'Record disclosure'
-                        client_cpu=time.process_time()
-                        before=time.perf_counter();await asyncio.gather(*(read(p) for p in profiles))
-                        elapsed=time.perf_counter()-before
+                        latencies=[];server_latencies=[];errors=[]
+                        async def read(worker_client,p):
+                            before=time.perf_counter()
+                            r=await worker_client.get('/api/v1/students/records',headers={'Cookie':'access_token='+p['token']})
+                            latencies.append((time.perf_counter()-before)*1000)
+                            server_latencies.append(float(r.headers['server-timing'].split('dur=')[1]))
+                            if r.status_code!=200:errors.append(r.status_code);return
+                            body=r.json()
+                            assert len(body['attendance'])==60 and len(body['marks'])==10
+                            assert all(x['student_id']==p['student'] for kind in body.values() for x in kind),'Record disclosure'
+                        elapsed,client_cpu=await workload(profiles,concurrency,read)
                         REPORT[f'reads_{concurrency}']={**stats(latencies),'errors':len(errors),'duration_seconds':round(elapsed,2),'requests_per_second':round(len(profiles)/elapsed,2)}
                         REPORT[f'reads_{concurrency}']['server_processing']=stats(server_latencies)
-                        REPORT[f'reads_{concurrency}']['client_cpu_seconds']=round(time.process_time()-client_cpu,2)
+                        REPORT[f'reads_{concurrency}']['client_cpu_seconds']=round(client_cpu,2)
                         print(json.dumps({f'reads_{concurrency}':REPORT[f'reads_{concurrency}']}),flush=True)
                         assert not errors,'HTTP read errors'
                     # Fresh shared classroom QR for each of the 60 sections.
                     qr={slot:generate_qr_payload(str(tenant),str(slot),str(uuid4())) for slot in slots}
-                    latencies=[];sem=asyncio.Semaphore(300)
-                    async def scan(p):
-                        async with sem:
-                            before=time.perf_counter()
-                            r=await client.post('/api/v1/attendance/scan',json={'qr_payload':qr[p['slot']]},headers={'Cookie':'access_token='+p['token'],'Origin':os.environ['FRONTEND_URL']})
-                            latencies.append((time.perf_counter()-before)*1000)
-                            assert r.status_code==200,f'Attendance failed: {r.status_code}'
-                    before=time.perf_counter();await asyncio.gather(*(scan(p) for p in profiles))
-                    REPORT['attendance_burst']={**stats(latencies),'duration_seconds':round(time.perf_counter()-before,2)}
+                    latencies=[]
+                    async def scan(worker_client,p):
+                        before=time.perf_counter()
+                        r=await worker_client.post('/api/v1/attendance/scan',json={'qr_payload':qr[p['slot']]},headers={'Cookie':'access_token='+p['token'],'Origin':os.environ['FRONTEND_URL']})
+                        latencies.append((time.perf_counter()-before)*1000)
+                        assert r.status_code==200,f'Attendance failed: {r.status_code}'
+                    elapsed,client_cpu=await workload(profiles,300,scan)
+                    REPORT['attendance_burst']={**stats(latencies),'duration_seconds':round(elapsed,2),'client_cpu_seconds':round(client_cpu,2)}
                     assert await conn.fetchval('SELECT count(*) FROM attendance_records WHERE tenant_id=$1 AND slot_id=ANY($2)',tenant,slots)==3000
                     # Replay same valid code for first 100 identities: durable duplicate protection.
-                    await asyncio.gather(*(scan(p) for p in profiles[:100]))
+                    await workload(profiles[:100],100,scan)
                     assert await conn.fetchval('SELECT count(*) FROM attendance_records WHERE tenant_id=$1 AND slot_id=ANY($2)',tenant,slots)==3000
                     REPORT['attendance_burst']['rows']=3000;REPORT['attendance_burst']['duplicate_replays']=100
                     REPORT['latency_budget_met']=all(REPORT[f'reads_{n}']['p95_ms']<1500 and REPORT[f'reads_{n}']['p99_ms']<3000 for n in (50,150,300))
