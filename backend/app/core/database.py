@@ -10,7 +10,8 @@ class DatabaseManager:
         if not url.startswith(("postgres://","postgresql://")):
             raise RuntimeError("DATABASE_URL must use the asyncpg postgresql:// format")
         self.pool=await asyncpg.create_pool(dsn=url,min_size=int(os.getenv("DB_MIN_CONNS","2")),
-            max_size=int(os.getenv("DB_MAX_CONNS","10")),command_timeout=15,statement_cache_size=0)
+            max_size=int(os.getenv("DB_MAX_CONNS","10")),command_timeout=15,
+            statement_cache_size=int(os.getenv("DB_STATEMENT_CACHE_SIZE","100")))
         async with self.pool.acquire() as conn:
             unsafe=await conn.fetchval("SELECT rolsuper OR rolbypassrls FROM pg_roles WHERE rolname=current_user")
             owner=await conn.fetchval("SELECT EXISTS(SELECT 1 FROM pg_tables WHERE schemaname='public' AND tableowner=current_user)")

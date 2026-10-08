@@ -15,6 +15,7 @@ from app.attendance.router import router as attendance_router
 from app.exams.router import router as exams_router
 from app.exams.schedules import router as schedules_router
 from app.finance.router import router as finance_router
+from app.finance.razorpay import router as razorpay_router
 from app.timetable.router import router as timetable_router
 from app.analytics.router import router as analytics_router
 
@@ -44,7 +45,7 @@ async def protect_requests(request:Request,call_next):
     # Bearer credentials and signed server-to-server webhooks do not use cookies.
     if request.method in {'POST','PUT','PATCH','DELETE'}:
         bearer=request.headers.get('authorization','').startswith('Bearer ')
-        webhook=request.url.path=='/api/v1/finance/webhook'
+        webhook=request.url.path in ('/api/v1/finance/webhook','/api/v1/finance/razorpay/webhook')
         if not bearer and not webhook and request.headers.get('origin')!=os.getenv('FRONTEND_URL'):
             return JSONResponse(status_code=403,content={'detail':'Untrusted request origin'})
     response=await call_next(request)
@@ -68,5 +69,5 @@ async def health():
         return JSONResponse(status_code=503,content={'status':'unavailable'})
 
 for prefix,router in [('auth',auth_router),('students',students_router),('attendance',attendance_router),
-    ('exams',exams_router),('exams',schedules_router),('finance',finance_router),('timetable',timetable_router),('analytics',analytics_router)]:
+    ('exams',exams_router),('exams',schedules_router),('finance',finance_router),('finance',razorpay_router),('timetable',timetable_router),('analytics',analytics_router)]:
     app.include_router(router,prefix='/api/v1/'+prefix)

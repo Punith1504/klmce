@@ -13,7 +13,8 @@ ROOT = Path(__file__).resolve().parents[2]
 MIGRATIONS = ['init_schema.sql', 'backend/db/migrations/001_master_data.sql',
               'backend/db/migrations/018_security_foundation.sql',
               'backend/db/migrations/019_academic_workflows.sql',
-              'backend/db/migrations/020_identity_lookup.sql']
+              'backend/db/migrations/020_identity_lookup.sql',
+              'backend/db/migrations/021_razorpay_sandbox.sql']
 
 async def migrate(url):
     conn = await asyncpg.connect(url)

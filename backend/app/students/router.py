@@ -1,10 +1,10 @@
 import csv
-import json
 import io
 from uuid import UUID
 from typing import Annotated
 import asyncpg
 from fastapi import APIRouter, Depends, UploadFile, File, HTTPException, Query
+from fastapi.responses import Response
 from pydantic import BaseModel, Field, ConfigDict, ValidationError
 from app.core.database import get_db_connection
 from app.core.dependencies import get_active_user, require_roles, Role
@@ -85,7 +85,9 @@ async def records(token:dict=Depends(get_active_user),conn=Depends(get_db_connec
     }
     # One statement also gives all three collections the same database snapshot.
     parts=[f"'{name}',(SELECT coalesce(jsonb_agg(to_jsonb(r)),'[]'::jsonb) FROM ({query}) r)" for name,query in queries.items()]
-    return json.loads(await conn.fetchval('SELECT jsonb_build_object('+','.join(parts)+')',*args))
+    # PostgreSQL already encoded the response. Avoid decoding, walking every
+    # history item in FastAPI's generic encoder, then encoding the same JSON.
+    return Response(await conn.fetchval('SELECT jsonb_build_object('+','.join(parts)+')',*args),media_type='application/json')
 
 
 @router.get('/enrollment-options')

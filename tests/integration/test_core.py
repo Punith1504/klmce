@@ -216,3 +216,108 @@ def test_academic_setup_enrollment_and_result_publication(seeded):
                 await identity('faculty','FACULTY')
                 assert (await client.put(f"/api/v1/exams/marks/{ours[0]['id']}",json={'marks_obtained':24})).status_code==409
     asyncio.run(run())
+
+
+def test_razorpay_sandbox_isolation_durability_and_replays(seeded, monkeypatch):
+    import hashlib, hmac, json
+    from app.finance import razorpay
+    from fastapi import HTTPException
+    for key,value in {'RAZORPAY_ENABLED':'true','RAZORPAY_TENANT_ID':str(seeded['tenant']),
+        'RAZORPAY_ACCOUNT_ID':'acc_Integration','RAZORPAY_KEY_ID':'rzp_test_Integration',
+        'RAZORPAY_KEY_SECRET':'test-secret-not-a-real-key', 'RAZORPAY_WEBHOOK_SECRET':'test-webhook-secret-never-a-real-secret'}.items():
+        monkeypatch.setenv(key,value)
+    calls=[]; entities={}; uncertain=False
+    async def provider(c,method,path,payload=None):
+        if method=='GET': return entities[path.split('/')[-1]]
+        calls.append(payload)
+        entity={'id':'order_'+str(len(calls)), 'entity':'order', 'status':'created', **payload}
+        entities[entity['id']]=entity
+        if uncertain: raise HTTPException(503,'Synthetic uncertain provider result')
+        await asyncio.sleep(.05)
+        return entity
+    monkeypatch.setattr(razorpay,'provider_request',provider)
+    async def run():
+        nonlocal uncertain
+        from app.main import app
+        from app.core.auth import issue_session
+        from app.core.redis import redis_manager
+        from starlette.responses import Response
+        async with app.router.lifespan_context(app):
+            async with httpx.AsyncClient(transport=httpx.ASGITransport(app=app),base_url='https://erp.example.test',headers={'Origin':os.environ['FRONTEND_URL']}) as client:
+                async def identity(user,role):
+                    client.cookies.clear();response=Response()
+                    await issue_session({'user_id':seeded[user],'tenant_id':seeded['tenant'],'role':role},response,redis_manager.client)
+                    for cookie in response.headers.getlist('set-cookie'):
+                        name,value=cookie.split(';')[0].split('=',1);client.cookies.set(name,value)
+                path='/api/v1/finance/razorpay'
+                data={'student_id':str(seeded['student']),'reference':'Sandbox tuition','amount_paise':25000}
+                await identity('student_user','STUDENT')
+                assert (await client.post(path+'/invoices',json=data)).status_code==403
+                await identity('admin','INSTITUTION_ADMIN')
+                assert (await client.post(path+'/invoices',json={**data,'student_id':str(seeded['outsider'])})).status_code==422
+                invoice=await client.post(path+'/invoices',json=data);assert invoice.status_code==201,invoice.text
+                invoice_id=invoice.json()['invoice_id']
+                assert (await client.post(path+'/invoices',json=data)).status_code==409
+                sibling=await client.post(path+'/invoices',json={**data,'student_id':str(seeded['sibling']),'reference':'Sibling sandbox'})
+                assert sibling.status_code==201
+                await identity('faculty','FACULTY')
+                assert (await client.get(path+'/invoices')).json()==[]
+                await identity('student_user','STUDENT')
+                assert len((await client.get(path+'/invoices')).json())==1
+                assert (await client.post(path+f"/invoices/{sibling.json()['invoice_id']}/order")).status_code==404
+                results=await asyncio.gather(*(client.post(path+f'/invoices/{invoice_id}/order') for _ in range(5)))
+                assert all(r.status_code in (200,409) for r in results),[(r.status_code,r.text) for r in results]
+                assert sum(r.status_code==200 for r in results)>=1 and len(calls)==1
+                assert calls[0]['amount']==25000 and calls[0]['currency']=='INR'
+                await identity('parent','PARENT')
+                assert (await client.post(path+f'/invoices/{invoice_id}/order')).json()['order_id']=='order_1'
+                # No caller-supplied amount, payment ID or success flag can post credit.
+                await identity('admin','INSTITUTION_ADMIN')
+                second=await client.post(path+'/invoices',json={**data,'reference':'Timeout recovery'})
+                second_id=second.json()['invoice_id']
+                await identity('student_user','STUDENT');uncertain=True
+                assert (await client.post(path+f'/invoices/{second_id}/order')).status_code==503
+                assert (await client.post(path+f'/invoices/{second_id}/order')).status_code==409
+                assert len(calls)==2
+                reserved=next(r for r in (await client.get(path+'/invoices')).json() if r['invoice_id']==second_id)
+                await identity('admin','INSTITUTION_ADMIN')
+                assert (await client.post(path+f"/orders/{reserved['order_id']}/reconcile",json={'provider_order_id':'order_1'})).status_code==409
+                recovered=await client.post(path+f"/orders/{reserved['order_id']}/reconcile",json={'provider_order_id':'order_2'})
+                assert recovered.status_code==200,recovered.text
+                assert len(calls)==2
+                client.cookies.clear()
+                payment={'entity':'payment','id':'pay_1','order_id':'order_1','status':'captured','captured':True,'amount':25000,'currency':'INR'}
+                def signed(payment,event='evt_1'):
+                    body=json.dumps({'event':'payment.captured','account_id':'acc_Integration','payload':{'payment':{'entity':payment}}}).encode()
+                    headers={'x-razorpay-signature':hmac.new(os.environ['RAZORPAY_WEBHOOK_SECRET'].encode(),body,hashlib.sha256).hexdigest(),
+                        'x-razorpay-event-id':event,'Content-Type':'application/json','Origin':'https://provider.example'}
+                    return {'content':body,'headers':headers}
+                assert (await client.post(path+'/webhook',content=b'{}',headers={'Origin':'https://provider.example'})).status_code==401
+                assert (await client.post(path+'/webhook',**signed({**payment,'amount':24000}))).status_code==409
+                assert (await client.post(path+'/webhook',**signed({**payment,'captured':False}))).status_code==422
+                assert (await client.post(path+'/webhook',**signed({**payment,'order_id':'order_Unknown'}))).status_code==409
+                responses=await asyncio.gather(*(client.post(path+'/webhook',**signed(payment)) for _ in range(10)))
+                assert all(r.status_code==200 for r in responses),[(r.status_code,r.text) for r in responses]
+                assert sum(r.json()['status']=='posted' for r in responses)==1
+                assert (await client.post(path+'/webhook',**signed(payment,'evt_2'))).json()['status']=='duplicate'
+                assert (await client.post(path+'/webhook',**signed({**payment,'id':'pay_Double'},'evt_3'))).status_code==409
+                assert (await client.post(path+'/webhook',**signed({**payment,'id':'pay_Double'},'evt_1'))).status_code==409
+                await identity('student_user','STUDENT')
+                assert (await client.post(path+f'/invoices/{invoice_id}/order')).status_code==409
+                assert not (await client.get('/api/v1/students/records')).json()['fees'], 'Test payment changed real fees'
+        owner=await asyncpg.connect(os.environ['DATABASE_ADMIN_URL'])
+        try:
+            assert await owner.fetchval('SELECT count(*) FROM finance_captures')==1
+            assert await owner.fetchval('SELECT count(*) FROM finance_webhook_events')==2
+            assert await owner.fetchval("SELECT count(*) FROM finance_invoices WHERE status='PAID'")==1
+            with pytest.raises(asyncpg.RaiseError): await owner.execute('DELETE FROM finance_captures')
+        finally: await owner.close()
+        runtime=await asyncpg.connect(os.environ['DATABASE_URL'])
+        try:
+            assert await runtime.fetchval('SELECT count(*) FROM finance_invoices')==0
+            async with runtime.transaction():
+                await context(runtime,seeded,'STUDENT','student_user')
+                with pytest.raises(asyncpg.InsufficientPrivilegeError): await runtime.execute('UPDATE finance_invoices SET amount_paise=1')
+            with pytest.raises(asyncpg.InsufficientPrivilegeError): await runtime.fetch('SELECT * FROM finance_webhook_events')
+        finally: await runtime.close()
+    asyncio.run(run())
