@@ -207,15 +207,21 @@ export function RoleProvider({ children }: { children: React.ReactNode }) {
 
   const loginWithCredentials = (identifier: string, preferredRole?: RoleType): boolean => {
     const cleanId = identifier.trim().toLowerCase();
+    const digitsOnly = cleanId.replace(/\D/g, "");
 
-    // 1. Check for specific Admin keywords
-    if (cleanId.includes("admin") || cleanId.includes("principal") || preferredRole === "SUPER_ADMIN") {
-      switchRole("SUPER_ADMIN");
+    // 1. Admin Authentication
+    if (cleanId.includes("admin") || cleanId.includes("principal") || cleanId.includes("dean") || preferredRole === "SUPER_ADMIN") {
+      switchRole("SUPER_ADMIN", {
+        name: "Dr. V. Lokeswara Reddy",
+        identifier: "principal@klmce.ac.in",
+        email: "principal@klmce.ac.in",
+        roleTitle: "Principal & Institutional Head"
+      });
       return true;
     }
 
-    // 2. Check for Faculty keywords or EMP IDs
-    if (cleanId.includes("fac") || cleanId.includes("prof") || preferredRole === "FACULTY") {
+    // 2. Faculty Authentication (Matches any empId or email in FACULTY, or KLM-FAC pattern)
+    if (cleanId.includes("fac") || cleanId.includes("prof") || cleanId.startsWith("klm-") || preferredRole === "FACULTY") {
       const matchFaculty = FACULTY.find(f => 
         f.empId.toLowerCase() === cleanId || f.email.toLowerCase() === cleanId
       );
@@ -229,18 +235,45 @@ export function RoleProvider({ children }: { children: React.ReactNode }) {
           roleTitle: matchFaculty.designation
         });
       } else {
-        switchRole("FACULTY");
+        switchRole("FACULTY", {
+          name: "Dr. P. Radha Krishna",
+          identifier: cleanId.toUpperCase() || "KLM-FAC-106",
+          email: "radhakrishna.p@klmce.ac.in",
+          roleTitle: "Associate Professor (CSE)"
+        });
       }
       return true;
     }
 
-    // 3. Check for Parent
-    if (cleanId.includes("parent") || preferredRole === "PARENT" || cleanId.startsWith("+91")) {
-      switchRole("PARENT");
+    // 3. Parent Authentication (Matches any parent mobile or linked student parentPhone)
+    if (cleanId.includes("parent") || preferredRole === "PARENT" || cleanId.startsWith("+91") || (digitsOnly.length === 10 && !cleanId.includes("1a"))) {
+      const matchStudent = STUDENTS.find(s => 
+        s.parentPhone.replace(/\D/g, "") === digitsOnly ||
+        s.phone.replace(/\D/g, "") === digitsOnly
+      );
+      if (matchStudent) {
+        switchRole("PARENT", {
+          id: `PAR-${matchStudent.id}`,
+          name: matchStudent.parentName,
+          identifier: matchStudent.parentPhone,
+          wardDetails: {
+            rollNo: matchStudent.rollNo,
+            name: matchStudent.name,
+            department: matchStudent.department,
+            cgpa: matchStudent.cgpa,
+            attendance: matchStudent.attendance_pct
+          }
+        });
+      } else {
+        switchRole("PARENT", {
+          name: "C. Narayana Reddy",
+          identifier: identifier || "+91 94401 22334"
+        });
+      }
       return true;
     }
 
-    // 4. Check for Student by Roll No
+    // 4. Student Authentication (Matches any roll number or email across all students)
     const matchStudent = STUDENTS.find(s => 
       s.rollNo.toLowerCase() === cleanId || s.email.toLowerCase() === cleanId
     );
@@ -257,8 +290,11 @@ export function RoleProvider({ children }: { children: React.ReactNode }) {
       return true;
     }
 
-    // Default to Student portal
-    switchRole("STUDENT");
+    // 5. Dynamic Student Access for any custom roll number entered
+    switchRole("STUDENT", {
+      identifier: identifier.toUpperCase() || "219Y1A0501",
+      name: identifier ? `Scholar (${identifier.toUpperCase()})` : "C. Lakshmi Priya"
+    });
     return true;
   };
 
@@ -299,4 +335,79 @@ export function useRole() {
     throw new Error("useRole must be used within a RoleProvider");
   }
   return context;
+}
+
+export function resolveCredentialRole(identifier: string, fallbackRole?: RoleType): {
+  role: RoleType;
+  title: string;
+  name: string;
+  department?: string;
+  badge: string;
+} {
+  const cleanId = (identifier || "").trim().toLowerCase();
+  const digitsOnly = cleanId.replace(/\D/g, "");
+
+  // 1. Admin detection
+  if (cleanId.includes("admin") || cleanId.includes("principal") || cleanId.includes("dean") || fallbackRole === "SUPER_ADMIN") {
+    return {
+      role: "SUPER_ADMIN",
+      title: "Principal & Institutional Head",
+      name: "Dr. V. Lokeswara Reddy",
+      department: "Institutional Administration",
+      badge: "Admin Access"
+    };
+  }
+
+  // 2. Faculty detection
+  if (cleanId.includes("fac") || cleanId.includes("prof") || cleanId.startsWith("klm-") || fallbackRole === "FACULTY") {
+    const matchFaculty = FACULTY.find(f => 
+      f.empId.toLowerCase() === cleanId || f.email.toLowerCase() === cleanId
+    );
+    return {
+      role: "FACULTY",
+      title: matchFaculty?.designation || "Faculty Member & Mentor",
+      name: matchFaculty?.name || "Dr. P. Radha Krishna",
+      department: matchFaculty?.department || "Computer Science & Engineering",
+      badge: "Faculty Access"
+    };
+  }
+
+  // 3. Parent detection (phone number or parent keyword)
+  if (cleanId.includes("parent") || (digitsOnly.length === 10 && !cleanId.includes("1a")) || cleanId.startsWith("+91") || fallbackRole === "PARENT") {
+    const matchStudent = STUDENTS.find(s => 
+      s.parentPhone.replace(/\D/g, "") === digitsOnly ||
+      s.phone.replace(/\D/g, "") === digitsOnly
+    );
+    return {
+      role: "PARENT",
+      title: "Registered Parent / Guardian",
+      name: matchStudent?.parentName || "C. Narayana Reddy",
+      department: matchStudent ? `Ward: ${matchStudent.name} (${matchStudent.rollNo})` : "Guardian Oversight",
+      badge: "Parent Access"
+    };
+  }
+
+  // 4. Student detection (roll number or student email)
+  const matchStudent = STUDENTS.find(s => 
+    s.rollNo.toLowerCase() === cleanId || s.email.toLowerCase() === cleanId
+  );
+  if (matchStudent) {
+    return {
+      role: "STUDENT",
+      title: `B.Tech ${matchStudent.department} (Year ${matchStudent.year})`,
+      name: matchStudent.name,
+      department: matchStudent.department,
+      badge: "Student Access"
+    };
+  }
+
+  // 5. Fallback student for arbitrary roll numbers
+  const isInstitutionAdmin = fallbackRole === "INSTITUTION_ADMIN";
+  return {
+    role: fallbackRole || "STUDENT",
+    title: isInstitutionAdmin ? "Administrator" : "B.Tech Engineering Scholar",
+    name: cleanId ? (cleanId.toUpperCase().startsWith("2") ? `Scholar (${cleanId.toUpperCase()})` : "Authenticated Scholar") : "C. Lakshmi Priya",
+    department: "Computer Science & Engineering",
+    badge: isInstitutionAdmin ? "Admin Access" : "Student Access"
+  };
 }
