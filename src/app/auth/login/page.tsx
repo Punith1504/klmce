@@ -94,10 +94,6 @@ export default function LoginPage() {
     setIsLoading(false);
   };
 
-  const fillQuickDemo = (id: string, pass: string) => {
-    credsForm.setValue("email", id);
-    credsForm.setValue("password", pass);
-  };
 
   const handleTotpChange = (index: number, value: string) => {
     if (!/^\d*$/.test(value)) return;
@@ -151,9 +147,6 @@ export default function LoginPage() {
             >
               <ArrowLeft className="w-3.5 h-3.5" /> Back to Gateway
             </Link>
-            <span className="text-[11px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 font-medium">
-              Demo Active
-            </span>
           </div>
 
           <div className="flex justify-center mb-4">
@@ -165,64 +158,8 @@ export default function LoginPage() {
           </div>
           <h2 className="text-2xl sm:text-3xl font-bold mb-1 text-white text-center tracking-tight">KLMCE Gateway</h2>
           <p className="text-gray-400 text-center mb-6 text-xs sm:text-sm">
-            Sign in with your institutional credentials or select a verified test persona
+            Sign in with your institutional credentials (Roll No, Employee ID, or Email)
           </p>
-
-          {/* Quick Preset Selector Buttons */}
-          <div className="mb-6 p-3 bg-black/40 rounded-2xl border border-white/5 space-y-2">
-            <div className="text-[11px] font-bold text-slate-400 flex items-center gap-1 uppercase tracking-wider">
-              <Sparkles className="w-3 h-3 text-indigo-400" /> Auto-Fill Demo Persona
-            </div>
-            <div className="grid grid-cols-2 gap-1.5 text-xs">
-              <button
-                type="button"
-                onClick={() => fillQuickDemo("219Y1A0501", "123456")}
-                className="p-2 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 text-left transition flex items-center gap-2"
-              >
-                <GraduationCap className="w-4 h-4 text-emerald-400 shrink-0" />
-                <div className="min-w-0 truncate">
-                  <span className="font-bold text-slate-200 block truncate">Student</span>
-                  <span className="text-[10px] text-slate-400 font-mono">219Y1A0501</span>
-                </div>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => fillQuickDemo("KLM-FAC-106", "123456")}
-                className="p-2 rounded-lg bg-indigo-500/10 hover:bg-indigo-500/20 border border-indigo-500/20 text-left transition flex items-center gap-2"
-              >
-                <Briefcase className="w-4 h-4 text-indigo-400 shrink-0" />
-                <div className="min-w-0 truncate">
-                  <span className="font-bold text-slate-200 block truncate">Faculty</span>
-                  <span className="text-[10px] text-slate-400 font-mono">KLM-FAC-106</span>
-                </div>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => fillQuickDemo("principal@klmce.ac.in", "123456")}
-                className="p-2 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/20 text-left transition flex items-center gap-2"
-              >
-                <ShieldCheck className="w-4 h-4 text-amber-400 shrink-0" />
-                <div className="min-w-0 truncate">
-                  <span className="font-bold text-slate-200 block truncate">Admin</span>
-                  <span className="text-[10px] text-slate-400 font-mono">principal@</span>
-                </div>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => fillQuickDemo("+91 94401 22334", "123456")}
-                className="p-2 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/20 text-left transition flex items-center gap-2"
-              >
-                <Users className="w-4 h-4 text-rose-400 shrink-0" />
-                <div className="min-w-0 truncate">
-                  <span className="font-bold text-slate-200 block truncate">Parent</span>
-                  <span className="text-[10px] text-slate-400 font-mono">+91 94401</span>
-                </div>
-              </button>
-            </div>
-          </div>
 
           {globalError && (
             <div className="mb-6 p-4 rounded-xl bg-red-950/40 border border-red-900/50 flex items-start animate-in fade-in slide-in-from-top-2">
