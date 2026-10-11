@@ -5,7 +5,7 @@ import { ADMINS } from "@/lib/syntheticData";
 export default function Page() {
     const data = ADMINS;
     return (
-        <div className="p-8 space-y-6 text-white min-h-screen bg-[#050014] relative overflow-hidden">
+        <div className="p-4 sm:p-6 lg:p-8 space-y-6 text-white min-h-screen bg-[#050014] relative overflow-hidden">
             {/* Background Effects */}
             <div className="absolute top-[-20%] right-[-10%] w-[60%] h-[60%] rounded-full bg-violet-600/10 blur-[150px] mix-blend-screen pointer-events-none" />
             <div className="absolute bottom-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-fuchsia-600/10 blur-[120px] mix-blend-screen pointer-events-none" />

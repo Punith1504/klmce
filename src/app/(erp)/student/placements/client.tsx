@@ -10,7 +10,7 @@ export default function StudentPlacementsClient({ documents }: { documents: any[
     const [isProcessing, setIsProcessing] = useState(false);
     
     return (
-        <div className="space-y-8 max-w-7xl mx-auto p-6 lg:p-8 font-sans text-white">
+        <div className="space-y-6 sm:space-y-8 max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 font-sans text-white">
             
             {/* Header */}
             <div>

@@ -13,15 +13,15 @@ export default function RequestsPage() {
     ];
 
     return (
-        <div className="space-y-8 max-w-7xl mx-auto p-6 lg:p-8 font-sans">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div className="space-y-6 sm:space-y-8 max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 font-sans">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
-                    <h1 className="text-3xl font-bold text-slate-50 flex items-center gap-3 mb-2">
-                        <FileSignature className="w-7 h-7 text-indigo-400"/> Services & Requests
+                    <h1 className="text-2xl sm:text-3xl font-bold text-slate-50 flex items-center gap-3 mb-2">
+                        <FileSignature className="w-6 h-6 sm:w-7 sm:h-7 text-indigo-400"/> Services & Requests
                     </h1>
-                    <p className="text-slate-400 text-sm">Apply for certificates, leaves, ODs, and file grievances.</p>
+                    <p className="text-slate-400 text-xs sm:text-sm">Apply for certificates, leaves, ODs, and file grievances.</p>
                 </div>
-                <button className="bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-2 rounded-xl text-sm font-semibold transition shadow-[0_4px_14px_0_rgba(79,70,229,0.39)] flex items-center gap-2">
+                <button className="w-full sm:w-auto min-h-[44px] justify-center bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-2.5 rounded-xl text-sm font-semibold transition shadow-[0_4px_14px_0_rgba(79,70,229,0.39)] flex items-center gap-2">
                     <Send className="w-4 h-4" /> New Request
                 </button>
             </div>

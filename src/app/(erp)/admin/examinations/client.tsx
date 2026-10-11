@@ -20,7 +20,7 @@ export default function AdminExaminationsClient({ exams, batches }: { exams: any
     };
 
     return (
-        <div className="space-y-6 max-w-7xl mx-auto p-6 lg:p-8 font-sans text-white">
+        <div className="space-y-6 max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 font-sans text-white">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
                     <h1 className="text-3xl font-bold text-slate-50 flex items-center gap-3 mb-2">
@@ -38,11 +38,11 @@ export default function AdminExaminationsClient({ exams, batches }: { exams: any
                     <form onSubmit={handleSubmit} className="space-y-4">
                         <div>
                             <label className="block text-xs font-semibold text-slate-400 uppercase mb-2">Exam Name</label>
-                            <input name="name" required placeholder="e.g. Mid Term 1" className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-slate-200 outline-none focus:border-amber-500" />
+                            <input name="name" required placeholder="e.g. Mid Term 1" className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-base sm:text-sm text-slate-200 outline-none focus:border-amber-500" />
                         </div>
                         <div>
                             <label className="block text-xs font-semibold text-slate-400 uppercase mb-2">Exam Type</label>
-                            <select name="type" required className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-slate-200 outline-none focus:border-amber-500">
+                            <select name="type" required className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-base sm:text-sm text-slate-200 outline-none focus:border-amber-500">
                                 <option value="MID_TERM">Mid Term</option>
                                 <option value="END_SEMESTER">End Semester</option>
                                 <option value="PRACTICAL">Practical</option>
@@ -50,14 +50,14 @@ export default function AdminExaminationsClient({ exams, batches }: { exams: any
                         </div>
                         <div>
                             <label className="block text-xs font-semibold text-slate-400 uppercase mb-2">Target Batch</label>
-                            <select name="batchId" required className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-slate-200 outline-none focus:border-amber-500">
+                            <select name="batchId" required className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-base sm:text-sm text-slate-200 outline-none focus:border-amber-500">
                                 <option value="">Select Batch...</option>
                                 {batches.map(b => (
                                     <option key={b.id} value={b.id}>{b.name} ({b.branch.name})</option>
                                 ))}
                             </select>
                         </div>
-                        <button type="submit" disabled={isSubmitting} className="w-full bg-amber-600 hover:bg-amber-500 text-white font-bold py-3 px-6 rounded-xl transition-all shadow-[0_0_15px_rgba(217,119,6,0.4)] disabled:opacity-50 mt-4">
+                        <button type="submit" disabled={isSubmitting} className="w-full min-h-[44px] bg-amber-600 hover:bg-amber-500 text-white font-bold py-3 px-6 rounded-xl transition-all shadow-[0_0_15px_rgba(217,119,6,0.4)] disabled:opacity-50 mt-4">
                             {isSubmitting ? 'Scheduling...' : 'Schedule Exam'}
                         </button>
                     </form>

@@ -35,26 +35,26 @@ export default function StudentAcademicsPage() {
     ];
 
     return (
-        <div className="space-y-8 max-w-7xl mx-auto p-6 lg:p-8 font-sans">
+        <div className="space-y-6 sm:space-y-8 max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 font-sans">
             {/* Header Section */}
             <div>
-                <h1 className="text-3xl font-bold text-slate-50 flex items-center gap-3 mb-2">
-                    <TrendingUp className="w-7 h-7 text-indigo-400"/> Academics & Analytics
+                <h1 className="text-2xl sm:text-3xl font-bold text-slate-50 flex items-center gap-3 mb-2">
+                    <TrendingUp className="w-6 h-6 sm:w-7 sm:h-7 text-indigo-400"/> Academics & Analytics
                 </h1>
-                <p className="text-slate-400 text-sm">Track your attendance, exam results, and performance trends.</p>
+                <p className="text-slate-400 text-xs sm:text-sm">Track your attendance, exam results, and performance trends.</p>
             </div>
             
             {/* Top KPI Metrics */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
                 {/* Attendance KPI */}
-                <div className="bg-[#221F32]/80 backdrop-blur rounded-2xl p-6 border border-white/10 shadow-lg">
+                <div className="bg-[#221F32]/80 backdrop-blur rounded-2xl p-5 sm:p-6 border border-white/10 shadow-lg">
                     <div className="flex justify-between items-start mb-4">
                         <div className="bg-emerald-500/20 p-2 rounded-lg text-emerald-400">
                             <Calendar className="w-5 h-5" />
                         </div>
                         <span className="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded">On Track</span>
                     </div>
-                    <h3 className="text-3xl font-bold text-slate-50 mb-1">88.5%</h3>
+                    <h3 className="text-2xl sm:text-3xl font-bold text-slate-50 mb-1">88.5%</h3>
                     <p className="text-slate-400 text-sm font-medium">Overall Attendance</p>
                     <div className="mt-4 h-1.5 w-full bg-black/40 rounded-full overflow-hidden">
                         <div className="h-full bg-emerald-400 rounded-full shadow-[0_0_10px_rgba(52,211,153,0.5)]" style={{ width: '88.5%' }}></div>
@@ -62,38 +62,38 @@ export default function StudentAcademicsPage() {
                 </div>
 
                 {/* CGPA KPI */}
-                <div className="bg-[#221F32]/80 backdrop-blur rounded-2xl p-6 border border-white/10 shadow-lg">
+                <div className="bg-[#221F32]/80 backdrop-blur rounded-2xl p-5 sm:p-6 border border-white/10 shadow-lg">
                     <div className="flex justify-between items-start mb-4">
                         <div className="bg-indigo-500/20 p-2 rounded-lg text-indigo-400">
                             <Award className="w-5 h-5" />
                         </div>
                     </div>
-                    <h3 className="text-3xl font-bold text-slate-50 mb-1">8.54</h3>
+                    <h3 className="text-2xl sm:text-3xl font-bold text-slate-50 mb-1">8.54</h3>
                     <p className="text-slate-400 text-sm font-medium">Cumulative GPA</p>
                     <p className="text-indigo-400 text-xs mt-3 font-medium">+0.2 from last semester</p>
                 </div>
 
                 {/* Credits KPI */}
-                <div className="bg-[#221F32]/80 backdrop-blur rounded-2xl p-6 border border-white/10 shadow-lg">
+                <div className="bg-[#221F32]/80 backdrop-blur rounded-2xl p-5 sm:p-6 border border-white/10 shadow-lg">
                     <div className="flex justify-between items-start mb-4">
                         <div className="bg-fuchsia-500/20 p-2 rounded-lg text-fuchsia-400">
                             <Target className="w-5 h-5" />
                         </div>
                     </div>
-                    <h3 className="text-3xl font-bold text-slate-50 mb-1">84</h3>
+                    <h3 className="text-2xl sm:text-3xl font-bold text-slate-50 mb-1">84</h3>
                     <p className="text-slate-400 text-sm font-medium">Credits Earned</p>
                     <p className="text-slate-500 text-xs mt-3">Out of 160 required</p>
                 </div>
                 
                 {/* Pending Assessments */}
-                <div className="bg-[#221F32]/80 backdrop-blur rounded-2xl p-6 border border-white/10 shadow-lg">
+                <div className="bg-[#221F32]/80 backdrop-blur rounded-2xl p-5 sm:p-6 border border-white/10 shadow-lg">
                     <div className="flex justify-between items-start mb-4">
                         <div className="bg-amber-500/20 p-2 rounded-lg text-amber-400">
                             <BookOpen className="w-5 h-5" />
                         </div>
                         <span className="text-xs font-bold text-amber-400 bg-amber-500/10 px-2 py-1 rounded">Action Needed</span>
                     </div>
-                    <h3 className="text-3xl font-bold text-slate-50 mb-1">3</h3>
+                    <h3 className="text-2xl sm:text-3xl font-bold text-slate-50 mb-1">3</h3>
                     <p className="text-slate-400 text-sm font-medium">Pending Assessments</p>
                     <p className="text-amber-400 text-xs mt-3 font-medium">Next due in 2 days</p>
                 </div>
@@ -103,11 +103,11 @@ export default function StudentAcademicsPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 
                 {/* Performance Trend (Line Chart) */}
-                <div className="bg-[#221F32]/80 backdrop-blur rounded-2xl p-6 border border-white/10 shadow-lg">
-                    <h3 className="text-lg font-bold text-slate-50 mb-6">Performance Trend (SGPA)</h3>
-                    <div className="h-64 w-full">
+                <div className="bg-[#221F32]/80 backdrop-blur rounded-2xl p-5 sm:p-6 border border-white/10 shadow-lg overflow-hidden">
+                    <h3 className="text-base sm:text-lg font-bold text-slate-50 mb-4 sm:mb-6">Performance Trend (SGPA)</h3>
+                    <div className="h-60 sm:h-64 w-full">
                         <ResponsiveContainer width="100%" height="100%">
-                            <LineChart data={cgpaTrend} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
+                            <LineChart data={cgpaTrend} margin={{ top: 5, right: 10, bottom: 5, left: -20 }}>
                                 <CartesianGrid strokeDasharray="3 3" stroke="#ffffff10" vertical={false} />
                                 <XAxis dataKey="name" stroke="#94a3b8" fontSize={12} tickLine={false} axisLine={false} />
                                 <YAxis stroke="#94a3b8" fontSize={12} tickLine={false} axisLine={false} domain={[0, 10]} />
@@ -122,9 +122,9 @@ export default function StudentAcademicsPage() {
                 </div>
 
                 {/* Subject Wise Performance (Bar Chart) */}
-                <div className="bg-[#221F32]/80 backdrop-blur rounded-2xl p-6 border border-white/10 shadow-lg">
-                    <h3 className="text-lg font-bold text-slate-50 mb-6">Mid-Term 1 Marks</h3>
-                    <div className="h-64 w-full">
+                <div className="bg-[#221F32]/80 backdrop-blur rounded-2xl p-5 sm:p-6 border border-white/10 shadow-lg overflow-hidden">
+                    <h3 className="text-base sm:text-lg font-bold text-slate-50 mb-4 sm:mb-6">Mid-Term 1 Marks</h3>
+                    <div className="h-60 sm:h-64 w-full">
                         <ResponsiveContainer width="100%" height="100%">
                             <BarChart data={currentMarks} margin={{ top: 5, right: 5, bottom: 5, left: -20 }}>
                                 <CartesianGrid strokeDasharray="3 3" stroke="#ffffff10" vertical={false} />
@@ -147,19 +147,49 @@ export default function StudentAcademicsPage() {
 
             {/* Exam Results Table */}
             <div className="bg-[#221F32]/80 backdrop-blur rounded-2xl border border-white/10 shadow-lg overflow-hidden">
-                <div className="p-6 border-b border-white/10 flex justify-between items-center bg-white/[0.02]">
-                    <h3 className="text-lg font-bold text-slate-50">Exam Results Directory</h3>
+                <div className="p-4 sm:p-6 border-b border-white/10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 bg-white/[0.02]">
+                    <div>
+                        <h3 className="text-base sm:text-lg font-bold text-slate-50">Exam Results Directory</h3>
+                        <p className="text-xs text-slate-400">JNTUA R20 Regulation Semester Grades</p>
+                    </div>
                     <select 
                         value={activeSemester} 
                         onChange={(e) => setActiveSemester(e.target.value)}
-                        className="bg-black/20 border border-white/10 text-slate-300 text-sm rounded-lg px-3 py-2 outline-none focus:ring-1 focus:ring-indigo-500"
+                        className="w-full sm:w-auto bg-black/40 border border-white/10 text-slate-200 text-base sm:text-sm rounded-xl px-4 py-2.5 outline-none focus:ring-1 focus:ring-indigo-500"
                     >
                         {["Semester 1", "Semester 2", "Semester 3", "Semester 4"].map(s => (
                             <option key={s} value={s} className="bg-[#13111C]">{s}</option>
                         ))}
                     </select>
                 </div>
-                <div className="overflow-x-auto">
+
+                {/* Mobile Cards (Visible on screens < md) */}
+                <div className="block md:hidden divide-y divide-white/5">
+                    {results.map((row, i) => (
+                        <div key={i} className="p-4 space-y-2 hover:bg-white/[0.02] transition-colors">
+                            <div className="flex justify-between items-start">
+                                <div>
+                                    <span className="text-xs font-mono font-bold text-indigo-400">{row.code}</span>
+                                    <h4 className="text-sm font-semibold text-slate-200 leading-snug">{row.name}</h4>
+                                </div>
+                                <span className={`px-2.5 py-1 rounded-lg text-xs font-bold border shrink-0 ${
+                                    row.grade.includes('O') ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' :
+                                    row.grade.includes('A') ? 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20' :
+                                    'bg-slate-500/10 text-slate-400 border-slate-500/20'
+                                }`}>
+                                    Grade: {row.grade}
+                                </span>
+                            </div>
+                            <div className="flex justify-between items-center text-xs text-slate-400 pt-1">
+                                <span>Credits: <strong className="text-slate-200">{row.credits}</strong></span>
+                                <span>Grade Points: <strong className="text-slate-200">{row.points} / 10</strong></span>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+
+                {/* Desktop Table (Hidden on screens < md) */}
+                <div className="hidden md:block overflow-x-auto">
                     <table className="w-full text-left border-collapse">
                         <thead>
                             <tr className="bg-black/20 border-b border-white/5 text-xs uppercase text-slate-400 tracking-wider">

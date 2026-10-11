@@ -16,10 +16,65 @@ import {
   GraduationCap,
   X,
   Briefcase,
-  BookOpen
+  BookOpen,
+  Calendar,
+  PenTool,
+  FileSignature,
+  LayoutDashboard
 } from "lucide-react";
 import { useRole } from "@/lib/auth/roleContext";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+
+const allStudentPages = [
+  { name: 'Dashboard', href: '/student/dashboard', icon: LayoutDashboard },
+  { name: 'My Classes', href: '/student/classes', icon: Calendar },
+  { name: 'Attendance & Projections', href: '/student/attendance', icon: CalendarCheck },
+  { name: 'Examinations & Results', href: '/student/results', icon: Award },
+  { name: 'My Courses & Syllabus', href: '/student/courses', icon: BookOpen },
+  { name: 'Academics & Analytics', href: '/student/academics', icon: BookOpen },
+  { name: 'e-Assessments', href: '/student/assessments', icon: PenTool },
+  { name: 'Placement Cell', href: '/student/placements', icon: Briefcase },
+  { name: 'Fees & Payments', href: '/student/fees', icon: Banknote },
+  { name: 'Services & Requests', href: '/student/requests', icon: FileSignature },
+  { name: 'Campus (Library/Hostel)', href: '/student/campus', icon: Map },
+  { name: 'Faculty Directory', href: '/student/departments', icon: Users },
+];
+
+const allFacultyPages = [
+  { name: 'Dashboard', href: '/faculty/dashboard', icon: LayoutDashboard },
+  { name: 'Timetable & Classes', href: '/faculty/timetable', icon: Calendar },
+  { name: 'Attendance Entry', href: '/faculty/attendance', icon: CalendarCheck },
+  { name: 'Course & LMS', href: '/faculty/courses', icon: BookOpen },
+  { name: 'Assessments', href: '/faculty/assessments', icon: PenTool },
+  { name: 'Marks Entry', href: '/faculty/marks', icon: Award },
+  { name: 'Results Publishing', href: '/faculty/results', icon: Award },
+  { name: 'Mentoring & Counseling', href: '/faculty/mentoring', icon: Users },
+  { name: 'HR & Workload', href: '/faculty/hr', icon: Briefcase },
+];
+
+const allParentPages = [
+  { name: 'Ward Overview', href: '/parent/dashboard', icon: LayoutDashboard },
+  { name: 'Attendance & Alerts', href: '/parent/attendance', icon: CalendarCheck },
+  { name: 'Academics & Results', href: '/parent/academics', icon: Award },
+  { name: 'Fee Payments', href: '/parent/fees', icon: Banknote },
+  { name: 'Mentor Communication', href: '/parent/communication', icon: MessageSquare },
+];
+
+const allAdminPages = [
+  { name: 'Principal Dashboard', href: '/admin/dashboard', icon: LayoutDashboard },
+  { name: 'Student Directory', href: '/admin/students', icon: Users },
+  { name: 'New Admissions', href: '/admin/admissions', icon: Users },
+  { name: 'Bulk Data Imports', href: '/admin/bulk-upload', icon: FileSignature },
+  { name: 'Timetable Management', href: '/admin/timetable', icon: Calendar },
+  { name: 'Examination Cell', href: '/admin/examinations', icon: Award },
+  { name: 'Finance & Accounts', href: '/admin/finance', icon: Banknote },
+  { name: 'HR & Staff', href: '/admin/hr', icon: Briefcase },
+  { name: 'Central Library', href: '/admin/library', icon: BookOpen },
+  { name: 'Hostel Management', href: '/admin/hostel', icon: Building },
+  { name: 'Transport Fleet', href: '/admin/transport', icon: Map },
+  { name: 'Campus Canteen', href: '/admin/canteen', icon: Building },
+  { name: 'Settings & Security', href: '/admin/settings', icon: LayoutDashboard },
+];
 
 export function MobileBottomNav({ navContent }: { navContent?: React.ReactNode }) {
   const pathname = usePathname();
@@ -61,7 +116,15 @@ export function MobileBottomNav({ navContent }: { navContent?: React.ReactNode }
     ];
   };
 
+  const getFullMenu = () => {
+    if (pathname.startsWith("/faculty")) return allFacultyPages;
+    if (pathname.startsWith("/parent")) return allParentPages;
+    if (pathname.startsWith("/admin")) return allAdminPages;
+    return allStudentPages;
+  };
+
   const items = getNavItems();
+  const fullMenu = getFullMenu();
 
   return (
     <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#141024]/95 backdrop-blur-2xl border-t border-white/10 px-2 pt-1.5 pb-2 safe-bottom shadow-[0_-4px_24px_rgba(0,0,0,0.5)]">
@@ -102,17 +165,46 @@ export function MobileBottomNav({ navContent }: { navContent?: React.ReactNode }
               <span className="text-[10px] mt-1 tracking-tight leading-none">All Pages</span>
             </button>
           </SheetTrigger>
-          <SheetContent side="bottom" className="h-[80vh] p-0 rounded-t-3xl border-t border-white/15 bg-[#171329] text-white">
+          <SheetContent side="bottom" className="h-[85vh] p-0 rounded-t-3xl border-t border-white/15 bg-[#171329] text-white">
+            <div className="w-12 h-1 bg-white/20 rounded-full mx-auto mt-3" />
             <div className="p-4 border-b border-white/10 flex items-center justify-between">
-              <span className="font-bold text-sm text-slate-200">Complete Campus Menu</span>
+              <div>
+                <span className="font-bold text-base text-slate-100 block">Complete Portal Navigation</span>
+                <span className="text-xs text-indigo-300">KLMCE ERP • All Available Features</span>
+              </div>
               <button 
                 onClick={() => setSheetOpen(false)}
-                className="p-1.5 rounded-lg text-slate-400 hover:text-white bg-white/5">
+                className="p-2 rounded-xl text-slate-400 hover:text-white bg-white/5 border border-white/10">
                 <X className="w-4 h-4" />
               </button>
             </div>
-            <div className="p-4 overflow-y-auto max-h-[calc(80vh-70px)] pb-10" onClick={() => setSheetOpen(false)}>
-              {navContent}
+            
+            <div className="p-4 overflow-y-auto max-h-[calc(85vh-90px)] pb-12 space-y-2">
+              {navContent ? (
+                <div onClick={() => setSheetOpen(false)}>{navContent}</div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {fullMenu.map((page) => {
+                    const isPageActive = pathname === page.href;
+                    const PageIcon = page.icon;
+                    return (
+                      <Link
+                        key={page.href}
+                        href={page.href}
+                        onClick={() => setSheetOpen(false)}
+                        className={`flex items-center px-4 py-3 rounded-2xl text-xs font-semibold transition-all min-h-[46px] active:scale-[0.98] ${
+                          isPageActive
+                            ? 'bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-lg shadow-indigo-600/30'
+                            : 'text-slate-300 bg-white/[0.03] hover:bg-white/[0.08] border border-white/5 hover:text-white'
+                        }`}
+                      >
+                        <PageIcon className={`w-4 h-4 mr-3 shrink-0 ${isPageActive ? 'text-white' : 'text-indigo-400'}`} />
+                        <span className="truncate flex-1">{page.name}</span>
+                      </Link>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           </SheetContent>
         </Sheet>

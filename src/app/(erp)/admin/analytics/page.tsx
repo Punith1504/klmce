@@ -51,7 +51,7 @@ function AnalyticsDashboard() {
   });
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white p-8 font-sans">
+    <div className="min-h-screen bg-gray-950 text-white p-4 sm:p-6 lg:p-8 font-sans">
       <div className="max-w-7xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
         
         <div className="mb-10">
@@ -62,34 +62,34 @@ function AnalyticsDashboard() {
         </div>
 
         {/* Dynamic KPI Widget Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-          <div className="bg-gray-900/50 backdrop-blur-xl border border-gray-800 p-8 rounded-3xl shadow-2xl transition-all hover:border-gray-700 hover:-translate-y-1">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-10">
+          <div className="bg-gray-900/50 backdrop-blur-xl border border-gray-800 p-5 sm:p-8 rounded-3xl shadow-2xl transition-all hover:border-gray-700">
             <h3 className="text-gray-400 text-xs font-bold uppercase tracking-widest mb-3">Outstanding Dues</h3>
-            <div className="text-5xl font-black text-red-500 tracking-tighter">
-              {kpisLoading ? '...' : `$${kpis?.outstanding_dues.toLocaleString()}`}
+            <div className="text-3xl sm:text-5xl font-black text-red-500 tracking-tighter">
+              {kpisLoading ? '...' : `₹${kpis?.outstanding_dues.toLocaleString()}`}
             </div>
           </div>
           
-          <div className="bg-gray-900/50 backdrop-blur-xl border border-gray-800 p-8 rounded-3xl shadow-2xl transition-all hover:border-gray-700 hover:-translate-y-1">
+          <div className="bg-gray-900/50 backdrop-blur-xl border border-gray-800 p-5 sm:p-8 rounded-3xl shadow-2xl transition-all hover:border-gray-700">
             <h3 className="text-gray-400 text-xs font-bold uppercase tracking-widest mb-3">Active Faculty</h3>
-            <div className="text-5xl font-black text-indigo-400 tracking-tighter">
+            <div className="text-3xl sm:text-5xl font-black text-indigo-400 tracking-tighter">
               {kpisLoading ? '...' : kpis?.active_faculty}
             </div>
           </div>
           
-          <div className="bg-gray-900/50 backdrop-blur-xl border border-gray-800 p-8 rounded-3xl shadow-2xl transition-all hover:border-gray-700 hover:-translate-y-1">
+          <div className="bg-gray-900/50 backdrop-blur-xl border border-gray-800 p-5 sm:p-8 rounded-3xl shadow-2xl transition-all hover:border-gray-700">
             <h3 className="text-gray-400 text-xs font-bold uppercase tracking-widest mb-3">Today's Absentees</h3>
-            <div className="text-5xl font-black text-amber-400 tracking-tighter">
+            <div className="text-3xl sm:text-5xl font-black text-amber-400 tracking-tighter">
               {kpisLoading ? '...' : kpis?.todays_absentee_count}
             </div>
           </div>
         </div>
 
         {/* Massive Chart Dashboards */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
           
           {/* Multi-Line Attendance Chart */}
-          <div className="bg-gray-900/50 backdrop-blur-xl border border-gray-800 p-8 rounded-3xl shadow-2xl">
+          <div className="bg-gray-900/50 backdrop-blur-xl border border-gray-800 p-4 sm:p-8 rounded-3xl shadow-2xl overflow-hidden">
             <h3 className="text-xl font-bold mb-8 tracking-tight">Attendance Variance</h3>
             <div className="h-[350px] w-full">
               {attendanceLoading ? (
@@ -116,7 +116,7 @@ function AnalyticsDashboard() {
           </div>
 
           {/* Bar Chart Revenue Collection */}
-          <div className="bg-gray-900/50 backdrop-blur-xl border border-gray-800 p-8 rounded-3xl shadow-2xl">
+          <div className="bg-gray-900/50 backdrop-blur-xl border border-gray-800 p-4 sm:p-8 rounded-3xl shadow-2xl overflow-hidden">
             <h3 className="text-xl font-bold mb-8 tracking-tight">Monthly Ledger Reconciliation</h3>
             <div className="h-[350px] w-full">
               {revenueLoading ? (

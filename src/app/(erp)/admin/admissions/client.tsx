@@ -30,7 +30,7 @@ export default function AdminAdmissionsClient({ batches, sections }: { batches: 
     };
 
     return (
-        <div className="space-y-6 max-w-4xl mx-auto p-6 lg:p-8 font-sans text-white">
+        <div className="space-y-6 max-w-4xl mx-auto p-4 sm:p-6 lg:p-8 font-sans text-white">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
                     <h1 className="text-3xl font-bold text-slate-50 flex items-center gap-3 mb-2">
@@ -40,7 +40,7 @@ export default function AdminAdmissionsClient({ batches, sections }: { batches: 
                 </div>
             </div>
 
-            <div className="bg-[#221F32]/80 backdrop-blur rounded-3xl p-8 border border-white/10 shadow-lg relative overflow-hidden">
+            <div className="bg-[#221F32]/80 backdrop-blur rounded-3xl p-5 sm:p-8 border border-white/10 shadow-lg relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none"></div>
                 
                 <form onSubmit={handleSubmit} className="relative z-10 space-y-6">
@@ -52,7 +52,7 @@ export default function AdminAdmissionsClient({ batches, sections }: { batches: 
                                 required
                                 type="text"
                                 placeholder="e.g. John Doe"
-                                className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-slate-200 outline-none focus:border-emerald-500 transition"
+                                className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-base sm:text-sm text-slate-200 outline-none focus:border-emerald-500 transition"
                             />
                         </div>
                         <div>

@@ -5,7 +5,7 @@ import { Calendar, Users, BookOpen, Clock, AlertTriangle, MessageSquare } from '
 
 export default function FacultyDashboard() {
   return (
-    <div className="space-y-8 max-w-7xl mx-auto p-6 lg:p-8 font-sans text-white">
+    <div className="space-y-6 sm:space-y-8 max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 font-sans text-white">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <h1 className="text-3xl font-bold text-slate-50 flex items-center gap-3 mb-2">
@@ -63,24 +63,26 @@ export default function FacultyDashboard() {
           <div className="p-6 border-b border-white/10 bg-black/20">
             <h2 className="text-lg font-bold text-slate-50">Today's Schedule</h2>
           </div>
-          <div className="p-6 space-y-4">
-            <div className="flex justify-between items-center bg-white/5 p-4 rounded-xl border border-white/10">
+          <div className="p-4 sm:p-6 space-y-4">
+            <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-3 bg-white/5 p-4 rounded-xl border border-white/10">
               <div>
                 <p className="font-bold text-slate-50">09:00 AM - 10:40 AM</p>
                 <p className="text-sm text-indigo-400">Database Management Systems</p>
                 <p className="text-xs text-slate-400 mt-1">CSE-B • Room 304</p>
               </div>
-              <button className="bg-indigo-600/20 text-indigo-400 border border-indigo-500/30 px-4 py-1.5 rounded-lg text-sm font-semibold hover:bg-indigo-500/30 transition">
+              <button 
+                onClick={() => window.location.href='/faculty/attendance'}
+                className="w-full sm:w-auto min-h-[44px] flex items-center justify-center bg-indigo-600/20 text-indigo-400 border border-indigo-500/30 px-4 py-2 rounded-xl text-sm font-semibold hover:bg-indigo-500/30 transition">
                 Mark Attendance
               </button>
             </div>
-            <div className="flex justify-between items-center bg-white/5 p-4 rounded-xl border border-white/10">
+            <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-3 bg-white/5 p-4 rounded-xl border border-white/10">
               <div>
                 <p className="font-bold text-slate-50">11:30 AM - 01:10 PM</p>
                 <p className="text-sm text-indigo-400">Operating Systems Lab</p>
                 <p className="text-xs text-slate-400 mt-1">CSE-A • Lab 2</p>
               </div>
-              <button className="bg-white/5 text-slate-400 border border-white/10 px-4 py-1.5 rounded-lg text-sm font-semibold hover:bg-white/10 transition">
+              <button className="w-full sm:w-auto min-h-[44px] flex items-center justify-center bg-white/5 text-slate-400 border border-white/10 px-4 py-2 rounded-xl text-sm font-semibold hover:bg-white/10 transition">
                 Upcoming
               </button>
             </div>

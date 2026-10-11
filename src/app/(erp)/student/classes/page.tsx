@@ -67,7 +67,7 @@ export default function StudentClassesPage() {
     const currentClasses = scheduleData[activeDay] || [];
 
     return (
-        <div className="space-y-8 max-w-7xl mx-auto p-6 lg:p-8 font-sans">
+        <div className="space-y-6 sm:space-y-8 max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 font-sans">
             
             {/* Header */}
             <div>

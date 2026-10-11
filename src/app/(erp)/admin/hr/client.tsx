@@ -13,7 +13,7 @@ export default function AdminHRClient({ facultyList }: { facultyList: any[] }) {
     );
 
     return (
-        <div className="space-y-6 max-w-7xl mx-auto p-6 lg:p-8 font-sans text-white">
+        <div className="space-y-6 max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 font-sans text-white">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
                     <h1 className="text-3xl font-bold text-slate-50 flex items-center gap-3 mb-2">
@@ -35,7 +35,7 @@ export default function AdminHRClient({ facultyList }: { facultyList: any[] }) {
                             placeholder="Search by name, ID..."
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
-                            className="w-full bg-black/40 border border-white/10 rounded-xl pl-10 pr-4 py-2 text-sm text-slate-200 outline-none focus:border-fuchsia-500 transition"
+                            className="w-full bg-black/40 border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-base sm:text-sm text-slate-200 outline-none focus:border-fuchsia-500 transition"
                         />
                     </div>
                 </div>

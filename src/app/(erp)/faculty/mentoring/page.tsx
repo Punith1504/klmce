@@ -13,7 +13,7 @@ export default function FacultyMentoring() {
   const atRiskCount = mentees.filter(m => m.attendance_pct < 75 || m.status === 'Warning').length;
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto p-6 lg:p-8 font-sans text-white">
+    <div className="space-y-6 max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 font-sans text-white">
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
@@ -125,8 +125,9 @@ export default function FacultyMentoring() {
 
       {/* Counseling Log Modal */}
       {selectedStudent && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 z-50">
-          <div className="bg-[#19152b] border border-white/15 rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl relative text-left">
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-md flex items-end sm:items-center justify-center p-0 sm:p-4 z-50 animate-in fade-in duration-200">
+          <div className="bg-[#19152b] border-t sm:border border-white/15 rounded-t-3xl sm:rounded-3xl p-5 sm:p-8 max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl relative text-left pb-8 sm:pb-8">
+            <div className="w-12 h-1 bg-white/20 rounded-full mx-auto mb-4 sm:hidden" />
             <h3 className="text-xl font-bold text-white mb-1">Log Mentoring & Counseling Session</h3>
             <p className="text-xs text-slate-400 mb-6">Student: {selectedStudent.name} ({selectedStudent.rollNo})</p>
 
@@ -138,7 +139,7 @@ export default function FacultyMentoring() {
                   value={counselingNotes}
                   onChange={(e) => setCounselingNotes(e.target.value)}
                   placeholder="Record discussions on attendance improvement, mid-exam preparation, placement training..."
-                  className="w-full bg-black/30 border border-white/10 rounded-xl p-3 text-sm text-white placeholder-slate-500 outline-none focus:border-indigo-500"
+                  className="w-full bg-black/30 border border-white/10 rounded-xl p-3 text-base sm:text-sm text-white placeholder-slate-500 outline-none focus:border-indigo-500"
                 />
               </div>
             </div>

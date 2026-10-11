@@ -69,7 +69,7 @@ export default function AdminBulkUploadClient({ batches, sections }: { batches: 
     };
 
     return (
-        <div className="space-y-6 max-w-5xl mx-auto p-6 lg:p-8 font-sans text-white">
+        <div className="space-y-6 max-w-5xl mx-auto p-4 sm:p-6 lg:p-8 font-sans text-white">
             <div>
                 <h1 className="text-3xl font-bold text-slate-50 flex items-center gap-3 mb-2">
                     <FileSpreadsheet className="w-8 h-8 text-sky-400"/> Bulk Data Imports
@@ -88,19 +88,20 @@ export default function AdminBulkUploadClient({ batches, sections }: { batches: 
                             <select 
                                 value={batchId}
                                 onChange={(e) => setBatchId(e.target.value)}
-                                className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-slate-200 outline-none focus:border-sky-500 transition">
+                                className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-base sm:text-sm text-slate-200 outline-none focus:border-sky-500 transition">
                                 <option value="">Select Batch...</option>
                                 {batches.map(b => (
                                     <option key={b.id} value={b.id}>{b.name} ({b.branch.name})</option>
                                 ))}
                             </select>
                         </div>
+
                         <div>
                             <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Assign to Section</label>
                             <select 
                                 value={sectionId}
                                 onChange={(e) => setSectionId(e.target.value)}
-                                className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-slate-200 outline-none focus:border-sky-500 transition">
+                                className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-base sm:text-sm text-slate-200 outline-none focus:border-sky-500 transition">
                                 <option value="">Select Section...</option>
                                 {sections.map(s => (
                                     <option key={s.id} value={s.id}>{s.name} (Batch: {s.batch.name})</option>

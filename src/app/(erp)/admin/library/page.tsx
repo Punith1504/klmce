@@ -28,7 +28,7 @@ export default function AdminLibraryPage() {
   );
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto p-6 lg:p-8 font-sans text-white">
+    <div className="space-y-6 max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 font-sans text-white">
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
@@ -42,7 +42,7 @@ export default function AdminLibraryPage() {
 
         <button
           onClick={() => alert("Issue book transaction portal ready for barcode / RFID scanning.")}
-          className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs shadow-lg transition"
+          className="w-full sm:w-auto min-h-[44px] flex items-center justify-center px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs shadow-lg transition"
         >
           + Issue New Book to Student
         </button>
@@ -76,7 +76,7 @@ export default function AdminLibraryPage() {
       </div>
 
       {/* Search & Catalog */}
-      <div className="bg-[#1f1b30]/80 rounded-3xl border border-white/10 p-6 shadow-xl space-y-4">
+      <div className="bg-[#1f1b30]/80 rounded-3xl border border-white/10 p-4 sm:p-6 shadow-xl space-y-4">
         <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4 border-b border-white/10 pb-4">
           <div>
             <h2 className="text-lg font-bold text-white">OPAC Online Public Access Catalog</h2>
@@ -90,7 +90,7 @@ export default function AdminLibraryPage() {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Search by title, author, dept..."
-              className="w-full bg-black/30 border border-white/10 rounded-xl pl-10 pr-4 py-2 text-xs text-white placeholder-slate-500 outline-none focus:border-indigo-500"
+              className="w-full bg-black/30 border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-base sm:text-xs text-white placeholder-slate-500 outline-none focus:border-indigo-500"
             />
           </div>
         </div>

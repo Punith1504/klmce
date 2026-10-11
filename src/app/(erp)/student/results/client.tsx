@@ -78,9 +78,62 @@ export default function StudentResultsClient({
                 <h2 className="text-xl font-bold text-slate-50 mb-4 flex items-center gap-2">
                     <FileText className="w-5 h-5 text-emerald-400" /> Published Results
                 </h2>
-                <div className="bg-[#221F32]/80 backdrop-blur rounded-3xl border border-white/10 shadow-xl overflow-hidden">
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-left border-collapse min-w-[800px]">
+                <div className="bg-[#221F32]/80 backdrop-blur rounded-2xl sm:rounded-3xl border border-white/10 shadow-xl overflow-hidden">
+                    {/* Mobile Card List (< md) */}
+                    <div className="block md:hidden divide-y divide-white/5">
+                        {acquiredResults.length > 0 ? acquiredResults.map((result) => (
+                            <div key={result.id} className="p-4 space-y-3 hover:bg-white/[0.02] transition-colors">
+                                <div className="flex justify-between items-start gap-3">
+                                    <div>
+                                        <h3 className="font-bold text-slate-100 text-sm">{result.subject}</h3>
+                                        <div className="flex flex-wrap items-center gap-1.5 mt-1">
+                                            <span className="text-xs text-slate-400 font-mono">{result.code}</span>
+                                            <span className="text-slate-600">•</span>
+                                            <span className="text-xs text-slate-400">{result.examName}</span>
+                                            <span className="text-[10px] bg-white/10 text-slate-300 px-2 py-0.5 rounded-full border border-white/10">
+                                                {result.credits} Cr
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <span className={`inline-flex w-9 h-9 items-center justify-center rounded-xl text-base font-bold border shrink-0 ${
+                                        result.grade === 'O' ? 'bg-amber-500/20 text-amber-400 border-amber-500/30' :
+                                        result.grade === 'A' ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' :
+                                        'bg-indigo-500/20 text-indigo-400 border-indigo-500/30'
+                                    }`}>
+                                        {result.grade}
+                                    </span>
+                                </div>
+                                <div className="flex justify-between items-center bg-black/20 p-2.5 rounded-xl border border-white/5 text-xs">
+                                    <div>
+                                        <span className="text-slate-400 block text-[10px] uppercase font-semibold">Score</span>
+                                        <span className="font-bold text-slate-100 text-sm">{result.marks} <span className="text-xs text-slate-400 font-normal">/ {result.max}</span></span>
+                                    </div>
+                                    <div>
+                                        <span className="text-slate-400 block text-[10px] uppercase font-semibold">Weightage</span>
+                                        <span className="font-bold text-slate-200">{result.weightage}%</span>
+                                    </div>
+                                    <div>
+                                        <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold border ${
+                                            result.status === 'Pass' 
+                                                ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
+                                                : 'bg-rose-500/10 text-rose-400 border-rose-500/20'
+                                        }`}>
+                                            <CheckCircle2 className="w-3 h-3" />
+                                            {result.status}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        )) : (
+                            <div className="p-8 text-center text-slate-500 text-sm">
+                                No results published yet.
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Desktop Table (>= md) */}
+                    <div className="hidden md:block overflow-x-auto">
+                        <table className="w-full text-left border-collapse min-w-[700px]">
                             <thead>
                                 <tr className="bg-white/[0.02] text-slate-300 text-xs uppercase tracking-wider border-b border-white/10">
                                     <th className="p-5 font-semibold">Subject & Exam</th>
