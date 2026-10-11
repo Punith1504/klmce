@@ -126,6 +126,7 @@ export function RoleProvider({ children }: { children: React.ReactNode }) {
     if (typeof document !== "undefined") {
       document.cookie = `klmce_role=${role}; path=/; max-age=604800; SameSite=Lax`;
       document.cookie = `klmce_session=${id}; path=/; max-age=604800; SameSite=Lax`;
+      document.cookie = `klmce-demo-auth=${role}; path=/; max-age=604800; SameSite=Lax`;
     }
   };
 
@@ -133,6 +134,7 @@ export function RoleProvider({ children }: { children: React.ReactNode }) {
     if (typeof document !== "undefined") {
       document.cookie = "klmce_role=; path=/; max-age=0";
       document.cookie = "klmce_session=; path=/; max-age=0";
+      document.cookie = "klmce-demo-auth=; path=/; max-age=0";
     }
   };
 

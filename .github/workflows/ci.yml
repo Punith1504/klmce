@@ -1,0 +1,55 @@
+name: KLMCE Enterprise CI & Test Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test-and-build:
+    name: Test & Build Validation Gate
+    runs-on: ubuntu-latest
+    env:
+      NEXT_TELEMETRY_DISABLED: 1
+      CI: true
+    steps:
+      - name: 📦 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: 🐍 Setup Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: 📥 Install Backend Dependencies
+        run: |
+          cd backend
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: 📥 Install Frontend Dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: 💎 Generate Prisma Client
+        run: npx prisma generate
+
+      - name: 🔍 TypeScript Static Type Checking
+        run: npx tsc --noEmit
+
+      - name: 🧪 Run Backend Security & Business Tests
+        run: npm run test:backend
+
+      - name: ⚛️ Run Frontend React & Portal Tests
+        run: npm run test:frontend
+
+      - name: 🏗️ Verify Next.js Production Build
+        run: npm run build
