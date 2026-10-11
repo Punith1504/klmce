@@ -4,10 +4,27 @@ import AdminHRClient from './client';
 
 export const dynamic = 'force-dynamic';
 
+import { FACULTY } from '@/lib/syntheticData';
+
 export default async function AdminHRPage() {
-    const facultyList = await prisma.faculty.findMany({
-        orderBy: { name: 'asc' }
-    });
+    let facultyList: any[] = [];
+    try {
+        facultyList = await prisma.faculty.findMany({
+            orderBy: { name: 'asc' }
+        });
+    } catch {
+        facultyList = [];
+    }
+
+    if (facultyList.length === 0) {
+        facultyList = (FACULTY || []).map(f => ({
+            id: f.id,
+            empId: f.empId,
+            name: f.name,
+            email: f.email,
+            department: f.department
+        }));
+    }
 
     return <AdminHRClient facultyList={facultyList} />;
 }

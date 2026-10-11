@@ -42,10 +42,10 @@ export default async function StudentResultsPage() {
 
                 return {
                     id: r.id,
-                    subject: r.schedule.course.title,
-                    code: r.schedule.course.code,
-                    examName: r.schedule.exam.name,
-                    credits: r.schedule.course.credits,
+                    subject: r.schedule?.course?.title || "Course",
+                    code: r.schedule?.course?.code || "CODE",
+                    examName: r.schedule?.exam?.name || "Mid-Term Examination",
+                    credits: r.schedule?.course?.credits || 3.0,
                     marks: r.marksObtained,
                     max: r.maxMarks,
                     weightage: r.weightage,
@@ -74,10 +74,10 @@ export default async function StudentResultsPage() {
                 const now = new Date();
                 exams = rawExams.map(e => ({
                     id: e.id,
-                    title: e.exam.name,
-                    subject: e.course.title,
-                    code: e.course.code,
-                    courseType: e.course.type,
+                    title: e.exam?.name || "Mid-Term Examination",
+                    subject: e.course?.title || "Course",
+                    code: e.course?.code || "CODE",
+                    courseType: e.course?.type || "Theory",
                     date: new Date(e.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
                     time: `${e.startTime} - ${e.endTime}`,
                     room: e.room,

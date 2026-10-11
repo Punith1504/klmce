@@ -35,11 +35,11 @@ export default async function FacultyAttendancePage() {
         slots = faculty.TimetableSlot.map(slot => ({
             id: slot.id,
             course: {
-                title: slot.course.title,
-                code: slot.course.code
+                title: slot.course?.title || "Course",
+                code: slot.course?.code || "CODE"
             },
             section: {
-                name: slot.section.name
+                name: slot.section?.name || "Section A"
             },
             dayOfWeek: slot.dayOfWeek,
             startTime: slot.startTime,

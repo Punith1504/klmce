@@ -12,8 +12,9 @@ const MOCK_CANDIDATES = [
     { id: 'APP-103', name: 'Rahul Gupta', branch: 'CSE', cgpa: 8.5, status: 'Applied', resumeUrl: '/resumes/rahul.pdf' },
 ];
 
-export default function PlacementAdminDashboard({ params }: { params: { drive_id: string } }) {
+export default function PlacementAdminDashboard({ params }: { params?: any }) {
     const [selectedCandidate, setSelectedCandidate] = useState(MOCK_CANDIDATES[0]);
+    const driveId = (params && typeof params === 'object' && 'drive_id' in params) ? params.drive_id : 'DRV-001';
 
     return (
         <div className="h-screen bg-[#0a0f1c] text-white flex overflow-hidden">
@@ -22,7 +23,7 @@ export default function PlacementAdminDashboard({ params }: { params: { drive_id
             <div className="w-1/3 bg-[#13192b] border-r border-white/10 flex flex-col h-full shrink-0">
                 <div className="p-6 border-b border-white/10">
                     <h1 className="text-xl font-bold text-white">Google - Software Engineer</h1>
-                    <p className="text-sm text-slate-400 mt-1">Drive ID: {params.drive_id || 'DRV-001'}</p>
+                    <p className="text-sm text-slate-400 mt-1">Drive ID: {driveId}</p>
                 </div>
                 
                 <div className="flex-1 overflow-y-auto p-4 space-y-3">
