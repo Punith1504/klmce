@@ -5,7 +5,9 @@ import { UploadCloud, FileSpreadsheet, CheckCircle, AlertTriangle } from 'lucide
 import { processBulkStudents } from './actions';
 import * as XLSX from 'xlsx';
 
-export default function AdminBulkUploadClient({ batches, sections }: { batches: any[], sections: any[] }) {
+export default function AdminBulkUploadClient({ batches: rawBatches, sections: rawSections }: { batches?: any[], sections?: any[] }) {
+    const batches = Array.isArray(rawBatches) ? rawBatches : [];
+    const sections = Array.isArray(rawSections) ? rawSections : [];
     const [file, setFile] = useState<File | null>(null);
     const [batchId, setBatchId] = useState("");
     const [sectionId, setSectionId] = useState("");

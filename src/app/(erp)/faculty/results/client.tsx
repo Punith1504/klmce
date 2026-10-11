@@ -19,7 +19,8 @@ type ExamSchedule = {
     existingResults: { studentId: string, marksObtained: number }[];
 };
 
-export default function FacultyResultsClient({ schedules }: { schedules: ExamSchedule[] }) {
+export default function FacultyResultsClient({ schedules: rawSchedules }: { schedules?: ExamSchedule[] }) {
+    const schedules = Array.isArray(rawSchedules) ? rawSchedules : [];
     const [selectedScheduleId, setSelectedScheduleId] = useState<string>(schedules.length > 0 ? schedules[0].id : "");
     const [marksState, setMarksState] = useState<Record<string, number>>({});
     const [isSubmitting, setIsSubmitting] = useState(false);

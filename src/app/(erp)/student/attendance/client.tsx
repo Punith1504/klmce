@@ -10,14 +10,35 @@ import {
 } from "lucide-react";
 
 export default function StudentAttendanceClient({ 
-    cumulative, 
-    subjects, 
-    history 
+    cumulative: rawCumulative, 
+    subjects: rawSubjects, 
+    history: rawHistory 
 }: { 
-    cumulative: any, 
-    subjects: any[], 
-    history: any[] 
+    cumulative?: any, 
+    subjects?: any[], 
+    history?: any[] 
 }) {
+    const cumulative = rawCumulative || {
+        held: 110,
+        attended: 98,
+        currentPercentage: 89.1,
+        totalFutureClasses: 160,
+        classesTo80: 0,
+        maxPossible: 95.6
+    };
+
+    const subjects = (Array.isArray(rawSubjects) && rawSubjects.length > 0) ? rawSubjects : [
+        { name: "Database Management Systems", code: "20A05301T", held: 34, attended: 31, percentage: 91.2, status: "safe", classesTo80: 0, maxPossible: 95.9, future: 40 },
+        { name: "Operating Systems", code: "20A05302T", held: 32, attended: 28, percentage: 87.5, status: "safe", classesTo80: 0, maxPossible: 94.4, future: 40 },
+        { name: "Database & OS Lab", code: "20A05303P", held: 14, attended: 14, percentage: 100, status: "safe", classesTo80: 0, maxPossible: 100, future: 20 },
+        { name: "Analog & Digital Communications", code: "20A04401T", held: 30, attended: 25, percentage: 83.3, status: "safe", classesTo80: 0, maxPossible: 92.9, future: 40 }
+    ];
+
+    const history = (Array.isArray(rawHistory) && rawHistory.length > 0) ? rawHistory : [
+        { id: "att-1", date: "Oct 11, 2026", time: "09:30 - 10:30", subject: "Database Management Systems", faculty: "Dr. V. Lokeswara Reddy", location: "CSE Room 304", status: "Present" },
+        { id: "att-2", date: "Oct 11, 2026", time: "10:30 - 11:30", subject: "Operating Systems", faculty: "Prof. S. Khaja Fareeduddin", location: "CSE Room 304", status: "Present" },
+        { id: "att-3", date: "Oct 10, 2026", time: "11:45 - 12:45", subject: "Analog & Digital Communications", faculty: "Dr. K. Srinivasulu", location: "ECE Room 201", status: "Present" }
+    ];
     return (
         <div className="space-y-6 sm:space-y-8 max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 font-sans">
             

@@ -20,7 +20,8 @@ type Slot = {
     students: Student[];
 };
 
-export default function FacultyAttendanceClient({ slots }: { slots: Slot[] }) {
+export default function FacultyAttendanceClient({ slots: rawSlots }: { slots?: Slot[] }) {
+    const slots = Array.isArray(rawSlots) ? rawSlots : [];
     const todayStr = new Date().toISOString().split('T')[0];
     const [date, setDate] = useState(todayStr);
     const [selectedSlotId, setSelectedSlotId] = useState<string>(slots.length > 0 ? slots[0].id : "");

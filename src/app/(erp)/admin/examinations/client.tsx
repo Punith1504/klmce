@@ -4,7 +4,9 @@ import React, { useState } from 'react';
 import { Award, Plus, Calendar, BookOpen } from 'lucide-react';
 import { createExam } from './actions';
 
-export default function AdminExaminationsClient({ exams, batches }: { exams: any[], batches: any[] }) {
+export default function AdminExaminationsClient({ exams: rawExams, batches: rawBatches }: { exams?: any[], batches?: any[] }) {
+    const exams = Array.isArray(rawExams) ? rawExams : [];
+    const batches = Array.isArray(rawBatches) ? rawBatches : [];
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

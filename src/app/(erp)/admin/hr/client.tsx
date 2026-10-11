@@ -3,13 +3,14 @@
 import React, { useState } from 'react';
 import { Users, Search, UserCog } from 'lucide-react';
 
-export default function AdminHRClient({ facultyList }: { facultyList: any[] }) {
+export default function AdminHRClient({ facultyList: rawFacultyList }: { facultyList?: any[] }) {
+    const facultyList = Array.isArray(rawFacultyList) ? rawFacultyList : [];
     const [search, setSearch] = useState("");
 
     const filtered = facultyList.filter(f => 
-        f.name.toLowerCase().includes(search.toLowerCase()) || 
-        f.empId.toLowerCase().includes(search.toLowerCase()) ||
-        f.department.toLowerCase().includes(search.toLowerCase())
+        f.name?.toLowerCase().includes(search.toLowerCase()) || 
+        f.empId?.toLowerCase().includes(search.toLowerCase()) ||
+        f.department?.toLowerCase().includes(search.toLowerCase())
     );
 
     return (

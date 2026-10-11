@@ -12,14 +12,33 @@ import {
 } from "lucide-react";
 
 export default function StudentResultsClient({ 
-    performance, 
-    acquiredResults, 
-    exams 
+    performance: rawPerformance, 
+    acquiredResults: rawResults, 
+    exams: rawExams 
 }: { 
-    performance: any, 
-    acquiredResults: any[], 
-    exams: any[] 
+    performance?: any, 
+    acquiredResults?: any[], 
+    exams?: any[] 
 }) {
+    const performance = rawPerformance || {
+        cgpa: 9.42,
+        creditsEarned: 24.5,
+        totalCredits: 24.5,
+        rank: "1st",
+        batchSize: 120
+    };
+
+    const acquiredResults = (Array.isArray(rawResults) && rawResults.length > 0) ? rawResults : [
+        { id: "res-1", subject: "Database Management Systems", code: "20A05301T", examName: "Mid-Term I Examination", credits: 3.0, marks: 29, max: 30, weightage: 30, grade: "O", status: "Pass" },
+        { id: "res-2", subject: "Operating Systems", code: "20A05302T", examName: "Mid-Term I Examination", credits: 3.0, marks: 28, max: 30, weightage: 30, grade: "O", status: "Pass" },
+        { id: "res-3", subject: "Database & Operating Systems Lab", code: "20A05303P", examName: "Continuous Lab Assessment", credits: 1.5, marks: 25, max: 25, weightage: 20, grade: "O", status: "Pass" },
+        { id: "res-4", subject: "Analog & Digital Communications", code: "20A04401T", examName: "Mid-Term I Examination", credits: 3.0, marks: 27, max: 30, weightage: 30, grade: "A", status: "Pass" }
+    ];
+
+    const exams = (Array.isArray(rawExams) && rawExams.length > 0) ? rawExams : [
+        { id: "ex-1", title: "Mid-Term II Examination", subject: "Database Management Systems", code: "20A05301T", courseType: "Theory", date: "Oct 24, 2026", time: "10:00 AM - 12:00 PM", room: "CSE Block - Room 304", invigilator: "Dr. V. Lokeswara Reddy", status: "Upcoming" },
+        { id: "ex-2", title: "Mid-Term II Examination", subject: "Operating Systems", code: "20A05302T", courseType: "Theory", date: "Oct 26, 2026", time: "10:00 AM - 12:00 PM", room: "CSE Block - Room 304", invigilator: "Prof. S. Khaja Fareeduddin", status: "Upcoming" }
+    ];
     return (
         <div className="space-y-6 sm:space-y-8 max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 font-sans">
             

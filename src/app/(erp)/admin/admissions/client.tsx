@@ -4,7 +4,9 @@ import React, { useState } from 'react';
 import { UserPlus, Save, CheckCircle } from 'lucide-react';
 import { enrollStudent } from './actions';
 
-export default function AdminAdmissionsClient({ batches, sections }: { batches: any[], sections: any[] }) {
+export default function AdminAdmissionsClient({ batches: rawBatches, sections: rawSections }: { batches?: any[], sections?: any[] }) {
+    const batches = Array.isArray(rawBatches) ? rawBatches : [];
+    const sections = Array.isArray(rawSections) ? rawSections : [];
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [successMsg, setSuccessMsg] = useState("");
     const [errorMsg, setErrorMsg] = useState("");
