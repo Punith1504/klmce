@@ -40,6 +40,9 @@ CREATE TABLE users (
     email VARCHAR(255) NOT NULL,
     password_hash VARCHAR(255) NOT NULL, -- Sensitive: Will be excluded from audit
     mfa_secret VARCHAR(255),             -- Sensitive: Will be excluded from audit
+    login_id VARCHAR(100) UNIQUE,
+    phone_number VARCHAR(20),
+    password_updated_at TIMESTAMPTZ,
     created_at TIMESTAMPTZ DEFAULT clock_timestamp(),
     UNIQUE (tenant_id, email)
 );
@@ -108,11 +111,17 @@ CREATE INDEX idx_fee_tx_status ON fee_transactions(status);
 
 -- Enable RLS on all operational tables
 ALTER TABLE tenants ENABLE ROW LEVEL SECURITY;
+ALTER TABLE tenants FORCE ROW LEVEL SECURITY;
 ALTER TABLE users ENABLE ROW LEVEL SECURITY;
+ALTER TABLE users FORCE ROW LEVEL SECURITY;
 ALTER TABLE students ENABLE ROW LEVEL SECURITY;
+ALTER TABLE students FORCE ROW LEVEL SECURITY;
 ALTER TABLE exam_marks ENABLE ROW LEVEL SECURITY;
+ALTER TABLE exam_marks FORCE ROW LEVEL SECURITY;
 ALTER TABLE attendance_records ENABLE ROW LEVEL SECURITY;
+ALTER TABLE attendance_records FORCE ROW LEVEL SECURITY;
 ALTER TABLE fee_transactions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE fee_transactions FORCE ROW LEVEL SECURITY;
 
 -- Base Tenant Isolation Policies (FOR ALL)
 -- Requires setting the session variable: `SET app.current_tenant_id = '<uuid>';`
@@ -313,6 +322,7 @@ CREATE INDEX idx_timetable_faculty_id ON timetable_slots(faculty_id);
 CREATE INDEX idx_timetable_section_id ON timetable_slots(section_id);
 
 ALTER TABLE timetable_slots ENABLE ROW LEVEL SECURITY;
+ALTER TABLE timetable_slots FORCE ROW LEVEL SECURITY;
 CREATE POLICY tenant_isolation_timetable ON timetable_slots FOR ALL
     USING (tenant_id = NULLIF(current_setting('app.current_tenant_id', TRUE), '')::UUID);
 

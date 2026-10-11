@@ -21,7 +21,16 @@ class RateLimiter:
         # If the user is authenticated, we bind the limit to their JWT subject ID.
         # Otherwise, we fallback to the raw IP address.
         user_id = request.headers.get("x-user-id", "")
-        identifier = f"user:{user_id}" if user_id else f"ip:{client_ip}"
+        
+        target_id = ""
+        if "login" in request.url.path or "forgot-password" in request.url.path:
+            try:
+                body = await request.json()
+                target_id = body.get("login_id", "")
+            except Exception:
+                pass
+                
+        identifier = f"user:{user_id}" if user_id else (f"target:{target_id}" if target_id else f"ip:{client_ip}")
         
         # Key namespace prevents collisions across different API endpoints
         redis_key = f"rate_limit:{request.url.path}:{identifier}"
@@ -35,8 +44,10 @@ class RateLimiter:
             pipe.zremrangebyscore(redis_key, 0, window_start)
             # Count the remaining valid requests in the current window
             pipe.zcard(redis_key)
-            # Add the current request's timestamp
-            pipe.zadd(redis_key, {str(current_time): current_time})
+            # Add the current request's timestamp with a unique identifier to prevent overwriting
+            import uuid
+            unique_member = f"{current_time}:{uuid.uuid4()}"
+            pipe.zadd(redis_key, {unique_member: current_time})
             # Enforce an expiration to prevent infinite memory leakage
             pipe.expire(redis_key, self.window_seconds)
             

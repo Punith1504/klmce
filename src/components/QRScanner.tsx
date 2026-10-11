@@ -40,12 +40,9 @@ export default function QRScanner() {
         };
 
         // 3. Post strictly to backend 
-        await fetchClient("/attendance/scan", {
-          method: "POST",
-          body: JSON.stringify({
-            qr_payload: decodedText,
-            location: coords,
-          }),
+        await fetchClient.post("/attendance/scan", {
+          qr_payload: decodedText,
+          location: coords,
         });
 
         setStatus("SUCCESS");

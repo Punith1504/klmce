@@ -16,9 +16,16 @@ class Role(str, Enum):
     FINANCE = "FINANCE"
     HR = "HR"
 
-# Needs to be implemented / overridden by app database module
 async def get_db_pool() -> asyncpg.Pool:
-    raise NotImplementedError("Database pool injection not implemented")
+    from .database import db_manager
+    if db_manager.pool is None:
+        raise RFC7807Exception(
+            status_code=503,
+            type="probs/database-unavailable",
+            title="Database Unavailable",
+            detail="The database connection pool has not been initialized or is offline."
+        )
+    return db_manager.pool
 
 cookie_scheme = APIKeyCookie(name="access_token", auto_error=False)
 

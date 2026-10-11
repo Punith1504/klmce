@@ -71,9 +71,14 @@ export function Sidebar() {
 
   const NavContent = () => (
     <div className="flex flex-col h-full bg-[#221F32]/80 backdrop-blur-md border-r border-white/10">
-      <div className="h-16 flex items-center px-6 border-b border-white/10">
-        <img src="/college-logo.png" alt="KLMCEW Logo" className="w-10 h-10 object-contain mr-3 drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]" />
-        <span className="font-bold text-lg text-slate-50 tracking-tight">KSRMMS ERP</span>
+      <div className="h-16 flex items-center px-5 border-b border-white/10 gap-3">
+        <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-600 flex items-center justify-center font-black text-white text-xs shadow-[0_0_12px_rgba(99,102,241,0.4)] shrink-0">
+          KLM
+        </div>
+        <div className="min-w-0">
+          <span className="font-bold text-sm text-slate-50 tracking-tight block truncate">KLMCE Campus</span>
+          <span className="text-[10px] text-indigo-300 block truncate">Kandula Group ERP</span>
+        </div>
       </div>
       <nav className="flex-1 py-4 px-3 space-y-1 overflow-y-auto">
         {navItems.map((item) => {
@@ -83,12 +88,14 @@ export function Sidebar() {
             <Link
               key={item.name}
               href={item.href}
-              className={`flex items-center px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                isActive ? 'bg-indigo-500 text-white shadow' : 'text-slate-400 hover:text-white hover:bg-white/5'
+              className={`flex items-center px-3 py-2.5 rounded-xl text-xs font-semibold transition-all ${
+                isActive 
+                  ? 'bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-lg shadow-indigo-600/30' 
+                  : 'text-slate-400 hover:text-white hover:bg-white/5'
               }`}
             >
-              <Icon className="w-5 h-5 mr-3 shrink-0" />
-              {item.name}
+              <Icon className="w-4 h-4 mr-3 shrink-0" />
+              <span className="truncate">{item.name}</span>
             </Link>
           );
         })}

@@ -12,7 +12,7 @@ from .models import TimetableSlot, AttendanceRecord
 from .qr_crypto import generate_qr_payload, verify_and_decrypt_qr_payload
 from app.core.rate_limit import RateLimiter
 
-router = APIRouter(prefix="/attendance", tags=["attendance"])
+router = APIRouter(tags=["attendance"])
 
 # Mock dependencies to be injected by the actual application framework
 async def get_db_session() -> AsyncSession:

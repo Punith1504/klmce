@@ -44,7 +44,7 @@ export default function StudentsClient({ students }: { students: any[] }) {
     ];
 
     return (
-        <div className="p-8 relative min-h-[calc(100vh-64px)] bg-[#050014] overflow-hidden flex flex-col font-sans">
+        <div className="p-4 sm:p-6 lg:p-8 relative min-h-[calc(100vh-64px)] bg-[#050014] overflow-hidden flex flex-col font-sans">
             <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-violet-600/10 blur-[150px] mix-blend-screen pointer-events-none" />
             <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-fuchsia-600/10 blur-[120px] mix-blend-screen pointer-events-none" />
 
@@ -81,7 +81,7 @@ export default function StudentsClient({ students }: { students: any[] }) {
                                 </div>
                                 <button 
                                     onClick={() => setSelectedStudent(null)}
-                                    className="p-2 rounded-full hover:bg-white/10 text-slate-400 hover:text-white transition"
+                                    className="p-3 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-full hover:bg-white/10 text-slate-400 hover:text-white transition"
                                 >
                                     <X className="w-5 h-5" />
                                 </button>

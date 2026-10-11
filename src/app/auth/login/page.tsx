@@ -7,6 +7,7 @@ import * as z from "zod";
 import { useRouter } from "next/navigation";
 import { fetchClient } from "@/lib/api-client";
 import { useDemoStore } from "@/store/useDemoStore";
+import { useRole } from "@/lib/auth/roleContext";
 
 // ==========================================
 // Zod Validation Schemas
@@ -43,22 +44,15 @@ export default function LoginPage() {
   const totpInputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   // ==========================================
-  // Mock Auth Handlers
+  // Auth Handlers & Role Sync
   // ==========================================
   const { login } = useDemoStore();
+  const { switchRole } = useRole();
 
   const handleSuccess = (role: string, name: string, email: string) => {
     login({ name, role, email });
-    const routes: Record<string, string> = {
-      SUPER_ADMIN: "/admin/dashboard",
-      INSTITUTION_ADMIN: "/admin/dashboard",
-      FACULTY: "/faculty/dashboard",
-      STUDENT: "/student/dashboard",
-      PARENT: "/parent/dashboard",
-      FINANCE: "/finance/dashboard",
-      HR: "/hr/dashboard"
-    };
-    router.push(routes[role] || "/dashboard");
+    const targetRole = (role === 'SUPER_ADMIN' || role === 'INSTITUTION_ADMIN') ? 'SUPER_ADMIN' : role as any;
+    switchRole(targetRole, { name, email });
   };
 
   const onCredsSubmit = async (data: CredentialsForm) => {

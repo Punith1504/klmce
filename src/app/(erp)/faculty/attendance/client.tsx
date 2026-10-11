@@ -77,24 +77,24 @@ export default function FacultyAttendanceClient({ slots }: { slots: Slot[] }) {
     };
 
     return (
-        <div className="space-y-6 max-w-7xl mx-auto p-6 lg:p-8 font-sans text-white">
+        <div className="space-y-6 max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 font-sans text-white">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
-                    <h1 className="text-3xl font-bold text-slate-50 flex items-center gap-3 mb-2">
-                        <CalendarCheck className="w-7 h-7 text-indigo-400"/> Attendance Entry
+                    <h1 className="text-2xl sm:text-3xl font-bold text-slate-50 flex items-center gap-3 mb-2">
+                        <CalendarCheck className="w-6 h-6 sm:w-7 sm:h-7 text-indigo-400"/> Attendance Entry
                     </h1>
-                    <p className="text-slate-400 text-sm">Roster-based attendance for your assigned classes.</p>
+                    <p className="text-slate-400 text-xs sm:text-sm">Roster-based attendance for your assigned classes.</p>
                 </div>
             </div>
 
             {/* Context Selector */}
-            <div className="bg-[#221F32]/80 backdrop-blur rounded-2xl p-6 border border-white/10 shadow-lg flex flex-col md:flex-row gap-4 items-end">
+            <div className="bg-[#221F32]/80 backdrop-blur rounded-2xl p-4 sm:p-6 border border-white/10 shadow-lg flex flex-col md:flex-row gap-4 items-stretch md:items-end">
                 <div className="flex-1 w-full">
                     <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Course & Section / Slot</label>
                     <select 
                         value={selectedSlotId}
                         onChange={(e) => setSelectedSlotId(e.target.value)}
-                        className="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-slate-200 outline-none focus:border-indigo-500 transition">
+                        className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-base sm:text-sm text-slate-200 outline-none focus:border-indigo-500 transition">
                         {slots.map(slot => (
                             <option key={slot.id} value={slot.id}>
                                 {slot.course.title} ({slot.section.name}) - {slot.dayOfWeek} {slot.startTime}
@@ -109,12 +109,12 @@ export default function FacultyAttendanceClient({ slots }: { slots: Slot[] }) {
                         type="date" 
                         value={date}
                         onChange={(e) => setDate(e.target.value)}
-                        className="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-2 text-sm text-slate-200 outline-none focus:border-indigo-500 transition [color-scheme:dark]" 
+                        className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-2.5 text-base sm:text-sm text-slate-200 outline-none focus:border-indigo-500 transition [color-scheme:dark]" 
                     />
                 </div>
                 <button 
                     onClick={() => {}} 
-                    className="bg-white/10 hover:bg-white/20 text-white px-6 py-2.5 rounded-lg text-sm font-semibold transition border border-white/10 flex items-center gap-2">
+                    className="bg-white/10 hover:bg-white/20 text-white px-6 py-3 min-h-[44px] rounded-xl text-sm font-semibold transition border border-white/10 flex items-center justify-center gap-2">
                     <Filter className="w-4 h-4" /> Load Roster
                 </button>
             </div>
@@ -122,59 +122,62 @@ export default function FacultyAttendanceClient({ slots }: { slots: Slot[] }) {
             {/* Roster */}
             {selectedSlot && (
                 <div className="bg-[#221F32]/80 backdrop-blur rounded-2xl border border-white/10 shadow-lg overflow-hidden relative">
-                    <div className="p-4 border-b border-white/10 bg-black/20 flex justify-between items-center">
+                    <div className="p-4 border-b border-white/10 bg-black/20 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
                         <div className="flex items-center gap-3">
                             <Users className="w-5 h-5 text-slate-400" />
-                            <h2 className="font-bold text-slate-50">Student Roster ({selectedSlot.section.name})</h2>
+                            <h2 className="font-bold text-slate-50 text-sm sm:text-base">Student Roster ({selectedSlot.section.name})</h2>
                         </div>
-                        <div className="flex gap-2">
+                        <div className="flex gap-2 w-full sm:w-auto">
                             <button 
                                 onClick={() => markAll('PRESENT')}
-                                className="text-xs bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-3 py-1.5 rounded-md hover:bg-emerald-500/30">
+                                className="flex-1 sm:flex-initial text-xs bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-3 py-2 min-h-[38px] rounded-lg hover:bg-emerald-500/30 font-semibold transition">
                                 Mark All Present
                             </button>
                             <button 
                                 onClick={() => markAll('ABSENT')}
-                                className="text-xs bg-rose-500/20 text-rose-400 border border-rose-500/30 px-3 py-1.5 rounded-md hover:bg-rose-500/30">
+                                className="flex-1 sm:flex-initial text-xs bg-rose-500/20 text-rose-400 border border-rose-500/30 px-3 py-2 min-h-[38px] rounded-lg hover:bg-rose-500/30 font-semibold transition">
                                 Mark All Absent
                             </button>
                         </div>
                     </div>
                     
                     <div className="overflow-x-auto">
-                        <table className="w-full text-sm text-left">
+                        <table className="w-full text-sm text-left whitespace-nowrap sm:whitespace-normal">
                             <thead className="text-xs text-slate-400 uppercase bg-black/40 border-b border-white/10">
                                 <tr>
-                                    <th className="px-6 py-4 font-semibold">Roll Number</th>
-                                    <th className="px-6 py-4 font-semibold">Student Name</th>
-                                    <th className="px-6 py-4 font-semibold text-center">Status</th>
+                                    <th className="px-4 sm:px-6 py-4 font-semibold">Roll Number</th>
+                                    <th className="px-4 sm:px-6 py-4 font-semibold">Student Name</th>
+                                    <th className="px-4 sm:px-6 py-4 font-semibold text-center">Status</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-white/5">
                                 {selectedSlot.students.length > 0 ? selectedSlot.students.map((student, i) => (
                                     <tr key={i} className="hover:bg-white/5 transition-colors">
-                                        <td className="px-6 py-4 font-medium text-slate-300">{student.rollNo}</td>
-                                        <td className="px-6 py-4 text-slate-300">{student.name}</td>
-                                        <td className="px-6 py-4 flex justify-center gap-2">
-                                            {[
-                                                { label: "Present", value: "PRESENT" },
-                                                { label: "Absent", value: "ABSENT" },
-                                                { label: "Excused", value: "EXCUSED" }
-                                            ].map(statusObj => (
-                                                <button 
-                                                    key={statusObj.value}
-                                                    onClick={() => handleStatusChange(student.id, statusObj.value)}
-                                                    className={`px-3 py-1 rounded-md text-xs font-bold border transition ${
-                                                        attendanceState[student.id] === statusObj.value
-                                                            ? statusObj.value === 'PRESENT' ? 'bg-emerald-500/20 border-emerald-500/50 text-emerald-400'
-                                                            : statusObj.value === 'ABSENT' ? 'bg-rose-500/20 border-rose-500/50 text-rose-400'
-                                                            : 'bg-amber-500/20 border-amber-500/50 text-amber-400'
-                                                            : 'bg-black/30 border-white/10 text-slate-500 hover:bg-white/10 hover:text-slate-300'
-                                                    }`}
-                                                >
-                                                    {statusObj.label}
-                                                </button>
-                                            ))}
+                                        <td className="px-4 sm:px-6 py-4 font-medium text-slate-300 font-mono text-xs sm:text-sm">{student.rollNo}</td>
+                                        <td className="px-4 sm:px-6 py-4 text-slate-300">{student.name}</td>
+                                        <td className="px-4 sm:px-6 py-4">
+                                            <div className="flex justify-center gap-1.5 sm:gap-2">
+                                                {[
+                                                    { label: "P", full: "Present", value: "PRESENT" },
+                                                    { label: "A", full: "Absent", value: "ABSENT" },
+                                                    { label: "E", full: "Excused", value: "EXCUSED" }
+                                                ].map(statusObj => (
+                                                    <button 
+                                                        key={statusObj.value}
+                                                        onClick={() => handleStatusChange(student.id, statusObj.value)}
+                                                        className={`px-3 py-2 sm:py-1.5 rounded-lg text-xs font-bold border transition touch-manipulation min-h-[38px] sm:min-h-0 ${
+                                                            attendanceState[student.id] === statusObj.value
+                                                                ? statusObj.value === 'PRESENT' ? 'bg-emerald-500/25 border-emerald-500/60 text-emerald-300 shadow-sm'
+                                                                : statusObj.value === 'ABSENT' ? 'bg-rose-500/25 border-rose-500/60 text-rose-300 shadow-sm'
+                                                                : 'bg-amber-500/25 border-amber-500/60 text-amber-300 shadow-sm'
+                                                                : 'bg-black/30 border-white/10 text-slate-500 hover:bg-white/10 hover:text-slate-300'
+                                                        }`}
+                                                    >
+                                                        <span className="hidden sm:inline">{statusObj.full}</span>
+                                                        <span className="sm:hidden">{statusObj.label}</span>
+                                                    </button>
+                                                ))}
+                                            </div>
                                         </td>
                                     </tr>
                                 )) : (
@@ -187,8 +190,8 @@ export default function FacultyAttendanceClient({ slots }: { slots: Slot[] }) {
                             </tbody>
                         </table>
                     </div>
-                    <div className="p-4 border-t border-white/10 bg-black/20 flex justify-between items-center">
-                        <div>
+                    <div className="p-4 border-t border-white/10 bg-black/20 flex flex-col sm:flex-row justify-between items-center gap-3">
+                        <div className="w-full sm:w-auto">
                             {successMsg && (
                                 <span className="flex items-center gap-2 text-sm text-emerald-400 font-semibold">
                                     <CheckCircle className="w-4 h-4" /> {successMsg}
@@ -198,7 +201,7 @@ export default function FacultyAttendanceClient({ slots }: { slots: Slot[] }) {
                         <button 
                             onClick={handleSubmit}
                             disabled={isSubmitting}
-                            className="bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-2 rounded-xl text-sm font-semibold transition shadow-[0_4px_14px_0_rgba(79,70,229,0.39)] flex items-center gap-2 disabled:opacity-50">
+                            className="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-3 min-h-[44px] rounded-xl text-sm font-semibold transition shadow-[0_4px_14px_0_rgba(79,70,229,0.39)] flex items-center justify-center gap-2 disabled:opacity-50">
                             <Save className="w-4 h-4" /> {isSubmitting ? 'Saving...' : 'Submit Attendance'}
                         </button>
                     </div>

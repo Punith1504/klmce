@@ -1,22 +1,25 @@
 {
-  "name": "KLMCE Student Portal",
-  "short_name": "KLMCE Portal",
-  "description": "Student Scanner and Education ERP PWA",
-  "start_url": "/student/dashboard",
+  "name": "KLMCE Enterprise ERP | K.S.R.M. Kadapa",
+  "short_name": "KLMCE ERP",
+  "description": "Unified Mobile ERP for Students, Faculty, Admins & Parents",
+  "start_url": "/",
   "display": "standalone",
-  "orientation": "portrait",
-  "background_color": "#030712",
-  "theme_color": "#4f46e5",
+  "orientation": "portrait-primary",
+  "background_color": "#070514",
+  "theme_color": "#070514",
+  "categories": ["education", "productivity"],
   "icons": [
     {
-      "src": "/icons/icon-192x192.png",
+      "src": "/college-logo.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
-      "src": "/icons/icon-512x512.png",
+      "src": "/college-logo.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }

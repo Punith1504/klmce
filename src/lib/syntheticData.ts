@@ -1,1024 +1,625 @@
-// AUTO-GENERATED SYNTHETIC DATA FOR KLMCE ERP
-export const STUDENTS = [
-    {
-        "id": "STU2024001",
-        "name": "Arjun Sharma",
-        "email": "arjun.sharma@student.klmce.edu.in",
-        "phone": "+91 94012 39256",
-        "gender": "M",
-        "dob": "2000-12-04",
-        "region": "Madurai",
-        "department": "Information Technology",
-        "cgpa": 7.89,
-        "year": 1,
-        "attendance_pct": 77,
-        "fee_status": "Paid",
-        "status": "Active"
-    },
-    {
-        "id": "STU2024002",
-        "name": "Naveen Pillai",
-        "email": "naveen.pillai@student.klmce.edu.in",
-        "phone": "+91 98928 64987",
-        "gender": "M",
-        "dob": "2000-08-19",
-        "region": "Salem",
-        "department": "Computer Science",
-        "cgpa": 9.0,
-        "year": 2,
-        "attendance_pct": 97,
-        "fee_status": "Overdue",
-        "status": "Active"
-    },
-    {
-        "id": "STU2024003",
-        "name": "Swathi Pillai",
-        "email": "swathi.pillai@student.klmce.edu.in",
-        "phone": "+91 95514 23396",
-        "gender": "F",
-        "dob": "1999-07-04",
-        "region": "Bangalore",
-        "department": "Electrical",
-        "cgpa": 8.49,
-        "year": 1,
-        "attendance_pct": 98,
-        "fee_status": "Overdue",
-        "status": "Active"
-    },
-    {
-        "id": "STU2024004",
-        "name": "Sneha Rao",
-        "email": "sneha.rao@student.klmce.edu.in",
-        "phone": "+91 94803 92397",
-        "gender": "F",
-        "dob": "2003-06-19",
-        "region": "Trichy",
-        "department": "Electronics",
-        "cgpa": 6.73,
-        "year": 2,
-        "attendance_pct": 99,
-        "fee_status": "Pending",
-        "status": "Active"
-    },
-    {
-        "id": "STU2024005",
-        "name": "Aditya Rajan",
-        "email": "aditya.rajan@student.klmce.edu.in",
-        "phone": "+91 94554 69429",
-        "gender": "M",
-        "dob": "2004-06-06",
-        "region": "Bangalore",
-        "department": "Electrical",
-        "cgpa": 7.19,
-        "year": 3,
-        "attendance_pct": 97,
-        "fee_status": "Paid",
-        "status": "Active"
-    },
-    {
-        "id": "STU2024006",
-        "name": "Siddharth Gounder",
-        "email": "siddharth.gounder@student.klmce.edu.in",
-        "phone": "+91 96216 45382",
-        "gender": "M",
-        "dob": "2004-12-18",
-        "region": "Trichy",
-        "department": "Electronics",
-        "cgpa": 7.57,
-        "year": 1,
-        "attendance_pct": 82,
-        "fee_status": "Paid",
-        "status": "Active"
-    },
-    {
-        "id": "STU2024007",
-        "name": "Aishwarya Nair",
-        "email": "aishwarya.nair@student.klmce.edu.in",
-        "phone": "+91 93456 84341",
-        "gender": "F",
-        "dob": "2004-06-07",
-        "region": "Kochi",
-        "department": "Civil",
-        "cgpa": 9.42,
-        "year": 4,
-        "attendance_pct": 79,
-        "fee_status": "Pending",
-        "status": "Active"
-    },
-    {
-        "id": "STU2024008",
-        "name": "Naveen Rao",
-        "email": "naveen.rao@student.klmce.edu.in",
-        "phone": "+91 94304 86622",
-        "gender": "M",
-        "dob": "2002-10-13",
-        "region": "Bangalore",
-        "department": "Mechanical",
-        "cgpa": 9.79,
-        "year": 2,
-        "attendance_pct": 91,
-        "fee_status": "Overdue",
-        "status": "Active"
-    },
-    {
-        "id": "STU2024009",
-        "name": "Aditya Reddy",
-        "email": "aditya.reddy@student.klmce.edu.in",
-        "phone": "+91 92621 99192",
-        "gender": "M",
-        "dob": "2002-10-03",
-        "region": "Hyderabad",
-        "department": "Civil",
-        "cgpa": 8.47,
-        "year": 4,
-        "attendance_pct": 91,
-        "fee_status": "Pending",
-        "status": "Active"
-    },
-    {
-        "id": "STU2024010",
-        "name": "Naveen Sharma",
-        "email": "naveen.sharma@student.klmce.edu.in",
-        "phone": "+91 95573 24621",
-        "gender": "M",
-        "dob": "2001-07-06",
-        "region": "Kochi",
-        "department": "Computer Science",
-        "cgpa": 9.65,
-        "year": 3,
-        "attendance_pct": 91,
-        "fee_status": "Paid",
-        "status": "Active"
-    },
-    {
-        "id": "STU2024011",
-        "name": "Sruthi Pillai",
-        "email": "sruthi.pillai@student.klmce.edu.in",
-        "phone": "+91 92504 59009",
-        "gender": "F",
-        "dob": "2005-03-18",
-        "region": "Chennai",
-        "department": "Information Technology",
-        "cgpa": 7.57,
-        "year": 1,
-        "attendance_pct": 78,
-        "fee_status": "Pending",
-        "status": "Active"
-    },
-    {
-        "id": "STU2024012",
-        "name": "Karthik Krishnan",
-        "email": "karthik.krishnan@student.klmce.edu.in",
-        "phone": "+91 99295 20322",
-        "gender": "M",
-        "dob": "1999-12-16",
-        "region": "Madurai",
-        "department": "Information Technology",
-        "cgpa": 9.03,
-        "year": 2,
-        "attendance_pct": 96,
-        "fee_status": "Overdue",
-        "status": "Active"
-    },
-    {
-        "id": "STU2024013",
-        "name": "Sruthi Murthy",
-        "email": "sruthi.murthy@student.klmce.edu.in",
-        "phone": "+91 93470 80686",
-        "gender": "F",
-        "dob": "2005-12-23",
-        "region": "Trichy",
-        "department": "Electronics",
-        "cgpa": 7.53,
-        "year": 3,
-        "attendance_pct": 89,
-        "fee_status": "Overdue",
-        "status": "Active"
-    },
-    {
-        "id": "STU2024014",
-        "name": "Rohit Nair",
-        "email": "rohit.nair@student.klmce.edu.in",
-        "phone": "+91 95539 12757",
-        "gender": "M",
-        "dob": "2003-09-08",
-        "region": "Trichy",
-        "department": "Computer Science",
-        "cgpa": 6.73,
-        "year": 1,
-        "attendance_pct": 82,
-        "fee_status": "Paid",
-        "status": "Active"
-    },
-    {
-        "id": "STU2024015",
-        "name": "Sneha Verma",
-        "email": "sneha.verma@student.klmce.edu.in",
-        "phone": "+91 93899 46500",
-        "gender": "F",
-        "dob": "2004-08-07",
-        "region": "Coimbatore",
-        "department": "Electronics",
-        "cgpa": 9.59,
-        "year": 4,
-        "attendance_pct": 82,
-        "fee_status": "Overdue",
-        "status": "Warning"
-    },
-    {
-        "id": "STU2024016",
-        "name": "Aditya Rao",
-        "email": "aditya.rao@student.klmce.edu.in",
-        "phone": "+91 97062 56438",
-        "gender": "M",
-        "dob": "2002-07-15",
-        "region": "Chennai",
-        "department": "Electronics",
-        "cgpa": 8.66,
-        "year": 1,
-        "attendance_pct": 76,
-        "fee_status": "Overdue",
-        "status": "Active"
-    },
-    {
-        "id": "STU2024017",
-        "name": "Rohit Pillai",
-        "email": "rohit.pillai@student.klmce.edu.in",
-        "phone": "+91 93116 80292",
-        "gender": "M",
-        "dob": "2002-03-14",
-        "region": "Coimbatore",
-        "department": "Electrical",
-        "cgpa": 8.03,
-        "year": 1,
-        "attendance_pct": 89,
-        "fee_status": "Paid",
-        "status": "Active"
-    },
-    {
-        "id": "STU2024018",
-        "name": "Rahul Krishnan",
-        "email": "rahul.krishnan@student.klmce.edu.in",
-        "phone": "+91 92724 63269",
-        "gender": "M",
-        "dob": "2002-08-07",
-        "region": "Hyderabad",
-        "department": "Computer Science",
-        "cgpa": 7.04,
-        "year": 1,
-        "attendance_pct": 87,
-        "fee_status": "Pending",
-        "status": "Warning"
-    },
-    {
-        "id": "STU2024019",
-        "name": "Lakshmi Rao",
-        "email": "lakshmi.rao@student.klmce.edu.in",
-        "phone": "+91 97973 30289",
-        "gender": "F",
-        "dob": "2000-05-07",
-        "region": "Chennai",
-        "department": "Information Technology",
-        "cgpa": 8.93,
-        "year": 1,
-        "attendance_pct": 98,
-        "fee_status": "Pending",
-        "status": "Active"
-    },
-    {
-        "id": "STU2024020",
-        "name": "Prashant Deshmukh",
-        "email": "prashant.deshmukh@student.klmce.edu.in",
-        "phone": "+91 98238 79615",
-        "gender": "M",
-        "dob": "2000-01-17",
-        "region": "Madurai",
-        "department": "Mechanical",
-        "cgpa": 6.73,
-        "year": 1,
-        "attendance_pct": 96,
-        "fee_status": "Paid",
-        "status": "Warning"
-    },
-    {
-        "id": "STU2024021",
-        "name": "Prashant Krishnan",
-        "email": "prashant.krishnan@student.klmce.edu.in",
-        "phone": "+91 99485 87924",
-        "gender": "M",
-        "dob": "1999-10-03",
-        "region": "Hyderabad",
-        "department": "Electronics",
-        "cgpa": 8.43,
-        "year": 3,
-        "attendance_pct": 83,
-        "fee_status": "Paid",
-        "status": "Active"
-    },
-    {
-        "id": "STU2024022",
-        "name": "Vijay Rajan",
-        "email": "vijay.rajan@student.klmce.edu.in",
-        "phone": "+91 92144 98039",
-        "gender": "M",
-        "dob": "2004-05-15",
-        "region": "Bangalore",
-        "department": "Computer Science",
-        "cgpa": 6.53,
-        "year": 1,
-        "attendance_pct": 77,
-        "fee_status": "Paid",
-        "status": "Active"
-    },
-    {
-        "id": "STU2024023",
-        "name": "Praveen Nair",
-        "email": "praveen.nair@student.klmce.edu.in",
-        "phone": "+91 94002 58434",
-        "gender": "M",
-        "dob": "2001-03-15",
-        "region": "Salem",
-        "department": "Information Technology",
-        "cgpa": 9.75,
-        "year": 1,
-        "attendance_pct": 96,
-        "fee_status": "Pending",
-        "status": "Active"
-    },
-    {
-        "id": "STU2024024",
-        "name": "Vijay Rao",
-        "email": "vijay.rao@student.klmce.edu.in",
-        "phone": "+91 91753 82512",
-        "gender": "M",
-        "dob": "2000-05-10",
-        "region": "Trichy",
-        "department": "Electronics",
-        "cgpa": 7.63,
-        "year": 3,
-        "attendance_pct": 91,
-        "fee_status": "Overdue",
-        "status": "Active"
-    },
-    {
-        "id": "STU2024025",
-        "name": "Rahul Murthy",
-        "email": "rahul.murthy@student.klmce.edu.in",
-        "phone": "+91 94533 15778",
-        "gender": "M",
-        "dob": "1999-06-25",
-        "region": "Coimbatore",
-        "department": "Electronics",
-        "cgpa": 9.73,
-        "year": 2,
-        "attendance_pct": 98,
-        "fee_status": "Overdue",
-        "status": "Warning"
-    },
-    {
-        "id": "STU2024026",
-        "name": "Aditya Nair",
-        "email": "aditya.nair@student.klmce.edu.in",
-        "phone": "+91 92442 81511",
-        "gender": "M",
-        "dob": "1999-06-19",
-        "region": "Coimbatore",
-        "department": "Civil",
-        "cgpa": 6.92,
-        "year": 3,
-        "attendance_pct": 86,
-        "fee_status": "Paid",
-        "status": "Active"
-    },
-    {
-        "id": "STU2024027",
-        "name": "Rohit Rao",
-        "email": "rohit.rao@student.klmce.edu.in",
-        "phone": "+91 95794 83385",
-        "gender": "M",
-        "dob": "2005-07-20",
-        "region": "Coimbatore",
-        "department": "Mechanical",
-        "cgpa": 9.35,
-        "year": 2,
-        "attendance_pct": 88,
-        "fee_status": "Paid",
-        "status": "Active"
-    },
-    {
-        "id": "STU2024028",
-        "name": "Lakshmi Krishnan",
-        "email": "lakshmi.krishnan@student.klmce.edu.in",
-        "phone": "+91 94371 30866",
-        "gender": "F",
-        "dob": "2005-12-04",
-        "region": "Hyderabad",
-        "department": "Computer Science",
-        "cgpa": 9.33,
-        "year": 2,
-        "attendance_pct": 81,
-        "fee_status": "Overdue",
-        "status": "Active"
-    },
-    {
-        "id": "STU2024029",
-        "name": "Shruti Krishnan",
-        "email": "shruti.krishnan@student.klmce.edu.in",
-        "phone": "+91 90387 96511",
-        "gender": "F",
-        "dob": "2000-07-11",
-        "region": "Salem",
-        "department": "Computer Science",
-        "cgpa": 9.69,
-        "year": 3,
-        "attendance_pct": 86,
-        "fee_status": "Overdue",
-        "status": "Active"
-    },
-    {
-        "id": "STU2024030",
-        "name": "Aditya Sharma",
-        "email": "aditya.sharma@student.klmce.edu.in",
-        "phone": "+91 92925 86099",
-        "gender": "M",
-        "dob": "2001-01-04",
-        "region": "Hyderabad",
-        "department": "Electrical",
-        "cgpa": 8.9,
-        "year": 3,
-        "attendance_pct": 88,
-        "fee_status": "Paid",
-        "status": "Warning"
-    },
-    {
-        "id": "STU2024031",
-        "name": "Vijay Iyer",
-        "email": "vijay.iyer@student.klmce.edu.in",
-        "phone": "+91 97144 10221",
-        "gender": "M",
-        "dob": "2003-09-22",
-        "region": "Trichy",
-        "department": "Electrical",
-        "cgpa": 7.92,
-        "year": 3,
-        "attendance_pct": 94,
-        "fee_status": "Pending",
-        "status": "Active"
-    },
-    {
-        "id": "STU2024032",
-        "name": "Sruthi Singh",
-        "email": "sruthi.singh@student.klmce.edu.in",
-        "phone": "+91 96691 52753",
-        "gender": "F",
-        "dob": "2002-12-10",
-        "region": "Coimbatore",
-        "department": "Mechanical",
-        "cgpa": 7.89,
-        "year": 4,
-        "attendance_pct": 96,
-        "fee_status": "Paid",
-        "status": "Active"
-    },
-    {
-        "id": "STU2024033",
-        "name": "Kavya Singh",
-        "email": "kavya.singh@student.klmce.edu.in",
-        "phone": "+91 94700 37549",
-        "gender": "F",
-        "dob": "2002-10-20",
-        "region": "Bangalore",
-        "department": "Civil",
-        "cgpa": 7.96,
-        "year": 2,
-        "attendance_pct": 91,
-        "fee_status": "Overdue",
-        "status": "Active"
-    },
-    {
-        "id": "STU2024034",
-        "name": "Ashwin Verma",
-        "email": "ashwin.verma@student.klmce.edu.in",
-        "phone": "+91 95491 22240",
-        "gender": "M",
-        "dob": "2005-04-22",
-        "region": "Salem",
-        "department": "Mechanical",
-        "cgpa": 9.16,
-        "year": 2,
-        "attendance_pct": 75,
-        "fee_status": "Paid",
-        "status": "Active"
-    },
-    {
-        "id": "STU2024035",
-        "name": "Sneha Gounder",
-        "email": "sneha.gounder@student.klmce.edu.in",
-        "phone": "+91 96790 92544",
-        "gender": "F",
-        "dob": "2003-04-23",
-        "region": "Hyderabad",
-        "department": "Civil",
-        "cgpa": 7.82,
-        "year": 2,
-        "attendance_pct": 95,
-        "fee_status": "Paid",
-        "status": "Active"
-    },
-    {
-        "id": "STU2024036",
-        "name": "Shruti Menon",
-        "email": "shruti.menon@student.klmce.edu.in",
-        "phone": "+91 98486 70889",
-        "gender": "F",
-        "dob": "1999-09-08",
-        "region": "Madurai",
-        "department": "Civil",
-        "cgpa": 6.94,
-        "year": 4,
-        "attendance_pct": 96,
-        "fee_status": "Pending",
-        "status": "Warning"
-    },
-    {
-        "id": "STU2024037",
-        "name": "Ananya Menon",
-        "email": "ananya.menon@student.klmce.edu.in",
-        "phone": "+91 97777 68991",
-        "gender": "F",
-        "dob": "2001-04-27",
-        "region": "Salem",
-        "department": "Information Technology",
-        "cgpa": 8.1,
-        "year": 2,
-        "attendance_pct": 83,
-        "fee_status": "Overdue",
-        "status": "Active"
-    },
-    {
-        "id": "STU2024038",
-        "name": "Shruti Sharma",
-        "email": "shruti.sharma@student.klmce.edu.in",
-        "phone": "+91 95502 51904",
-        "gender": "F",
-        "dob": "2003-02-05",
-        "region": "Coimbatore",
-        "department": "Mechanical",
-        "cgpa": 7.76,
-        "year": 2,
-        "attendance_pct": 97,
-        "fee_status": "Paid",
-        "status": "Active"
-    },
-    {
-        "id": "STU2024039",
-        "name": "Lakshmi Patel",
-        "email": "lakshmi.patel@student.klmce.edu.in",
-        "phone": "+91 98890 71069",
-        "gender": "F",
-        "dob": "2002-01-07",
-        "region": "Hyderabad",
-        "department": "Civil",
-        "cgpa": 9.49,
-        "year": 1,
-        "attendance_pct": 99,
-        "fee_status": "Overdue",
-        "status": "Warning"
-    },
-    {
-        "id": "STU2024040",
-        "name": "Praveen Singh",
-        "email": "praveen.singh@student.klmce.edu.in",
-        "phone": "+91 96389 64921",
-        "gender": "M",
-        "dob": "2003-12-24",
-        "region": "Trichy",
-        "department": "Civil",
-        "cgpa": 7.22,
-        "year": 4,
-        "attendance_pct": 90,
-        "fee_status": "Paid",
-        "status": "Warning"
-    },
-    {
-        "id": "STU2024041",
-        "name": "Pooja Menon",
-        "email": "pooja.menon@student.klmce.edu.in",
-        "phone": "+91 97657 26728",
-        "gender": "F",
-        "dob": "2003-09-01",
-        "region": "Hyderabad",
-        "department": "Information Technology",
-        "cgpa": 8.36,
-        "year": 1,
-        "attendance_pct": 77,
-        "fee_status": "Overdue",
-        "status": "Active"
-    },
-    {
-        "id": "STU2024042",
-        "name": "Anjali Iyer",
-        "email": "anjali.iyer@student.klmce.edu.in",
-        "phone": "+91 94262 59689",
-        "gender": "F",
-        "dob": "2001-04-15",
-        "region": "Bangalore",
-        "department": "Electrical",
-        "cgpa": 9.01,
-        "year": 4,
-        "attendance_pct": 83,
-        "fee_status": "Overdue",
-        "status": "Active"
-    },
-    {
-        "id": "STU2024043",
-        "name": "Vishal Kumar",
-        "email": "vishal.kumar@student.klmce.edu.in",
-        "phone": "+91 98837 16826",
-        "gender": "M",
-        "dob": "2001-04-21",
-        "region": "Madurai",
-        "department": "Electronics",
-        "cgpa": 6.63,
-        "year": 1,
-        "attendance_pct": 82,
-        "fee_status": "Paid",
-        "status": "Active"
-    },
-    {
-        "id": "STU2024044",
-        "name": "Rohit Reddy",
-        "email": "rohit.reddy@student.klmce.edu.in",
-        "phone": "+91 97758 97747",
-        "gender": "M",
-        "dob": "1999-10-07",
-        "region": "Kochi",
-        "department": "Electronics",
-        "cgpa": 7.35,
-        "year": 3,
-        "attendance_pct": 80,
-        "fee_status": "Paid",
-        "status": "Active"
-    },
-    {
-        "id": "STU2024045",
-        "name": "Neha Naidu",
-        "email": "neha.naidu@student.klmce.edu.in",
-        "phone": "+91 90420 50888",
-        "gender": "F",
-        "dob": "2003-11-13",
-        "region": "Hyderabad",
-        "department": "Electronics",
-        "cgpa": 7.15,
-        "year": 2,
-        "attendance_pct": 78,
-        "fee_status": "Pending",
-        "status": "Active"
-    },
-    {
-        "id": "STU2024046",
-        "name": "Praveen Rao",
-        "email": "praveen.rao@student.klmce.edu.in",
-        "phone": "+91 97018 96706",
-        "gender": "M",
-        "dob": "2001-02-17",
-        "region": "Bangalore",
-        "department": "Computer Science",
-        "cgpa": 9.3,
-        "year": 4,
-        "attendance_pct": 78,
-        "fee_status": "Overdue",
-        "status": "Active"
-    },
-    {
-        "id": "STU2024047",
-        "name": "Swathi Murthy",
-        "email": "swathi.murthy@student.klmce.edu.in",
-        "phone": "+91 92885 78386",
-        "gender": "F",
-        "dob": "2004-05-20",
-        "region": "Kochi",
-        "department": "Civil",
-        "cgpa": 7.94,
-        "year": 3,
-        "attendance_pct": 85,
-        "fee_status": "Paid",
-        "status": "Active"
-    },
-    {
-        "id": "STU2024048",
-        "name": "Ananya Krishnan",
-        "email": "ananya.krishnan@student.klmce.edu.in",
-        "phone": "+91 97613 84691",
-        "gender": "F",
-        "dob": "2003-11-13",
-        "region": "Bangalore",
-        "department": "Computer Science",
-        "cgpa": 8.13,
-        "year": 3,
-        "attendance_pct": 80,
-        "fee_status": "Overdue",
-        "status": "Active"
-    },
-    {
-        "id": "STU2024049",
-        "name": "Aishwarya Patel",
-        "email": "aishwarya.patel@student.klmce.edu.in",
-        "phone": "+91 94581 88139",
-        "gender": "F",
-        "dob": "2004-05-18",
-        "region": "Chennai",
-        "department": "Information Technology",
-        "cgpa": 9.63,
-        "year": 1,
-        "attendance_pct": 82,
-        "fee_status": "Overdue",
-        "status": "Warning"
-    },
-    {
-        "id": "STU2024050",
-        "name": "Vishal Deshmukh",
-        "email": "vishal.deshmukh@student.klmce.edu.in",
-        "phone": "+91 97342 12260",
-        "gender": "M",
-        "dob": "1999-05-08",
-        "region": "Hyderabad",
-        "department": "Electronics",
-        "cgpa": 7.3,
-        "year": 3,
-        "attendance_pct": 90,
-        "fee_status": "Pending",
-        "status": "Warning"
-    }
+// ========================================================================
+// KLMCE (K.S.R.M. / KLM College of Engineering, Kadapa, Andhra Pradesh)
+// Authentic Regional Institutional Dataset (JNTUA Affiliated, Rayalaseema)
+// ========================================================================
+
+export interface StudentRecord {
+  id: string;
+  rollNo: string;
+  name: string;
+  email: string;
+  phone: string;
+  gender: "M" | "F";
+  dob: string;
+  region: string;
+  district: string;
+  department: string;
+  programme: string;
+  year: number;
+  semester: string;
+  cgpa: number;
+  attendance_pct: number;
+  fee_status: "Paid" | "Pending" | "Overdue";
+  status: "Active" | "Warning" | "Good Standing";
+  parentName: string;
+  parentPhone: string;
+  busRoute?: string;
+  hostelRoom?: string;
+}
+
+export interface FacultyRecord {
+  id: string;
+  empId: string;
+  name: string;
+  email: string;
+  phone: string;
+  department: string;
+  designation: string;
+  qualification: string;
+  joining_date: string;
+  courses_taught: number;
+  publications: number;
+  mentees_count: number;
+  office_room: string;
+}
+
+export interface AdminRecord {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  role: string;
+  access_level: "Superuser" | "Editor" | "Viewer";
+  office_location: string;
+  department: string;
+}
+
+export interface BusRouteRecord {
+  routeNo: string;
+  routeName: string;
+  stops: string[];
+  driverName: string;
+  driverPhone: string;
+  busNo: string;
+  capacity: number;
+  occupied: number;
+}
+
+export interface HostelRecord {
+  blockName: string;
+  type: "Girls" | "Boys";
+  wardenName: string;
+  wardenPhone: string;
+  totalRooms: number;
+  occupiedRooms: number;
+  messManager: string;
+}
+
+// ------------------------------------------------------------------------
+// 1. Regional Students (Kadapa, Rayalaseema, Andhra Pradesh)
+// ------------------------------------------------------------------------
+export const STUDENTS: StudentRecord[] = [
+  {
+    id: "STU2024001",
+    rollNo: "219Y1A0501",
+    name: "C. Lakshmi Priya",
+    email: "lakshmi.priya@student.klmce.ac.in",
+    phone: "+91 98480 23145",
+    gender: "F",
+    dob: "2003-05-14",
+    region: "Kadapa",
+    district: "YSR Kadapa",
+    department: "Computer Science and Engineering",
+    programme: "B.Tech",
+    year: 4,
+    semester: "Semester 7",
+    cgpa: 9.42,
+    attendance_pct: 92,
+    fee_status: "Paid",
+    status: "Good Standing",
+    parentName: "C. Narayana Reddy",
+    parentPhone: "+91 94401 22334",
+    busRoute: "Route 01 - Kadapa City Loop",
+    hostelRoom: "Chennamma Block B-204"
+  },
+  {
+    id: "STU2024002",
+    rollNo: "219Y1A0514",
+    name: "K. Bhavani",
+    email: "bhavani.k@student.klmce.ac.in",
+    phone: "+91 98482 12908",
+    gender: "F",
+    dob: "2003-08-22",
+    region: "Proddatur",
+    district: "YSR Kadapa",
+    department: "Computer Science and Engineering",
+    programme: "B.Tech",
+    year: 4,
+    semester: "Semester 7",
+    cgpa: 8.85,
+    attendance_pct: 88,
+    fee_status: "Paid",
+    status: "Good Standing",
+    parentName: "K. Venkata Subbaiah",
+    parentPhone: "+91 98492 44556",
+    busRoute: "Route 04 - Proddatur Express"
+  },
+  {
+    id: "STU2024003",
+    rollNo: "219Y1A0423",
+    name: "V. Sai Teja",
+    email: "saiteja.v@student.klmce.ac.in",
+    phone: "+91 97014 55321",
+    gender: "M",
+    dob: "2003-11-09",
+    region: "Pulivendula",
+    district: "YSR Kadapa",
+    department: "Electronics and Communication Engineering",
+    programme: "B.Tech",
+    year: 4,
+    semester: "Semester 7",
+    cgpa: 8.45,
+    attendance_pct: 79,
+    fee_status: "Paid",
+    status: "Active",
+    parentName: "V. Ramanjaneyulu",
+    parentPhone: "+91 98481 99001",
+    busRoute: "Route 07 - Pulivendula Fast Pass"
+  },
+  {
+    id: "STU2024004",
+    rollNo: "229Y1A0542",
+    name: "P. Harika",
+    email: "harika.p@student.klmce.ac.in",
+    phone: "+91 96180 77412",
+    gender: "F",
+    dob: "2004-02-17",
+    region: "Rayachoty",
+    district: "Annamayya",
+    department: "Computer Science and Engineering",
+    programme: "B.Tech",
+    year: 3,
+    semester: "Semester 5",
+    cgpa: 9.12,
+    attendance_pct: 95,
+    fee_status: "Paid",
+    status: "Good Standing",
+    parentName: "P. Gurivi Reddy",
+    parentPhone: "+91 99890 33221",
+    hostelRoom: "Sarojini Naidu Block A-112"
+  },
+  {
+    id: "STU2024005",
+    rollNo: "229Y1A1208",
+    name: "M. Anusha",
+    email: "anusha.m@student.klmce.ac.in",
+    phone: "+91 95501 88320",
+    gender: "F",
+    dob: "2004-06-30",
+    region: "Tirupati",
+    district: "Tirupati",
+    department: "Artificial Intelligence and Data Science",
+    programme: "B.Tech",
+    year: 3,
+    semester: "Semester 5",
+    cgpa: 8.76,
+    attendance_pct: 84,
+    fee_status: "Pending",
+    status: "Active",
+    parentName: "M. Krishna Murthy",
+    parentPhone: "+91 94405 88990",
+    hostelRoom: "Chennamma Block C-301"
+  },
+  {
+    id: "STU2024006",
+    rollNo: "229Y1A0215",
+    name: "B. Sneha",
+    email: "sneha.b@student.klmce.ac.in",
+    phone: "+91 98662 33419",
+    gender: "F",
+    dob: "2004-09-12",
+    region: "Jammalamadugu",
+    district: "YSR Kadapa",
+    department: "Electrical and Electronics Engineering",
+    programme: "B.Tech",
+    year: 3,
+    semester: "Semester 5",
+    cgpa: 7.94,
+    attendance_pct: 73,
+    fee_status: "Overdue",
+    status: "Warning",
+    parentName: "B. Chenna Reddy",
+    parentPhone: "+91 98485 11223",
+    busRoute: "Route 09 - Jammalamadugu Direct"
+  },
+  {
+    id: "STU2024007",
+    rollNo: "239Y1A0533",
+    name: "G. Mounika",
+    email: "mounika.g@student.klmce.ac.in",
+    phone: "+91 97034 66120",
+    gender: "F",
+    dob: "2005-01-25",
+    region: "Kurnool",
+    district: "Kurnool",
+    department: "Computer Science and Engineering",
+    programme: "B.Tech",
+    year: 2,
+    semester: "Semester 3",
+    cgpa: 9.31,
+    attendance_pct: 94,
+    fee_status: "Paid",
+    status: "Good Standing",
+    parentName: "G. Siva Reddy",
+    parentPhone: "+91 94402 77889",
+    hostelRoom: "Sarojini Naidu Block B-208"
+  },
+  {
+    id: "STU2024008",
+    rollNo: "239Y1A0550",
+    name: "S. Keerthana",
+    email: "keerthana.s@student.klmce.ac.in",
+    phone: "+91 98850 44901",
+    gender: "F",
+    dob: "2005-04-10",
+    region: "Badvel",
+    district: "YSR Kadapa",
+    department: "Computer Science and Engineering",
+    programme: "B.Tech",
+    year: 2,
+    semester: "Semester 3",
+    cgpa: 8.62,
+    attendance_pct: 87,
+    fee_status: "Paid",
+    status: "Good Standing",
+    parentName: "S. Venkatrami Reddy",
+    parentPhone: "+91 98489 66778",
+    busRoute: "Route 03 - Badvel Express"
+  },
+  {
+    id: "STU2024009",
+    rollNo: "239Y1A0412",
+    name: "Y. Divya Vani",
+    email: "divyavani.y@student.klmce.ac.in",
+    phone: "+91 96521 99042",
+    gender: "F",
+    dob: "2005-07-18",
+    region: "Mydukur",
+    district: "YSR Kadapa",
+    department: "Electronics and Communication Engineering",
+    programme: "B.Tech",
+    year: 2,
+    semester: "Semester 3",
+    cgpa: 8.15,
+    attendance_pct: 81,
+    fee_status: "Paid",
+    status: "Active",
+    parentName: "Y. Subbarayudu",
+    parentPhone: "+91 99491 22880",
+    busRoute: "Route 05 - Mydukur Bypass"
+  },
+  {
+    id: "STU2024010",
+    rollNo: "249Y1A0505",
+    name: "R. Poojitha",
+    email: "poojitha.r@student.klmce.ac.in",
+    phone: "+91 94901 33719",
+    gender: "F",
+    dob: "2006-03-05",
+    region: "Kadapa",
+    district: "YSR Kadapa",
+    department: "Computer Science and Engineering",
+    programme: "B.Tech",
+    year: 1,
+    semester: "Semester 1",
+    cgpa: 9.05,
+    attendance_pct: 98,
+    fee_status: "Paid",
+    status: "Good Standing",
+    parentName: "R. Ramana Reddy",
+    parentPhone: "+91 98480 55112",
+    busRoute: "Route 01 - Kadapa City Loop"
+  },
+  {
+    id: "STU2024011",
+    rollNo: "249Y1A1218",
+    name: "D. Meghana",
+    email: "meghana.d@student.klmce.ac.in",
+    phone: "+91 98499 12340",
+    gender: "F",
+    dob: "2006-05-19",
+    region: "Vempalli",
+    district: "YSR Kadapa",
+    department: "Artificial Intelligence and Data Science",
+    programme: "B.Tech",
+    year: 1,
+    semester: "Semester 1",
+    cgpa: 8.40,
+    attendance_pct: 86,
+    fee_status: "Pending",
+    status: "Active",
+    parentName: "D. Mallikarjuna",
+    parentPhone: "+91 97004 88221",
+    busRoute: "Route 08 - Vempalli Ring Road"
+  },
+  {
+    id: "STU2024012",
+    rollNo: "249Y1A0302",
+    name: "T. Sushmitha",
+    email: "sushmitha.t@student.klmce.ac.in",
+    phone: "+91 97055 88123",
+    gender: "F",
+    dob: "2006-08-11",
+    region: "Kamalapuram",
+    district: "YSR Kadapa",
+    department: "Mechanical Engineering",
+    programme: "B.Tech",
+    year: 1,
+    semester: "Semester 1",
+    cgpa: 8.12,
+    attendance_pct: 89,
+    fee_status: "Paid",
+    status: "Active",
+    parentName: "T. Obul Reddy",
+    parentPhone: "+91 98484 77665",
+    busRoute: "Route 02 - Kamalapuram Junction"
+  }
 ];
 
-export const FACULTY = [
-    {
-        "id": "FAC001",
-        "name": "Prof. Nandini Gounder",
-        "email": "nandini.gounder@klmce.edu.in",
-        "phone": "+91 90047 42951",
-        "department": "Mechanical",
-        "designation": "Assistant Professor",
-        "joining_date": "2021-04-01",
-        "publications": 10,
-        "courses_taught": 2
-    },
-    {
-        "id": "FAC002",
-        "name": "Prof. Sanjay Pillai",
-        "email": "sanjay.pillai@klmce.edu.in",
-        "phone": "+91 89060 87278",
-        "department": "Information Technology",
-        "designation": "HOD",
-        "joining_date": "2011-04-01",
-        "publications": 9,
-        "courses_taught": 2
-    },
-    {
-        "id": "FAC003",
-        "name": "Dr. Anjali Singh",
-        "email": "anjali.singh@klmce.edu.in",
-        "phone": "+91 97502 26591",
-        "department": "Electrical",
-        "designation": "Assistant Professor",
-        "joining_date": "2010-09-01",
-        "publications": 9,
-        "courses_taught": 4
-    },
-    {
-        "id": "FAC004",
-        "name": "Dr. Vishal Rao",
-        "email": "vishal.rao@klmce.edu.in",
-        "phone": "+91 98810 47268",
-        "department": "Civil",
-        "designation": "Professor",
-        "joining_date": "2017-06-01",
-        "publications": 5,
-        "courses_taught": 2
-    },
-    {
-        "id": "FAC005",
-        "name": "Dr. Preeti Rao",
-        "email": "preeti.rao@klmce.edu.in",
-        "phone": "+91 93130 74454",
-        "department": "Computer Science",
-        "designation": "Assistant Professor",
-        "joining_date": "2012-03-01",
-        "publications": 9,
-        "courses_taught": 2
-    },
-    {
-        "id": "FAC006",
-        "name": "Prof. Aditya Rao",
-        "email": "aditya.rao@klmce.edu.in",
-        "phone": "+91 99867 88135",
-        "department": "Information Technology",
-        "designation": "Associate Professor",
-        "joining_date": "2022-09-01",
-        "publications": 12,
-        "courses_taught": 3
-    },
-    {
-        "id": "FAC007",
-        "name": "Prof. Meera Naidu",
-        "email": "meera.naidu@klmce.edu.in",
-        "phone": "+91 90006 84531",
-        "department": "Information Technology",
-        "designation": "Assistant Professor",
-        "joining_date": "2019-12-01",
-        "publications": 3,
-        "courses_taught": 2
-    },
-    {
-        "id": "FAC008",
-        "name": "Dr. Vijay Nair",
-        "email": "vijay.nair@klmce.edu.in",
-        "phone": "+91 87859 32782",
-        "department": "Information Technology",
-        "designation": "Assistant Professor",
-        "joining_date": "2012-01-01",
-        "publications": 13,
-        "courses_taught": 3
-    },
-    {
-        "id": "FAC009",
-        "name": "Dr. Meera Iyer",
-        "email": "meera.iyer@klmce.edu.in",
-        "phone": "+91 89440 47056",
-        "department": "Electronics",
-        "designation": "Professor",
-        "joining_date": "2011-11-01",
-        "publications": 7,
-        "courses_taught": 3
-    },
-    {
-        "id": "FAC010",
-        "name": "Dr. Manoj Rao",
-        "email": "manoj.rao@klmce.edu.in",
-        "phone": "+91 84882 44816",
-        "department": "Mechanical",
-        "designation": "Assistant Professor",
-        "joining_date": "2010-03-01",
-        "publications": 9,
-        "courses_taught": 4
-    },
-    {
-        "id": "FAC011",
-        "name": "Prof. Ananya Rao",
-        "email": "ananya.rao@klmce.edu.in",
-        "phone": "+91 89964 62757",
-        "department": "Electrical",
-        "designation": "Professor",
-        "joining_date": "2017-02-01",
-        "publications": 1,
-        "courses_taught": 3
-    },
-    {
-        "id": "FAC012",
-        "name": "Dr. Aishwarya Kumar",
-        "email": "aishwarya.kumar@klmce.edu.in",
-        "phone": "+91 87501 98381",
-        "department": "Information Technology",
-        "designation": "Assistant Professor",
-        "joining_date": "2022-11-01",
-        "publications": 8,
-        "courses_taught": 4
-    },
-    {
-        "id": "FAC013",
-        "name": "Prof. Siddharth Deshmukh",
-        "email": "siddharth.deshmukh@klmce.edu.in",
-        "phone": "+91 89114 33788",
-        "department": "Information Technology",
-        "designation": "Professor",
-        "joining_date": "2020-08-01",
-        "publications": 2,
-        "courses_taught": 3
-    },
-    {
-        "id": "FAC014",
-        "name": "Prof. Lakshmi Patel",
-        "email": "lakshmi.patel@klmce.edu.in",
-        "phone": "+91 83427 31079",
-        "department": "Electrical",
-        "designation": "Professor",
-        "joining_date": "2021-08-01",
-        "publications": 9,
-        "courses_taught": 4
-    },
-    {
-        "id": "FAC015",
-        "name": "Dr. Priya Gounder",
-        "email": "priya.gounder@klmce.edu.in",
-        "phone": "+91 90306 43082",
-        "department": "Electrical",
-        "designation": "Assistant Professor",
-        "joining_date": "2022-07-01",
-        "publications": 0,
-        "courses_taught": 4
-    },
-    {
-        "id": "FAC016",
-        "name": "Dr. Lakshmi Iyer",
-        "email": "lakshmi.iyer@klmce.edu.in",
-        "phone": "+91 96988 57419",
-        "department": "Information Technology",
-        "designation": "Professor",
-        "joining_date": "2020-08-01",
-        "publications": 1,
-        "courses_taught": 2
-    },
-    {
-        "id": "FAC017",
-        "name": "Prof. Swathi Singh",
-        "email": "swathi.singh@klmce.edu.in",
-        "phone": "+91 95883 25915",
-        "department": "Computer Science",
-        "designation": "Associate Professor",
-        "joining_date": "2021-03-01",
-        "publications": 9,
-        "courses_taught": 4
-    },
-    {
-        "id": "FAC018",
-        "name": "Dr. Naveen Murthy",
-        "email": "naveen.murthy@klmce.edu.in",
-        "phone": "+91 87362 24871",
-        "department": "Civil",
-        "designation": "Assistant Professor",
-        "joining_date": "2020-03-01",
-        "publications": 15,
-        "courses_taught": 4
-    },
-    {
-        "id": "FAC019",
-        "name": "Prof. Sruthi Sharma",
-        "email": "sruthi.sharma@klmce.edu.in",
-        "phone": "+91 95810 71894",
-        "department": "Mechanical",
-        "designation": "Professor",
-        "joining_date": "2018-03-01",
-        "publications": 12,
-        "courses_taught": 2
-    },
-    {
-        "id": "FAC020",
-        "name": "Prof. Rahul Sharma",
-        "email": "rahul.sharma@klmce.edu.in",
-        "phone": "+91 91137 76550",
-        "department": "Electrical",
-        "designation": "Assistant Professor",
-        "joining_date": "2014-12-01",
-        "publications": 9,
-        "courses_taught": 4
-    }
+// ------------------------------------------------------------------------
+// 2. Regional Faculty (KSRMCE / KLMCE Eminent Faculty)
+// ------------------------------------------------------------------------
+export const FACULTY: FacultyRecord[] = [
+  {
+    id: "FAC001",
+    empId: "KLM-FAC-101",
+    name: "Dr. V. Lokeswara Reddy",
+    email: "principal@klmce.ac.in",
+    phone: "+91 94402 12345",
+    department: "Computer Science and Engineering",
+    designation: "Principal & Professor",
+    qualification: "Ph.D. (IIT Madras), M.Tech (JNTUH)",
+    joining_date: "2008-06-15",
+    courses_taught: 4,
+    publications: 32,
+    mentees_count: 15,
+    office_room: "Administrative Block - Principal Chamber"
+  },
+  {
+    id: "FAC002",
+    empId: "KLM-FAC-102",
+    name: "Dr. K. Amaresh",
+    email: "amaresh.k@klmce.ac.in",
+    phone: "+91 98481 44556",
+    department: "Electrical and Electronics Engineering",
+    designation: "Professor & Head of Department",
+    qualification: "Ph.D. (NIT Warangal), M.Tech (SVU Tirupati)",
+    joining_date: "2010-08-01",
+    courses_taught: 3,
+    publications: 24,
+    mentees_count: 18,
+    office_room: "EEE Block - Room 201"
+  },
+  {
+    id: "FAC003",
+    empId: "KLM-FAC-103",
+    name: "Dr. M. Venkatanarayana",
+    email: "venkatanarayana.m@klmce.ac.in",
+    phone: "+91 94405 88991",
+    department: "Electronics and Communication Engineering",
+    designation: "Professor & HoD (ECE)",
+    qualification: "Ph.D. (JNTUA), M.E. (IISc Bangalore)",
+    joining_date: "2012-07-10",
+    courses_taught: 3,
+    publications: 19,
+    mentees_count: 20,
+    office_room: "ECE Block - Room 105"
+  },
+  {
+    id: "FAC004",
+    empId: "KLM-FAC-104",
+    name: "Prof. S. Khaja Fareeduddin",
+    email: "dean.academics@klmce.ac.in",
+    phone: "+91 98480 33445",
+    department: "Computer Science and Engineering",
+    designation: "Dean of Academic Affairs & Assoc. Prof",
+    qualification: "M.Tech (JNTUA), (Ph.D.)",
+    joining_date: "2014-06-20",
+    courses_taught: 2,
+    publications: 14,
+    mentees_count: 15,
+    office_room: "Academic Council Cell - Room 102"
+  },
+  {
+    id: "FAC005",
+    empId: "KLM-FAC-105",
+    name: "Dr. T. Kiran Kumar",
+    email: "coe@klmce.ac.in",
+    phone: "+91 97012 34567",
+    department: "Mechanical Engineering",
+    designation: "Controller of Examinations (CoE)",
+    qualification: "Ph.D. (SVU Tirupati), M.Tech (JNTUK)",
+    joining_date: "2011-09-01",
+    courses_taught: 2,
+    publications: 16,
+    mentees_count: 12,
+    office_room: "Examination Branch - Confidential Chamber"
+  },
+  {
+    id: "FAC006",
+    empId: "KLM-FAC-106",
+    name: "Dr. P. Radha Krishna",
+    email: "radhakrishna.p@klmce.ac.in",
+    phone: "+91 98852 99001",
+    department: "Computer Science and Engineering",
+    designation: "Associate Professor & Senior Mentor",
+    qualification: "Ph.D. (JNTUA), M.Tech (CSE)",
+    joining_date: "2015-11-15",
+    courses_taught: 3,
+    publications: 11,
+    mentees_count: 22,
+    office_room: "CSE Lab 3 - Mentor Cabin"
+  },
+  {
+    id: "FAC007",
+    empId: "KLM-FAC-107",
+    name: "Mrs. C. Madhavi Latha",
+    email: "madhavilatha.c@klmce.ac.in",
+    phone: "+91 96180 22339",
+    department: "Artificial Intelligence and Data Science",
+    designation: "Assistant Professor",
+    qualification: "M.Tech (Data Sciences), B.Tech (KLMCE Alumna)",
+    joining_date: "2019-07-01",
+    courses_taught: 3,
+    publications: 6,
+    mentees_count: 16,
+    office_room: "AI&DS Block - Cabin 12"
+  }
 ];
 
-export const ADMINS = [
-    {
-        "id": "ADM001",
-        "name": "Swathi Gounder",
-        "email": "swathi.gounder@klmce.edu.in",
-        "phone": "+91 87648 73483",
-        "role": "Registrar",
-        "access_level": "Superuser",
-        "office_location": "Admin Block - Room 101"
-    },
-    {
-        "id": "ADM002",
-        "name": "Deepa Rao",
-        "email": "deepa.rao@klmce.edu.in",
-        "phone": "+91 94997 81228",
-        "role": "Admissions Officer",
-        "access_level": "Editor",
-        "office_location": "Admin Block - Room 102"
-    },
-    {
-        "id": "ADM003",
-        "name": "Ananya Patel",
-        "email": "ananya.patel@klmce.edu.in",
-        "phone": "+91 98495 34727",
-        "role": "Finance Head",
-        "access_level": "Editor",
-        "office_location": "Admin Block - Room 103"
-    },
-    {
-        "id": "ADM004",
-        "name": "Prashant Rajan",
-        "email": "prashant.rajan@klmce.edu.in",
-        "phone": "+91 77653 63841",
-        "role": "Dean",
-        "access_level": "Editor",
-        "office_location": "Admin Block - Room 104"
-    },
-    {
-        "id": "ADM005",
-        "name": "Hari Deshmukh",
-        "email": "hari.deshmukh@klmce.edu.in",
-        "phone": "+91 93108 59968",
-        "role": "System Admin",
-        "access_level": "Editor",
-        "office_location": "Admin Block - Room 105"
-    }
+// ------------------------------------------------------------------------
+// 3. Regional Admins & Officers
+// ------------------------------------------------------------------------
+export const ADMINS: AdminRecord[] = [
+  {
+    id: "ADM001",
+    name: "Sri K. Raja Mohan Reddy",
+    email: "correspondent@klmce.ac.in",
+    phone: "+91 98480 11111",
+    role: "Chairman & Managing Trustee",
+    access_level: "Superuser",
+    office_location: "Trustee Office - Board Room",
+    department: "Management"
+  },
+  {
+    id: "ADM002",
+    name: "Dr. V. Lokeswara Reddy",
+    email: "principal@klmce.ac.in",
+    phone: "+91 94402 12345",
+    role: "Principal & Institutional Head",
+    access_level: "Superuser",
+    office_location: "Administrative Block - Room 101",
+    department: "Academics"
+  },
+  {
+    id: "ADM003",
+    name: "Sri B. Chenna Kesava",
+    email: "admissions@klmce.ac.in",
+    phone: "+91 98482 66778",
+    role: "Dean of Admissions & Student Affairs",
+    access_level: "Editor",
+    office_location: "Admissions Center - Counter 1",
+    department: "Admissions"
+  },
+  {
+    id: "ADM004",
+    name: "Sri G. Ramanjaneyulu",
+    email: "finance@klmce.ac.in",
+    phone: "+91 94401 55667",
+    role: "Accounts Officer & Comptroller",
+    access_level: "Editor",
+    office_location: "Finance Branch - SBI Campus Counter",
+    department: "Finance"
+  },
+  {
+    id: "ADM005",
+    name: "Smt. K. Sugunamma",
+    email: "warden@klmce.ac.in",
+    phone: "+91 97003 44556",
+    role: "Chief Hostel Warden (Ladies Hostels)",
+    access_level: "Editor",
+    office_location: "Rani Chennamma Hostel Office",
+    department: "Hostels"
+  },
+  {
+    id: "ADM006",
+    name: "Sri P. Ramachandra Reddy",
+    email: "transport@klmce.ac.in",
+    phone: "+91 98490 77889",
+    role: "Transport Fleet In-Charge",
+    access_level: "Editor",
+    office_location: "Campus Transport Depot",
+    department: "Transport"
+  }
+];
+
+// ------------------------------------------------------------------------
+// 4. College Bus Routes (Covering Rayalaseema Region)
+// ------------------------------------------------------------------------
+export const BUS_ROUTES: BusRouteRecord[] = [
+  {
+    routeNo: "01",
+    routeName: "Kadapa City Loop",
+    stops: ["Seven Roads Junction", "RIMS Hospital", "RTC Old Bus Stand", "Nagarajupet", "KLMCE Campus"],
+    driverName: "S. Subba Rayudu",
+    driverPhone: "+91 98483 11220",
+    busNo: "AP 04 TU 1234",
+    capacity: 55,
+    occupied: 52
+  },
+  {
+    routeNo: "02",
+    routeName: "Kamalapuram - Vallur Route",
+    stops: ["Kamalapuram Center", "Vallur Cross", "Thallapaka Road", "KLMCE Campus"],
+    driverName: "M. Venkata Ramana",
+    driverPhone: "+91 97014 99002",
+    busNo: "AP 04 TU 1235",
+    capacity: 50,
+    occupied: 44
+  },
+  {
+    routeNo: "03",
+    routeName: "Badvel Express",
+    stops: ["Badvel Clock Tower", "Muddanur Cross", "B.Mattam", "Kadapa Ring Road", "KLMCE Campus"],
+    driverName: "G. Pedda Reddy",
+    driverPhone: "+91 94408 33412",
+    busNo: "AP 04 TU 1238",
+    capacity: 55,
+    occupied: 53
+  },
+  {
+    routeNo: "04",
+    routeName: "Proddatur Superfast",
+    stops: ["Proddatur Sivalayam", "Bollavaram", "Koramangala Cross", "Yerraguntla Junction", "KLMCE Campus"],
+    driverName: "K. Obulesu",
+    driverPhone: "+91 98855 22110",
+    busNo: "AP 04 TU 1240",
+    capacity: 60,
+    occupied: 58
+  },
+  {
+    routeNo: "07",
+    routeName: "Pulivendula Express",
+    stops: ["Pulivendula Bus Stand", "Bakapuram", "Simhadripuram", "Vempalli", "KLMCE Campus"],
+    driverName: "Y. Sivaram",
+    driverPhone: "+91 99890 12098",
+    busNo: "AP 04 TU 1242",
+    capacity: 55,
+    occupied: 51
+  }
+];
+
+// ------------------------------------------------------------------------
+// 5. Hostels (KLMCE Campus Ladies & Boys Hostels)
+// ------------------------------------------------------------------------
+export const HOSTEL_BLOCKS: HostelRecord[] = [
+  {
+    blockName: "Rani Chennamma Ladies Hostel - Block A & B",
+    type: "Girls",
+    wardenName: "Smt. K. Sugunamma",
+    wardenPhone: "+91 97003 44556",
+    totalRooms: 120,
+    occupiedRooms: 114,
+    messManager: "Sri. C. Ramaiah (Authentic Rayalaseema Cuisine)"
+  },
+  {
+    blockName: "Sarojini Naidu Ladies Hostel - Block C",
+    type: "Girls",
+    wardenName: "Dr. B. Jayalakshmi",
+    wardenPhone: "+91 98485 77890",
+    totalRooms: 80,
+    occupiedRooms: 76,
+    messManager: "Smt. M. Parvathi"
+  },
+  {
+    blockName: "Sir M. Visvesvaraya Boys Hostel",
+    type: "Boys",
+    wardenName: "Dr. P. Radha Krishna",
+    wardenPhone: "+91 98852 99001",
+    totalRooms: 100,
+    occupiedRooms: 92,
+    messManager: "Sri. K. Nagabhushanam"
+  }
+];
+
+// ------------------------------------------------------------------------
+// 6. JNTUA R20/R23 CBCS Academic Courses
+// ------------------------------------------------------------------------
+export const COURSES = [
+  { code: "20A05301T", title: "Database Management Systems", credits: 3.0, type: "Theory", dept: "CSE", faculty: "Dr. V. Lokeswara Reddy" },
+  { code: "20A05302T", title: "Operating Systems", credits: 3.0, type: "Theory", dept: "CSE", faculty: "Prof. S. Khaja Fareeduddin" },
+  { code: "20A05303P", title: "Database & Operating Systems Lab", credits: 1.5, type: "Lab", dept: "CSE", faculty: "Dr. P. Radha Krishna" },
+  { code: "20A04401T", title: "Analog & Digital Communications", credits: 3.0, type: "Theory", dept: "ECE", faculty: "Dr. M. Venkatanarayana" },
+  { code: "20A02402T", title: "Electrical Machines & Control Systems", credits: 3.0, type: "Theory", dept: "EEE", faculty: "Dr. K. Amaresh" },
+  { code: "20A12401T", title: "Machine Learning & Statistical Foundations", credits: 3.0, type: "Theory", dept: "AI&DS", faculty: "Mrs. C. Madhavi Latha" }
 ];

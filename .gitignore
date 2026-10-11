@@ -20,6 +20,12 @@ dist/
 # Database / Docker Volumes
 postgres_data/
 redis_data/
+pgdata/
+pgdata_test/
+logfile
+tsconfig.tsbuildinfo
+.env.test
+*.env.test
 
 # OS generated files
 .DS_Store

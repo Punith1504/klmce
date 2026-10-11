@@ -7,8 +7,11 @@ from base64 import urlsafe_b64encode, urlsafe_b64decode
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 
 # In production, these should be loaded from secure secrets management (e.g. AWS Secrets Manager, HashiCorp Vault)
-AES_KEY = os.environ.get("ATTENDANCE_AES_KEY", os.urandom(32))  # 32 bytes for AES-256-GCM
-HMAC_KEY = os.environ.get("ATTENDANCE_HMAC_KEY", os.urandom(32)).encode('utf-8')
+_aes_key = os.environ.get("ATTENDANCE_AES_KEY")
+AES_KEY = _aes_key.encode('utf-8') if _aes_key else os.urandom(32)
+
+_hmac_key = os.environ.get("ATTENDANCE_HMAC_KEY")
+HMAC_KEY = _hmac_key.encode('utf-8') if _hmac_key else os.urandom(32)
 
 def generate_qr_payload(tenant_id: str, slot_id: str, nonce: str) -> str:
     """

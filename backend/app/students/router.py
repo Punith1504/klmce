@@ -4,7 +4,7 @@ from typing import List
 import asyncpg
 import csv
 import codecs
-from app.core.database import get_db_connection
+from app.core.dependencies import get_db_connection
 from app.core.security import RFC7807Exception
 
 router = APIRouter()

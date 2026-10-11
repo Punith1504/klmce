@@ -16,13 +16,13 @@ import {
 
 export default function StudentDashboard() {
     return (
-        <div className="space-y-6 max-w-7xl mx-auto p-6 lg:p-8 font-sans">
+        <div className="space-y-6 max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 font-sans">
             
             {/* Top Row: Welcome Hero & Core Academic Metrics */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 
                 {/* Hero Banner */}
-                <div className="lg:col-span-2 bg-gradient-to-br from-indigo-900/40 to-fuchsia-900/20 backdrop-blur-md rounded-3xl p-8 flex flex-col justify-center relative overflow-hidden border border-white/10 shadow-2xl">
+                <div className="lg:col-span-2 bg-gradient-to-br from-indigo-900/40 to-fuchsia-900/20 backdrop-blur-md rounded-3xl p-5 sm:p-8 flex flex-col justify-center relative overflow-hidden border border-white/10 shadow-2xl">
                     <div className="absolute top-0 right-0 w-64 h-64 bg-fuchsia-500/20 rounded-full blur-[80px] pointer-events-none -mr-20 -mt-20"></div>
                     <div className="absolute bottom-0 left-0 w-48 h-48 bg-indigo-500/20 rounded-full blur-[60px] pointer-events-none -ml-10 -mb-10"></div>
                     
@@ -132,7 +132,7 @@ export default function StudentDashboard() {
                             <div>
                                 <h4 className="text-slate-50 font-medium text-sm">Semester Fee Overdue</h4>
                                 <p className="text-xs text-slate-400 mt-1">₹ 45,000 pending for Semester 5. Due date was Oct 1st.</p>
-                                <button className="mt-2 text-xs font-bold text-rose-400 hover:text-rose-300">Pay Now →</button>
+                                <button className="mt-2 text-xs font-bold text-rose-400 hover:text-rose-300" onClick={() => window.location.href='/student/fees'}>Pay Now →</button>
                             </div>
                         </div>
 
@@ -141,7 +141,7 @@ export default function StudentDashboard() {
                             <div>
                                 <h4 className="text-slate-50 font-medium text-sm">e-Assessment Due</h4>
                                 <p className="text-xs text-slate-400 mt-1">DBMS Mid-Term Quiz closes in 14 hours.</p>
-                                <button className="mt-2 text-xs font-bold text-amber-400 hover:text-amber-300">Start Assessment →</button>
+                                <button className="mt-2 text-xs font-bold text-amber-400 hover:text-amber-300" onClick={() => window.location.href='/student/assessments'}>Start Assessment →</button>
                             </div>
                         </div>
 

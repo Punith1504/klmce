@@ -1,0 +1,30 @@
+| Method | Path | Required Role |
+|--------|------|---------------|
+| POST | /api/v1/auth/login | TODO |
+| POST | /api/v1/auth/oauth2/callback | TODO |
+| POST | /api/v1/auth/refresh | TODO |
+| POST | /api/v1/auth/logout | TODO |
+| POST | /api/v1/auth/forgot-password | TODO |
+| POST | /api/v1/auth/reset-password | TODO |
+| POST | /api/v1/admin/trigger-rollover | TODO |
+| POST | /api/v1/admin/provision-user | TODO |
+| POST | /api/v1/ai/chat | TODO |
+| GET | /api/v1/analytics/attendance-trends | TODO |
+| GET | /api/v1/analytics/revenue | TODO |
+| GET | /api/v1/analytics/kpis | TODO |
+| GET | /api/v1/attendance/slots/{slot_id}/qr | TODO |
+| POST | /api/v1/attendance/scan | TODO |
+| POST | /api/v1/attendance/{attendance_id}/override | TODO |
+| POST | /api/v1/billing/tuition/charge | TODO |
+| POST | /api/v1/billing/webhook | TODO |
+| PUT | /api/v1/exams/marks/{mark_id} | TODO |
+| POST | /api/v1/exams/marks/{mark_id}/submit | TODO |
+| POST | /api/v1/exams/marks/{mark_id}/approve | TODO |
+| POST | /api/v1/exams/marks/{mark_id}/request-change | TODO |
+| POST | /api/v1/exams/requests/{request_id}/sign | TODO |
+| POST | /api/v1/finance/webhook | TODO |
+| POST | /api/v1/search/semantic | TODO |
+| POST | /api/v1/students/bulk | TODO |
+| GET | /api/v1/timetable/courses | TODO |
+| GET | /api/v1/timetable/faculty | TODO |
+| POST | /api/v1/timetable/slots | TODO |

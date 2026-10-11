@@ -93,11 +93,18 @@ export default function StudentPlacementsClient({ documents }: { documents: any[
                                     <div className="mt-4 pt-4 border-t border-white/5">
                                         <p className="text-[10px] uppercase font-bold text-slate-500 tracking-wider mb-2">Extracted Skills</p>
                                         <div className="flex flex-wrap gap-2">
-                                            {JSON.parse(doc.parsedData).skills.map((skill: string, idx: number) => (
-                                                <span key={idx} className="bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 px-2 py-1 rounded-md text-xs font-medium">
-                                                    {skill}
-                                                </span>
-                                            ))}
+                                            {(() => {
+                                                try {
+                                                    const parsed = JSON.parse(doc.parsedData);
+                                                    return (parsed?.skills || []).map((skill: string, idx: number) => (
+                                                        <span key={idx} className="bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 px-2 py-1 rounded-md text-xs font-medium">
+                                                            {skill}
+                                                        </span>
+                                                    ));
+                                                } catch (e) {
+                                                    return null;
+                                                }
+                                            })()}
                                         </div>
                                     </div>
                                 )}

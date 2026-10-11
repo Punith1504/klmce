@@ -37,6 +37,11 @@
     ".next/dev/types/**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "audit-eval-checker",
+    "backend",
+    "frontend",
+    "frontend-mobile",
+    "mobile"
   ]
 }

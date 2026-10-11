@@ -33,7 +33,7 @@ export default async function AdminTimetablePage() {
                                 <h3 className="font-bold text-slate-200 text-lg">{sch.course.title} <span className="text-sm font-normal text-slate-400">({sch.course.code})</span></h3>
                                 <div className="text-sm text-slate-400 mt-2 flex flex-wrap gap-4">
                                     <span className="flex items-center gap-1.5"><Clock className="w-4 h-4 text-indigo-400" /> {new Date(sch.date).toLocaleDateString()}</span>
-                                    <span className="flex items-center gap-1.5"><MapPin className="w-4 h-4 text-emerald-400" /> {sch.roomNo || 'TBD'}</span>
+                                    <span className="flex items-center gap-1.5"><MapPin className="w-4 h-4 text-emerald-400" /> {(sch as any).room || 'TBD'}</span>
                                     <span className="flex items-center gap-1.5"><Users className="w-4 h-4 text-sky-400" /> Batch: {sch.exam.batch.name}</span>
                                 </div>
                             </div>

@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 from datetime import datetime, timedelta, timezone
 import uuid
+from typing import Any
 
 from ..core.dependencies import require_roles, Role
 from ..core.security import RFC7807Exception
@@ -9,7 +10,7 @@ from .models import ExamMark, ExamStatus, ExamChangeRequest, ChangeRequestStatus
 from .schemas import UpdateMarkRequest, ChangeRequestPayload, AdminSignRequest
 from .decorators import validate_exam_state
 
-router = APIRouter(prefix="/exams", tags=["exams"])
+router = APIRouter(tags=["exams"])
 
 async def get_db_session() -> AsyncSession:
     raise NotImplementedError("Session dependency not injected")
@@ -20,7 +21,7 @@ async def get_db_session() -> AsyncSession:
 async def update_exam_mark(
     mark_id: uuid.UUID,
     req: UpdateMarkRequest,
-    mark_record: ExamMark = None,  # Injected directly by the @validate_exam_state decorator
+    mark_record: Any = None,  # Injected directly by the @validate_exam_state decorator
     token: dict = Depends(require_roles(Role.FACULTY)),
     db: AsyncSession = Depends(get_db_session)
 ):
@@ -46,7 +47,7 @@ async def update_exam_mark(
 @validate_exam_state([ExamStatus.DRAFT])
 async def submit_exam_mark(
     mark_id: uuid.UUID,
-    mark_record: ExamMark = None,
+    mark_record: Any = None,
     token: dict = Depends(require_roles(Role.FACULTY)),
     db: AsyncSession = Depends(get_db_session)
 ):
@@ -60,7 +61,7 @@ async def submit_exam_mark(
 @validate_exam_state([ExamStatus.SUBMITTED])
 async def approve_exam_mark(
     mark_id: uuid.UUID,
-    mark_record: ExamMark = None,
+    mark_record: Any = None,
     token: dict = Depends(require_roles(Role.INSTITUTION_ADMIN)),
     db: AsyncSession = Depends(get_db_session)
 ):

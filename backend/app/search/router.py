@@ -3,7 +3,7 @@ from pydantic import BaseModel
 import asyncpg
 from typing import List
 
-from app.core.database import get_db_connection
+from app.core.dependencies import get_db_connection
 from app.core.security import require_roles, Role, RFC7807Exception
 
 router = APIRouter()

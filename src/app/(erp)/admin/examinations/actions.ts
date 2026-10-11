@@ -11,7 +11,7 @@ export async function createExam(formData: FormData) {
 
     try {
         await prisma.exam.create({
-            data: { name, type, batchId, status: 'SCHEDULED' }
+            data: { name, type, batchId }
         });
         revalidatePath('/admin/examinations');
         return { success: true };

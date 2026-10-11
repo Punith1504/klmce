@@ -7,7 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "test:backend": "cd backend && pytest tests/ --cov=app --cov-report=term-missing -v",
+    "test:frontend": "vitest run",
+    "test:all": "npm run test:backend && npm run test:frontend"
   },
   "dependencies": {
     "@clerk/nextjs": "^7.9.10",
@@ -40,15 +43,24 @@
     "zustand": "^5.0.15"
   },
   "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "@testing-library/dom": "^10.4.2",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@vitejs/plugin-react": "^6.1.2",
     "autoprefixer": "^10.6.1",
     "eslint": "^8",
     "eslint-config-next": "14.2.5",
+    "jsdom": "^30.1.2",
+    "msw": "^3.0.2",
     "postcss": "^8",
     "prisma": "^5.22.0",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vite": "^8.3.3",
+    "vitest": "^5.0.3"
   }
 }

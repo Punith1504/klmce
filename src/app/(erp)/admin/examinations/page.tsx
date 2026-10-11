@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic';
 export default async function AdminExaminationsPage() {
     const exams = await prisma.exam.findMany({
         include: { batch: true },
-        orderBy: { createdAt: 'desc' }
+        orderBy: { id: 'desc' }
     });
 
     const batches = await prisma.batch.findMany({

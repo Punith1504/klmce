@@ -18,7 +18,7 @@ from app.messaging.tasks import send_whatsapp_text
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-router = APIRouter(prefix="/auth", tags=["authentication"])
+router = APIRouter(tags=["authentication"])
 
 
 class LoginRequest(BaseModel):
@@ -31,9 +31,7 @@ class OAuth2CallbackRequest(BaseModel):
     provider: str  
     code: str
 
-async def get_db_pool() -> asyncpg.Pool:
-    raise NotImplementedError()
-
+from app.core.dependencies import get_db_pool
 
 def set_auth_cookies(response: Response, access_token: str, refresh_token: str):
     response.set_cookie(
@@ -65,7 +63,7 @@ async def login(
 ):
     async with pool.acquire() as conn:
         user = await conn.fetchrow(
-            "SELECT user_id, tenant_id, role, password_hash, mfa_secret, phone_number, password_updated_at FROM erp_core.users WHERE login_id = $1", 
+            "SELECT user_id, tenant_id, role, password_hash, mfa_secret, phone_number, password_updated_at FROM get_user_for_login($1)", 
             login_data.login_id
         )
         
@@ -235,7 +233,7 @@ async def forgot_password(
     redis_client: redis.Redis = Depends(get_redis_client)
 ):
     async with pool.acquire() as conn:
-        user = await conn.fetchrow("SELECT user_id, phone_number FROM erp_core.users WHERE login_id = $1", req.login_id)
+        user = await conn.fetchrow("SELECT user_id, phone_number FROM users WHERE login_id = $1", req.login_id)
         if not user:
             return {"message": "If the ID exists, an OTP has been sent."}
             
@@ -260,7 +258,7 @@ async def reset_password(
     hashed_pwd = pwd_context.hash(req.new_password)
     async with pool.acquire() as conn:
         res = await conn.execute(
-            "UPDATE erp_core.users SET password_hash = $1, password_updated_at = CURRENT_TIMESTAMP WHERE login_id = $2",
+            "UPDATE users SET password_hash = $1, password_updated_at = CURRENT_TIMESTAMP WHERE login_id = $2",
             hashed_pwd, req.login_id
         )
         if res == "UPDATE 0":

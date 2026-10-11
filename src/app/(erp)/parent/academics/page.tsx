@@ -5,7 +5,7 @@ import { Award, BookOpen } from 'lucide-react';
 
 export default function ParentAcademics() {
   return (
-    <div className="space-y-6 max-w-7xl mx-auto p-6 lg:p-8 font-sans text-white">
+    <div className="space-y-6 max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 font-sans text-white">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <h1 className="text-3xl font-bold text-slate-50 flex items-center gap-3 mb-2">

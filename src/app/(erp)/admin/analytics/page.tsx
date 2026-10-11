@@ -11,45 +11,43 @@ const queryClient = new QueryClient();
 
 // In a physical environment, this would call `fetchClient` from `@/lib/api-client`
 // Mocking the async response payload to guarantee beautiful Next.js hydration
-const fetchAnalytics = async (endpoint: string) => {
-  if (endpoint === '/api/v1/analytics/kpis') {
-    return { outstanding_dues: 125400.50, active_faculty: 84, todays_absentee_count: 12 };
-  }
-  if (endpoint === '/api/v1/analytics/attendance-trends') {
-    return [
-      { attendance_date: '2026-09-24', current_percentage: 95, historical_percentage: 92 },
-      { attendance_date: '2026-09-25', current_percentage: 94, historical_percentage: 92.5 },
-      { attendance_date: '2026-09-26', current_percentage: 88, historical_percentage: 92.2 },
-      { attendance_date: '2026-09-27', current_percentage: 96, historical_percentage: 91.8 },
-      { attendance_date: '2026-09-28', current_percentage: 97, historical_percentage: 92.0 },
-      { attendance_date: '2026-09-29', current_percentage: 93, historical_percentage: 92.4 },
-      { attendance_date: '2026-09-30', current_percentage: 95, historical_percentage: 92.6 },
-    ];
-  }
-  if (endpoint === '/api/v1/analytics/revenue') {
-    return [
-      { month: '2026-06', collected_revenue: 45000 },
-      { month: '2026-07', collected_revenue: 55000 },
-      { month: '2026-08', collected_revenue: 120000 },
-      { month: '2026-09', collected_revenue: 95000 },
-    ];
-  }
-};
+const fetchKpis = async () => ({
+  outstanding_dues: 125400.50,
+  active_faculty: 84,
+  todays_absentee_count: 12
+});
+
+const fetchAttendanceTrends = async () => [
+  { attendance_date: '2026-09-24', current_percentage: 95, historical_percentage: 92 },
+  { attendance_date: '2026-09-25', current_percentage: 94, historical_percentage: 92.5 },
+  { attendance_date: '2026-09-26', current_percentage: 88, historical_percentage: 92.2 },
+  { attendance_date: '2026-09-27', current_percentage: 96, historical_percentage: 91.8 },
+  { attendance_date: '2026-09-28', current_percentage: 97, historical_percentage: 92.0 },
+  { attendance_date: '2026-09-29', current_percentage: 93, historical_percentage: 92.4 },
+  { attendance_date: '2026-09-30', current_percentage: 95, historical_percentage: 92.6 },
+];
+
+const fetchRevenue = async () => [
+  { month: '2026-06', collected_revenue: 45000 },
+  { month: '2026-07', collected_revenue: 55000 },
+  { month: '2026-08', collected_revenue: 120000 },
+  { month: '2026-09', collected_revenue: 95000 },
+];
 
 function AnalyticsDashboard() {
   const { data: kpis, isLoading: kpisLoading } = useQuery({
     queryKey: ['kpis'],
-    queryFn: () => fetchAnalytics('/api/v1/analytics/kpis')
+    queryFn: fetchKpis
   });
 
   const { data: attendanceData, isLoading: attendanceLoading } = useQuery({
     queryKey: ['attendance'],
-    queryFn: () => fetchAnalytics('/api/v1/analytics/attendance-trends')
+    queryFn: fetchAttendanceTrends
   });
 
   const { data: revenueData, isLoading: revenueLoading } = useQuery({
     queryKey: ['revenue'],
-    queryFn: () => fetchAnalytics('/api/v1/analytics/revenue')
+    queryFn: fetchRevenue
   });
 
   return (

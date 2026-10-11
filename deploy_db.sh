@@ -60,23 +60,30 @@ END
 GRANT CONNECT ON DATABASE $DB_NAME TO $APP_USER;
 GRANT USAGE ON SCHEMA public TO $APP_USER;
 
--- Grant DML access on all current and future tables in public schema
-GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO $APP_USER;
-ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO $APP_USER;
+-- Explicit per-table grants
+-- Default to SELECT, INSERT, UPDATE only on all current and future tables
+GRANT SELECT, INSERT, UPDATE ON ALL TABLES IN SCHEMA public TO $APP_USER;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT, INSERT, UPDATE ON TABLES TO $APP_USER;
+
+-- Explicitly GRANT DELETE only on tables where hard-delete is genuinely required
+-- 1. tenants: Tenant deletion requires hard deletion of the tenant record
+-- 2. users: GDPR compliance and user offboarding requires hard deletion of user accounts
+GRANT DELETE ON tenants, users TO $APP_USER;
+
+-- Ensure NO DELETE, UPDATE, or TRUNCATE for app_user on protected tables (immutable ledgers)
+REVOKE UPDATE, DELETE, TRUNCATE ON audit_logs FROM $APP_USER;
+REVOKE UPDATE, DELETE, TRUNCATE ON exam_marks FROM $APP_USER;
+REVOKE UPDATE, DELETE, TRUNCATE ON fee_transactions FROM $APP_USER;
+REVOKE UPDATE, DELETE, TRUNCATE ON attendance_records FROM $APP_USER;
+REVOKE UPDATE, DELETE, TRUNCATE ON students FROM $APP_USER;
+REVOKE UPDATE, DELETE, TRUNCATE ON timetable_slots FROM $APP_USER;
+
+-- Ensure audit_logs is INSERT-only (if direct inserts are ever needed, though triggers bypass this)
+GRANT SELECT, INSERT ON audit_logs TO $APP_USER;
 
 -- Grant usage on all sequences (for UUIDs/Serials)
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO $APP_USER;
 ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT USAGE, SELECT ON SEQUENCES TO $APP_USER;
-EOF
-
-# 4. Enforce Immutability Constraints
-echo "[4/4] Hardening audit log security..."
-psql -h "$DB_HOST" -p "$DB_PORT" -U "$SUPERUSER_NAME" -d "$DB_NAME" <<EOF
--- EXPLICITLY revoke modification rights on the audit_logs table from the app_user
-REVOKE UPDATE, DELETE, TRUNCATE ON audit_logs FROM $APP_USER;
-
--- Ensure the app_user can ONLY insert and select from audit_logs
-GRANT SELECT, INSERT ON audit_logs TO $APP_USER;
 EOF
 
 echo "======================================================="

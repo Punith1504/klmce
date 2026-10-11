@@ -4,6 +4,7 @@ import React from 'react';
 import { usePathname } from 'next/navigation';
 import { Sidebar } from './sidebar';
 import { TopNav } from './topnav';
+import { MobileBottomNav } from './MobileBottomNav';
 import { CommandMenu } from '../command-menu';
 
 export function AppShell({ children }: { children: React.ReactNode }) {
@@ -20,10 +21,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <Sidebar />
       <div className="flex-1 flex flex-col md:ml-64 overflow-hidden relative">
         <TopNav />
-        <main className="flex-1 overflow-y-auto overflow-x-hidden">
+        <main className="flex-1 overflow-y-auto overflow-x-hidden pb-20 md:pb-0">
           {children}
         </main>
       </div>
+      <MobileBottomNav />
     </div>
   );
 }

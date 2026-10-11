@@ -14,7 +14,7 @@ from app.core.security import RFC7807Exception
 
 # Microservice Routers
 # Note: Ensure each of these module directories exposes a FastAPI APIRouter named `router`
-from app.auth.router import router as auth_router
+from app.core.auth import router as auth_router
 from app.students.router import router as students_router
 from app.attendance.router import router as attendance_router
 from app.exams.router import router as exams_router

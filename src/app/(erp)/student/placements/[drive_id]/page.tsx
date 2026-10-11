@@ -66,10 +66,10 @@ export default function PlacementAdminDashboard({ params }: { params: { drive_id
                     </div>
                     
                     <div className="flex gap-3">
-                        <Button variant="outline" className="border-rose-500/30 text-rose-400 hover:bg-rose-500/10">
+                        <Button variant="outline" className="border-rose-500/30 text-rose-400 hover:bg-rose-500/10" onClick={() => alert(`${selectedCandidate.name} has been rejected.`)}>
                             <XCircle className="w-4 h-4 mr-2" /> Reject
                         </Button>
-                        <Button className="bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg shadow-emerald-600/20 border-0">
+                        <Button className="bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg shadow-emerald-600/20 border-0" onClick={() => alert(`${selectedCandidate.name} has been advanced.`)}>
                             <CheckCircle2 className="w-4 h-4 mr-2" /> Advance to Next Round
                         </Button>
                     </div>
@@ -81,7 +81,7 @@ export default function PlacementAdminDashboard({ params }: { params: { drive_id
                         <h3 className="font-semibold text-slate-300 flex items-center gap-2">
                             <FileText className="w-5 h-5" /> Resume Preview
                         </h3>
-                        <Button variant="ghost" size="sm" className="text-slate-400 hover:text-white">
+                        <Button variant="ghost" size="sm" className="text-slate-400 hover:text-white" onClick={() => { window.open(selectedCandidate.resumeUrl, '_blank'); }}>
                             <Download className="w-4 h-4 mr-2" /> Download Original PDF
                         </Button>
                     </div>

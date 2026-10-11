@@ -5,7 +5,7 @@ import os
 import json
 import asyncpg
 import redis.asyncio as aioredis
-from app.core.database import get_db_connection
+from app.core.dependencies import get_db_connection
 from app.core.redis import get_redis_client
 
 router = APIRouter()
