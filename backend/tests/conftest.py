@@ -102,17 +102,21 @@ class FakePool:
 
 @pytest.fixture(scope="session")
 async def db_pool():
-    # Use the app role for the pool
-    pool = await asyncpg.create_pool(TEST_DB_URL, min_size=1, max_size=5)
-    yield pool
-    await pool.close()
+    try:
+        pool = await asyncpg.create_pool(TEST_DB_URL, min_size=1, max_size=5)
+        yield pool
+        await pool.close()
+    except Exception as e:
+        pytest.skip(f"PostgreSQL test database not available: {e}")
 
 @pytest.fixture(scope="session")
 async def sys_db_pool():
-    # Owner role pool for seeding
-    pool = await asyncpg.create_pool(SYS_DB_URL, min_size=1, max_size=5)
-    yield pool
-    await pool.close()
+    try:
+        pool = await asyncpg.create_pool(SYS_DB_URL, min_size=1, max_size=5)
+        yield pool
+        await pool.close()
+    except Exception as e:
+        pytest.skip(f"PostgreSQL sys database not available: {e}")
 
 @pytest.fixture
 async def db_conn(db_pool) -> AsyncGenerator[asyncpg.Connection, None]:
