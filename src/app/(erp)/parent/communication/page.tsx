@@ -81,7 +81,11 @@ export default function ParentCommunication() {
     setTimeout(() => setBookedToast(""), 4000);
   };
 
-  const mentor = FACULTY[0]; // Dr. V. Lokeswara Reddy
+  const mentor = (FACULTY && FACULTY.length > 0) ? FACULTY[0] : {
+    name: "Dr. V. Lokeswara Reddy",
+    phone: "+91 94402 12345",
+    department: "Computer Science and Engineering"
+  };
 
   return (
     <div className="space-y-4 sm:space-y-6 max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 font-sans text-white">

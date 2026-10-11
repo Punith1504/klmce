@@ -44,7 +44,7 @@ export default async function FacultyAttendancePage() {
             dayOfWeek: slot.dayOfWeek,
             startTime: slot.startTime,
             endTime: slot.endTime,
-            students: slot.section.students.map(s => ({
+            students: (slot.section?.students || []).map(s => ({
                 id: s.id,
                 rollNo: s.rollNo,
                 name: s.name

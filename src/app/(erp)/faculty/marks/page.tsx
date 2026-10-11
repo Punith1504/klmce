@@ -13,13 +13,13 @@ interface StudentMark {
 }
 
 export default function FacultyMarks() {
-  const [selectedCourse, setSelectedCourse] = useState(COURSES[0].code);
+  const [selectedCourse, setSelectedCourse] = useState(COURSES?.[0]?.code || "20A05301T");
   const [selectedSection, setSelectedSection] = useState("CSE-A (IV Year)");
   const [assessmentType, setAssessmentType] = useState("Mid-Term I (30 Marks)");
   const [workflowStatus, setWorkflowStatus] = useState<"Draft" | "Submitted" | "HOD Verified" | "Locked">("Draft");
   const [saveMessage, setSaveMessage] = useState("");
 
-  const initialMarks: StudentMark[] = STUDENTS.slice(0, 10).map((stu, idx) => ({
+  const initialMarks: StudentMark[] = (STUDENTS || []).slice(0, 10).map((stu, idx) => ({
     rollNo: stu.rollNo,
     name: stu.name,
     mid1: idx === 5 ? "AB" : Math.min(30, Math.floor(22 + (stu.cgpa * 0.8))),

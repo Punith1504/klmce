@@ -81,7 +81,7 @@ export default async function StudentResultsPage() {
                     date: new Date(e.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
                     time: `${e.startTime} - ${e.endTime}`,
                     room: e.room,
-                    invigilator: e.invigilator.name,
+                    invigilator: e.invigilator?.name || "Faculty Invigilator",
                     status: new Date(e.date) > now ? "Upcoming" : "Completed"
                 }));
             }
