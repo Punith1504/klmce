@@ -207,9 +207,18 @@ export default function StudentAttendanceClient({
                                         <td className="p-4 whitespace-nowrap">
                                             <div className="flex items-center gap-2">
                                                 <div className="w-6 h-6 rounded bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-[10px] font-bold uppercase">
-                                                    {row.faculty.charAt(row.faculty.indexOf('.') + 2) || row.faculty.charAt(0)}
+                                                    {(() => {
+                                                        const name = row.faculty || '';
+                                                        const clean = name.trim();
+                                                        const dotIdx = clean.indexOf('.');
+                                                        if (dotIdx !== -1 && dotIdx + 1 < clean.length) {
+                                                            const afterDot = clean.slice(dotIdx + 1).trim();
+                                                            if (afterDot.length > 0) return afterDot.charAt(0).toUpperCase();
+                                                        }
+                                                        return clean.charAt(0).toUpperCase() || 'F';
+                                                    })()}
                                                 </div>
-                                                {row.faculty}
+                                                <span>{row.faculty || 'Faculty Member'}</span>
                                             </div>
                                         </td>
                                         <td className="p-4 text-right whitespace-nowrap">

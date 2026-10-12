@@ -54,7 +54,7 @@ export default async function FacultyAttendancePage() {
 
     // Realistic regional fallback for KLMCE faculty classes
     if (slots.length === 0) {
-        const regionalStudents = STUDENTS.slice(0, 10).map(s => ({
+        const regionalStudents = (STUDENTS || []).slice(0, 10).map(s => ({
             id: s.id,
             rollNo: s.rollNo,
             name: s.name
@@ -63,7 +63,10 @@ export default async function FacultyAttendancePage() {
         slots = [
             {
                 id: "slot-01",
-                course: { title: COURSES[0].title, code: COURSES[0].code },
+                course: { 
+                    title: COURSES?.[0]?.title || "Database Management Systems", 
+                    code: COURSES?.[0]?.code || "20A05301T" 
+                },
                 section: { name: "CSE-A (IV Year)" },
                 dayOfWeek: "Monday",
                 startTime: "09:30 AM",
@@ -72,7 +75,10 @@ export default async function FacultyAttendancePage() {
             },
             {
                 id: "slot-02",
-                course: { title: COURSES[1].title, code: COURSES[1].code },
+                course: { 
+                    title: COURSES?.[1]?.title || "Operating Systems", 
+                    code: COURSES?.[1]?.code || "20A05302T" 
+                },
                 section: { name: "CSE-B (IV Year)" },
                 dayOfWeek: "Tuesday",
                 startTime: "11:00 AM",
@@ -81,7 +87,10 @@ export default async function FacultyAttendancePage() {
             },
             {
                 id: "slot-03",
-                course: { title: COURSES[2].title, code: COURSES[2].code },
+                course: { 
+                    title: COURSES?.[2]?.title || "Database & OS Lab", 
+                    code: COURSES?.[2]?.code || "20A05303P" 
+                },
                 section: { name: "CSE Lab 3" },
                 dayOfWeek: "Wednesday",
                 startTime: "02:00 PM",

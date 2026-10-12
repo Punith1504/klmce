@@ -33,21 +33,21 @@ export default function FacultyAttendanceClient({ slots: rawSlots }: { slots?: S
 
     // Initialize attendance state when slot changes
     useEffect(() => {
-        if (selectedSlot) {
+        if (selectedSlot && Array.isArray(selectedSlot.students)) {
             const initialState: Record<string, string> = {};
             selectedSlot.students.forEach(s => {
-                initialState[s.id] = "PRESENT"; // Default to present
+                if (s?.id) initialState[s.id] = "PRESENT";
             });
             setAttendanceState(initialState);
             setSuccessMsg("");
         }
-    }, [selectedSlotId, date, selectedSlot]);
+    }, [selectedSlotId, date, slots.length]);
 
     const markAll = (status: string) => {
-        if (!selectedSlot) return;
+        if (!selectedSlot || !Array.isArray(selectedSlot.students)) return;
         const newState: Record<string, string> = {};
         selectedSlot.students.forEach(s => {
-            newState[s.id] = status;
+            if (s?.id) newState[s.id] = status;
         });
         setAttendanceState(newState);
     };
@@ -98,7 +98,7 @@ export default function FacultyAttendanceClient({ slots: rawSlots }: { slots?: S
                         className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-base sm:text-sm text-slate-200 outline-none focus:border-indigo-500 transition">
                         {slots.map(slot => (
                             <option key={slot.id} value={slot.id}>
-                                {slot.course.title} ({slot.section.name}) - {slot.dayOfWeek} {slot.startTime}
+                                {slot.course?.title || "Course"} ({slot.section?.name || "Section"}) - {slot.dayOfWeek} {slot.startTime}
                             </option>
                         ))}
                         {slots.length === 0 && <option value="">No classes assigned</option>}
@@ -126,7 +126,7 @@ export default function FacultyAttendanceClient({ slots: rawSlots }: { slots?: S
                     <div className="p-4 border-b border-white/10 bg-black/20 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
                         <div className="flex items-center gap-3">
                             <Users className="w-5 h-5 text-slate-400" />
-                            <h2 className="font-bold text-slate-50 text-sm sm:text-base">Student Roster ({selectedSlot.section.name})</h2>
+                            <h2 className="font-bold text-slate-50 text-sm sm:text-base">Student Roster ({selectedSlot.section?.name || "Section"})</h2>
                         </div>
                         <div className="flex gap-2 w-full sm:w-auto">
                             <button 

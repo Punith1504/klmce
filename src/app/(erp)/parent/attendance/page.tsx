@@ -6,7 +6,10 @@ import Link from 'next/link';
 import { STUDENTS } from '@/lib/syntheticData';
 
 export default function ParentAttendancePage() {
-  const ward = STUDENTS[0];
+  const ward = (STUDENTS && STUDENTS.length > 0) ? STUDENTS[0] : {
+    name: "Lakshmi Priya Reddy",
+    rollNo: "24C01A0501"
+  };
   const [selectedMonth, setSelectedMonth] = useState('October 2026');
 
   const attendanceLog = [
