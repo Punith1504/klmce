@@ -56,7 +56,7 @@ export default async function Page() {
                     <h1 className="text-2xl sm:text-3xl font-bold text-slate-50 flex items-center gap-3 mb-2">
                         <BookOpen className="w-6 h-6 sm:w-7 sm:h-7 text-indigo-400"/> My Teaching & LMS
                     </h1>
-                    <p className="text-slate-400 text-xs sm:text-sm">Manage course syllabus, upload lecture notes, and track JNTUA curriculum coverage.</p>
+                    <p className="text-slate-400 text-xs sm:text-sm">Manage course syllabus, upload lecture notes, and track curriculum coverage.</p>
                 </div>
                 <button className="w-full md:w-auto bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-2.5 min-h-[44px] rounded-xl text-sm font-semibold transition shadow-[0_4px_14px_0_rgba(79,70,229,0.39)] flex items-center justify-center gap-2">
                     <Upload className="w-4 h-4" /> Upload Course Material

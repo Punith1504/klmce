@@ -50,7 +50,7 @@ export default function FacultyMarks() {
     const mid = Number(m.mid1) || 0;
     const ass = Number(m.assignment) || 0;
     const qz = Number(m.quiz) || 0;
-    // JNTUA Internal weightage: 30 Mid + 10 Assignment + 10 Quiz = 50 scaled to 30
+    // Internal weightage: 30 Mid + 10 Assignment + 10 Quiz = 50 scaled to 30
     return Math.round((mid * 0.6) + (ass + qz) * 0.7);
   };
 
@@ -62,12 +62,12 @@ export default function FacultyMarks() {
             <Award className="w-7 h-7 text-indigo-400"/> Marks Entry & Results Assessment
           </h1>
           <p className="text-slate-400 text-sm">
-            JNTUA R20 Continuous Internal Evaluation (CIE) lock and HoD verification workflow.
+            Autonomous Continuous Internal Evaluation (CIE) lock and HoD verification workflow.
           </p>
         </div>
         <div className="flex items-center gap-2">
           <button 
-            onClick={() => alert("Downloaded CIE Roster CSV for JNTUA Portal upload")}
+            onClick={() => alert("Downloaded CIE Roster CSV for Examination Cell upload")}
             className="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-xl text-xs font-semibold transition border border-white/10 flex items-center gap-2">
             <Download className="w-4 h-4" /> Export CSV
           </button>
@@ -233,7 +233,7 @@ export default function FacultyMarks() {
 
         <div className="p-4 border-t border-white/10 bg-black/20 flex flex-col sm:flex-row justify-between items-center gap-3">
           <p className="text-xs text-slate-400">
-            <FileSpreadsheet className="w-4 h-4 inline mr-1 text-emerald-400"/> Automatic JNTUA R20 internal normalization enabled
+            <FileSpreadsheet className="w-4 h-4 inline mr-1 text-emerald-400"/> Automatic internal normalization enabled
           </p>
           <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
             <button 

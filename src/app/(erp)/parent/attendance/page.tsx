@@ -29,10 +29,10 @@ export default function ParentAttendancePage() {
         </Link>
         <div>
           <h1 className="text-2xl font-bold text-white flex items-center gap-2">
-            <CalendarCheck className="w-6 h-6 text-emerald-400" /> Ward's Attendance Log & JNTUA Compliance
+            <CalendarCheck className="w-6 h-6 text-emerald-400" /> Ward's Attendance Log & Academic Compliance
           </h1>
           <p className="text-xs text-slate-400">
-            Attendance monitoring for {ward.name} ({ward.rollNo}) • Min. 75% required by JNTUA
+            Attendance monitoring for {ward.name} ({ward.rollNo}) • Min. 75% required by Academic Regulations
           </p>
         </div>
       </div>
@@ -52,7 +52,7 @@ export default function ParentAttendancePage() {
           <p className="text-xs text-slate-400 uppercase font-semibold">Condonation Threshold</p>
           <div className="flex items-baseline gap-2 mt-2">
             <span className="text-3xl font-bold text-slate-200">75.0%</span>
-            <span className="text-xs text-slate-400">Mandatory JNTUA Rule</span>
+            <span className="text-xs text-slate-400">Mandatory Academic Rule</span>
           </div>
           <p className="text-xs text-slate-500 mt-2">Shortage between 65-75% requires medical condonation fee</p>
         </div>

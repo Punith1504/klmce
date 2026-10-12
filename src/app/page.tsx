@@ -183,13 +183,13 @@ export default function UnifiedAuthPortal() {
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="font-extrabold text-lg sm:text-xl text-white tracking-tight">K.S.R.M. / KLMCE</span>
+              <span className="font-extrabold text-lg sm:text-xl text-white tracking-tight">KLMCE</span>
               <span className="px-2 py-0.5 rounded-full bg-indigo-500/20 border border-indigo-500/30 text-[10px] font-bold text-indigo-300 uppercase">
                 Autonomous
               </span>
             </div>
             <p className="text-xs text-violet-200/60 font-medium">
-              Kandula Group of Institutions • Kadapa, Rayalaseema, AP
+              KLM College of Engineering • Kadapa, Rayalaseema, AP
             </p>
           </div>
         </div>
@@ -258,7 +258,7 @@ export default function UnifiedAuthPortal() {
               <div>
                 <h4 className="text-xs font-bold text-white mb-0.5">Examinations & Placement Records</h4>
                 <p className="text-[11px] text-slate-400 leading-relaxed">
-                  JNTUA-standard transcripts, Mid-1/Mid-2 evaluations, and corporate recruiting drives.
+                  Autonomous transcripts, Mid-1/Mid-2 evaluations, and corporate recruiting drives.
                 </p>
               </div>
             </div>
@@ -351,7 +351,7 @@ export default function UnifiedAuthPortal() {
                     </div>
                   ) : (
                     <p className="text-[11px] text-slate-400 ml-1">
-                      Accepts JNTUA roll numbers, faculty employee IDs, administrative emails, or guardian numbers.
+                      Accepts student roll numbers, faculty employee IDs, administrative emails, or guardian numbers.
                     </p>
                   )}
                 </div>
@@ -562,7 +562,7 @@ export default function UnifiedAuthPortal() {
               <span className="flex items-center gap-1.5">
                 <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" /> AES-256 Encrypted Session
               </span>
-              <span>JNTUA Autonomous System</span>
+              <span>Autonomous Campus System</span>
             </div>
 
           </div>
@@ -572,7 +572,7 @@ export default function UnifiedAuthPortal() {
 
       {/* Footer */}
       <footer className="w-full max-w-6xl mx-auto py-3 border-t border-white/10 text-center text-xs text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-2 z-10">
-        <p>© 2026 K.S.R.M. / KLM College of Engineering (Kadapa). All Rights Reserved.</p>
+        <p>© 2026 KLM College of Engineering (Kadapa). All Rights Reserved.</p>
         <p className="text-[11px] text-slate-600">Enterprise ERP Cloud Version 4.8.2 • Rayalaseema Central Node</p>
       </footer>
     </div>

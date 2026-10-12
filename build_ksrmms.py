@@ -26,7 +26,7 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
           <div className="w-8 h-8 rounded-full bg-[#8b5cf6] flex items-center justify-center font-bold text-white mr-3">
             K
           </div>
-          <span className="font-serif font-bold text-xl tracking-wide">KSRMMS</span>
+          <span className="font-serif font-bold text-xl tracking-wide">KLMMS</span>
         </div>
         
         <nav className="flex-1 py-6 overflow-y-auto">
@@ -232,12 +232,12 @@ import { Mail, Book, Info, MessageSquare, Users } from "lucide-react";
 export default function Departments() {
     const tabs = ["Computer Science", "Electronics & Comm.", "Electrical", "Mechanical", "Civil"];
     const faculty = [
-        { name: "Dr. V. Lokeswara Reddy", role: "Professor & HOD", degree: "Ph.D in Computer Science", subjects: ["Discrete Mathematics", "Machine Learning"], email: "hod.cse@ksrmce.ac.in", initial: "V" },
-        { name: "Dr. M. Sreenivasulu", role: "Professor", degree: "Ph.D in Data Mining", subjects: ["Database Management Systems", "Data Science"], email: "sreenivasulu.m@ksrmce.ac.in", initial: "M" },
-        { name: "Dr. N. Ramanjaneya Reddy", role: "Associate Professor", degree: "Ph.D in IoT", subjects: ["Digital Logic Design", "Computer Networks"], email: "ramanjaneya.n@ksrmce.ac.in", initial: "N" },
-        { name: "Dr. S. M. Farooq", role: "Associate Professor", degree: "Ph.D in Software Engg", subjects: ["Software Engineering", "Cloud Computing"], email: "farooq.sm@ksrmce.ac.in", initial: "S" },
-        { name: "Dr. K. Srinivasa Rao", role: "Professor", degree: "Ph.D in Algorithms", subjects: ["Design & Analysis of Algorithms"], email: "srinivasa.k@ksrmce.ac.in", initial: "K" },
-        { name: "Sri. Nagaraju Rayapati", role: "Assistant Professor", degree: "M.Tech (CSE)", subjects: ["Object Oriented Programming through Java"], email: "nagaraju.r@ksrmce.ac.in", initial: "N" }
+        { name: "Dr. V. Lokeswara Reddy", role: "Professor & HOD", degree: "Ph.D in Computer Science", subjects: ["Discrete Mathematics", "Machine Learning"], email: "hod.cse@klmce.ac.in", initial: "V" },
+        { name: "Dr. M. Sreenivasulu", role: "Professor", degree: "Ph.D in Data Mining", subjects: ["Database Management Systems", "Data Science"], email: "sreenivasulu.m@klmce.ac.in", initial: "M" },
+        { name: "Dr. N. Ramanjaneya Reddy", role: "Associate Professor", degree: "Ph.D in IoT", subjects: ["Digital Logic Design", "Computer Networks"], email: "ramanjaneya.n@klmce.ac.in", initial: "N" },
+        { name: "Dr. S. M. Farooq", role: "Associate Professor", degree: "Ph.D in Software Engg", subjects: ["Software Engineering", "Cloud Computing"], email: "farooq.sm@klmce.ac.in", initial: "S" },
+        { name: "Dr. K. Srinivasa Rao", role: "Professor", degree: "Ph.D in Algorithms", subjects: ["Design & Analysis of Algorithms"], email: "srinivasa.k@klmce.ac.in", initial: "K" },
+        { name: "Sri. Nagaraju Rayapati", role: "Assistant Professor", degree: "M.Tech (CSE)", subjects: ["Object Oriented Programming through Java"], email: "nagaraju.r@klmce.ac.in", initial: "N" }
     ];
 
     return (
@@ -568,4 +568,4 @@ with open("src/app/student/examinations/page.tsx", "w", encoding="utf-8") as f: 
 os.makedirs("src/app/student/placements", exist_ok=True)
 with open("src/app/student/placements/page.tsx", "w", encoding="utf-8") as f: f.write(placements)
 
-print("KSRMMS Student Portal fully built.")
+print("KLMCE Student Portal fully built.")

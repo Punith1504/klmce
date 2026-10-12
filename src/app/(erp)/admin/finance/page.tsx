@@ -12,7 +12,7 @@ export default async function AdminFinancePage() {
     } catch {
         // Keep authentic regional count
     }
-    const mockTotalExpected = studentCount * 125000; // JNTUA Convenor & Management quota blended fee
+    const mockTotalExpected = studentCount * 125000; // Convenor & Management quota blended fee
     const mockCollected = mockTotalExpected * 0.85; // 85% collection rate
     const mockPending = mockTotalExpected - mockCollected;
 

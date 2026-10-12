@@ -90,7 +90,7 @@ export default async function StudentResultsPage() {
         }
     }
 
-    // Authentic regional fallback for KLMCE / JNTUA R20 curriculum
+    // Authentic regional fallback for KLMCE Autonomous curriculum
     if (acquiredResults.length === 0) {
         acquiredResults = [
             { id: "res-1", subject: "Database Management Systems", code: "20A05301T", examName: "Mid-Term I Examination", credits: 3.0, marks: 29, max: 30, weightage: 30, grade: "O", status: "Pass" },

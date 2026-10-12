@@ -150,7 +150,7 @@ export default function StudentAcademicsPage() {
                 <div className="p-4 sm:p-6 border-b border-white/10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 bg-white/[0.02]">
                     <div>
                         <h3 className="text-base sm:text-lg font-bold text-slate-50">Exam Results Directory</h3>
-                        <p className="text-xs text-slate-400">JNTUA R20 Regulation Semester Grades</p>
+                        <p className="text-xs text-slate-400">Autonomous Regulation Semester Grades</p>
                     </div>
                     <select 
                         value={activeSemester} 

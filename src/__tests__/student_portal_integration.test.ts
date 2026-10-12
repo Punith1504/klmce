@@ -33,7 +33,7 @@ describe('Student Portal Complete Integration Workflows', () => {
   it('calculates student fee ledger with JVD fee reimbursement and bus charges', () => {
     const transactions: FeeTransaction[] = [
       { id: '1', description: 'Tuition Fee Sem 7', amount: 45000, type: 'DEBIT', category: 'TUITION', status: 'WAIVED' }, // JVD reimbursement
-      { id: '2', description: 'JNTUA Exam Registration', amount: 1500, type: 'DEBIT', category: 'EXAM', status: 'PAID' },
+      { id: '2', description: 'Semester Exam Registration', amount: 1500, type: 'DEBIT', category: 'EXAM', status: 'PAID' },
       { id: '3', description: 'Kadapa-Proddatur Bus Route Fee', amount: 18000, type: 'DEBIT', category: 'BUS', status: 'PENDING' },
     ];
 

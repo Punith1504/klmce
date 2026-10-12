@@ -53,7 +53,7 @@ export default function FacultyMentoring() {
             <span className="text-3xl font-bold text-rose-400">{atRiskCount} at Risk</span>
             <span className="text-xs text-rose-300">(&lt; 75% attendance)</span>
           </div>
-          <p className="text-xs text-slate-500 mt-2">JNTUA condonation risk trigger</p>
+          <p className="text-xs text-slate-500 mt-2">Academic condonation risk trigger</p>
         </div>
       </div>
 

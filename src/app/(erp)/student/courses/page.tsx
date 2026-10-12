@@ -16,7 +16,7 @@ export default function StudentCoursesPage() {
             <BookOpen className="w-6 h-6 sm:w-7 sm:h-7 text-indigo-400" /> My Enrolled Courses & LMS
           </h1>
           <p className="text-xs sm:text-sm text-slate-400 mt-1">
-            JNTUA R20 Autonomous Curriculum • Year 4 Semester 7 • CSE Branch
+            Autonomous Curriculum R20 • Year 4 Semester 7 • CSE Branch
           </p>
         </div>
       </div>
@@ -85,7 +85,7 @@ export default function StudentCoursesPage() {
 
             <div className="flex items-center gap-2 pt-2 border-t border-white/5">
               <button
-                onClick={() => alert(`Downloading official JNTUA R20 syllabus for ${course.title} (${course.code})...`)}
+                onClick={() => alert(`Downloading official Autonomous R20 syllabus for ${course.title} (${course.code})...`)}
                 className="flex-1 py-2.5 px-3 min-h-[44px] rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 text-xs font-semibold flex items-center justify-center gap-1.5 transition"
               >
                 <Download className="w-3.5 h-3.5 text-indigo-400" /> Syllabus PDF

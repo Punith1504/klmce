@@ -44,7 +44,7 @@ describe('Parent Portal Complete Integration Workflows', () => {
     function generateParentAlerts(profile: WardMonitoringProfile): string[] {
       const alerts: string[] = [];
       if (profile.attendancePercentage < 75) {
-        alerts.push(`URGENT: Ward attendance is ${profile.attendancePercentage}%, below 75% JNTUA mandatory threshold.`);
+        alerts.push(`URGENT: Ward attendance is ${profile.attendancePercentage}%, below 75% mandatory threshold.`);
       }
       if (profile.feePending > 0) {
         alerts.push(`NOTICE: Outstanding fee balance of ₹${profile.feePending.toLocaleString('en-IN')} pending.`);
@@ -64,7 +64,7 @@ describe('Parent Portal Complete Integration Workflows', () => {
     const lowAttendanceProfile = { ...MOCK_PARENT_PROFILE, attendancePercentage: 68.0, backlogs: 2 };
     const lowAlerts = generateParentAlerts(lowAttendanceProfile);
     expect(lowAlerts.length).toBe(3);
-    expect(lowAlerts[0]).toContain('below 75% JNTUA mandatory threshold');
+    expect(lowAlerts[0]).toContain('below 75% mandatory threshold');
     expect(lowAlerts[2]).toContain('2 uncleared backlogs');
   });
 

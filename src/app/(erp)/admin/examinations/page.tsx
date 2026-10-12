@@ -32,7 +32,7 @@ export default async function AdminExaminationsPage() {
 
     if (exams.length === 0) {
         exams = [
-            { id: "exam-1", name: "JNTUA R20 Mid-Term II Examination", batch: { name: "B.Tech CSE IV Year (2021-2025)" }, type: "INTERNAL", status: "SCHEDULED" },
+            { id: "exam-1", name: "Autonomous R20 Mid-Term II Examination", batch: { name: "B.Tech CSE IV Year (2021-2025)" }, type: "INTERNAL", status: "SCHEDULED" },
             { id: "exam-2", name: "Continuous Internal Evaluation (CIE-I)", batch: { name: "B.Tech ECE III Year (2022-2026)" }, type: "INTERNAL", status: "COMPLETED" },
             { id: "exam-3", name: "Semester End Lab Examination", batch: { name: "B.Tech CSE IV Year (2021-2025)" }, type: "EXTERNAL", status: "SCHEDULED" }
         ];

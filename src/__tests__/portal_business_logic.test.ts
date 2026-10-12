@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest';
 
-describe('KLMCE Enterprise Portal Business Logic & JNTUA R20 Rules', () => {
+describe('KLMCE Enterprise Portal Business Logic & Autonomous Regulations', () => {
 
-  describe('JNTUA R20 SGPA & CGPA Calculation', () => {
+  describe('Autonomous R20 SGPA & CGPA Calculation', () => {
     const GRADE_POINTS: Record<string, number> = {
       'O': 10,
       'A+': 9,
@@ -42,7 +42,7 @@ describe('KLMCE Enterprise Portal Business Logic & JNTUA R20 Rules', () => {
     });
   });
 
-  describe('JNTUA Attendance Regulations & Condonation Rules', () => {
+  describe('Autonomous Attendance Regulations & Condonation Rules', () => {
     function getAttendanceEligibility(percentage: number) {
       if (percentage >= 75) {
         return { status: 'ELIGIBLE', message: 'Eligible for Regular Hall Ticket' };

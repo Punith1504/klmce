@@ -80,7 +80,7 @@ export default function ParentDashboardPage() {
                   Roll No: <span className="text-white font-bold">{ward.rollNo}</span> • {ward.programme} {ward.department}
                 </p>
                 <p className="text-xs text-slate-400 mt-0.5">
-                  Year 4 ({ward.semester}) • JNTUA R20 Autonomous Regulation
+                  Year 4 ({ward.semester}) • Autonomous Regulation R20
                 </p>
               </div>
             </div>
@@ -180,7 +180,7 @@ export default function ParentDashboardPage() {
               <h2 className="text-lg font-bold text-white flex items-center gap-2">
                 <Award className="w-5 h-5 text-indigo-400" /> Mid-Term 1 Internal Marks
               </h2>
-              <p className="text-xs text-slate-400 mt-0.5">JNTUA Autonomous Evaluation (Out of 30)</p>
+              <p className="text-xs text-slate-400 mt-0.5">Autonomous Evaluation (Out of 30)</p>
             </div>
             <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
               Avg: 27.2 / 30

@@ -1,6 +1,6 @@
 // ========================================================================
-// KLMCE (K.S.R.M. / KLM College of Engineering, Kadapa, Andhra Pradesh)
-// Authentic Regional Institutional Dataset (JNTUA Affiliated, Rayalaseema)
+// KLMCE (KLM College of Engineering, Kadapa, Andhra Pradesh)
+// Authentic Regional Institutional Dataset (Autonomous Curriculum, Rayalaseema)
 // ========================================================================
 
 export interface StudentRecord {
@@ -347,7 +347,7 @@ export const STUDENTS: StudentRecord[] = [
 ];
 
 // ------------------------------------------------------------------------
-// 2. Regional Faculty (KSRMCE / KLMCE Eminent Faculty)
+// 2. Regional Faculty (KLMCE Eminent Faculty)
 // ------------------------------------------------------------------------
 export const FACULTY: FacultyRecord[] = [
   {
@@ -358,7 +358,7 @@ export const FACULTY: FacultyRecord[] = [
     phone: "+91 94402 12345",
     department: "Computer Science and Engineering",
     designation: "Principal & Professor",
-    qualification: "Ph.D. (IIT Madras), M.Tech (JNTUH)",
+    qualification: "Ph.D. (IIT Madras), M.Tech (State Tech University)",
     joining_date: "2008-06-15",
     courses_taught: 4,
     publications: 32,
@@ -388,7 +388,7 @@ export const FACULTY: FacultyRecord[] = [
     phone: "+91 94405 88991",
     department: "Electronics and Communication Engineering",
     designation: "Professor & HoD (ECE)",
-    qualification: "Ph.D. (JNTUA), M.E. (IISc Bangalore)",
+    qualification: "Ph.D. (State Tech University), M.E. (IISc Bangalore)",
     joining_date: "2012-07-10",
     courses_taught: 3,
     publications: 19,
@@ -403,7 +403,7 @@ export const FACULTY: FacultyRecord[] = [
     phone: "+91 98480 33445",
     department: "Computer Science and Engineering",
     designation: "Dean of Academic Affairs & Assoc. Prof",
-    qualification: "M.Tech (JNTUA), (Ph.D.)",
+    qualification: "M.Tech (State Tech University), (Ph.D.)",
     joining_date: "2014-06-20",
     courses_taught: 2,
     publications: 14,
@@ -418,7 +418,7 @@ export const FACULTY: FacultyRecord[] = [
     phone: "+91 97012 34567",
     department: "Mechanical Engineering",
     designation: "Controller of Examinations (CoE)",
-    qualification: "Ph.D. (SVU Tirupati), M.Tech (JNTUK)",
+    qualification: "Ph.D. (SVU Tirupati), M.Tech (Tech University)",
     joining_date: "2011-09-01",
     courses_taught: 2,
     publications: 16,
@@ -433,7 +433,7 @@ export const FACULTY: FacultyRecord[] = [
     phone: "+91 98852 99001",
     department: "Computer Science and Engineering",
     designation: "Associate Professor & Senior Mentor",
-    qualification: "Ph.D. (JNTUA), M.Tech (CSE)",
+    qualification: "Ph.D. (State Tech University), M.Tech (CSE)",
     joining_date: "2015-11-15",
     courses_taught: 3,
     publications: 11,
@@ -613,7 +613,7 @@ export const HOSTEL_BLOCKS: HostelRecord[] = [
 ];
 
 // ------------------------------------------------------------------------
-// 6. JNTUA R20/R23 CBCS Academic Courses
+// 6. R20/R23 CBCS Academic Courses
 // ------------------------------------------------------------------------
 export const COURSES = [
   { code: "20A05301T", title: "Database Management Systems", credits: 3.0, type: "Theory", dept: "CSE", faculty: "Dr. V. Lokeswara Reddy" },

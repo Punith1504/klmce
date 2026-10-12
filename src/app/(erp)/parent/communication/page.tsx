@@ -96,7 +96,7 @@ export default function ParentCommunication() {
             <MessageSquare className="w-6 h-6 sm:w-7 sm:h-7 text-indigo-400 shrink-0"/> Parent Communication & Mentorship
           </h1>
           <p className="text-slate-400 text-xs sm:text-sm">
-            Direct channel with Ward Mentor (Dr. V. Lokeswara Reddy), JNTUA official notices, and appointment scheduler.
+            Direct channel with Ward Mentor (Dr. V. Lokeswara Reddy), College notices, and appointment scheduler.
           </p>
         </div>
         <button 
@@ -232,7 +232,7 @@ export default function ParentCommunication() {
               <div className="bg-white/5 p-3 sm:p-3.5 rounded-xl border border-white/10 flex justify-between items-start gap-2.5">
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="text-[10px] bg-indigo-500/20 text-indigo-300 font-bold px-1.5 py-0.5 rounded">JNTUA</span>
+                    <span className="text-[10px] bg-indigo-500/20 text-indigo-300 font-bold px-1.5 py-0.5 rounded">CIRCULAR</span>
                     <p className="text-xs font-bold text-slate-200">Dussehra Vacation Schedule</p>
                   </div>
                   <p className="text-[11px] text-slate-400 mt-1">
@@ -253,11 +253,11 @@ export default function ParentCommunication() {
                     <p className="text-xs font-bold text-slate-200">B.Tech Regular Exam Fee</p>
                   </div>
                   <p className="text-[11px] text-slate-400 mt-1">
-                    JNTUA Examination fee portal live. Last date without fine: Oct 15th.
+                    Semester Examination fee portal live. Last date without fine: Oct 15th.
                   </p>
                 </div>
                 <button 
-                  onClick={() => alert("Downloading JNTUA Exam Fee Circular (PDF)")}
+                  onClick={() => alert("Downloading Semester Exam Fee Circular (PDF)")}
                   className="text-slate-400 hover:text-white p-2 rounded-lg hover:bg-white/10 transition shrink-0 min-w-[36px] min-h-[36px] flex items-center justify-center">
                   <Download className="w-4 h-4" />
                 </button>

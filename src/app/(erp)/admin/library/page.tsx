@@ -36,7 +36,7 @@ export default function AdminLibraryPage() {
             <Book className="w-8 h-8 text-indigo-400" /> Central Digital Library & OPAC
           </h1>
           <p className="text-slate-400 text-sm">
-            K.S.R.M. / KLMCE Central Library • Automated Book Issues, Delnet & IEEE e-Journals
+            KLMCE Central Library • Automated Book Issues, Delnet & IEEE e-Journals
           </p>
         </div>
 
@@ -53,7 +53,7 @@ export default function AdminLibraryPage() {
         <div className="bg-[#1f1b30]/80 rounded-2xl p-6 border border-white/10 shadow-lg">
           <p className="text-xs text-slate-400 uppercase font-semibold">Total Volumes</p>
           <h3 className="text-2xl font-bold text-white mt-1">42,500+</h3>
-          <p className="text-xs text-indigo-400 mt-1">AICTE & JNTUA Compliant</p>
+          <p className="text-xs text-indigo-400 mt-1">AICTE & Autonomous Compliant</p>
         </div>
 
         <div className="bg-[#1f1b30]/80 rounded-2xl p-6 border border-white/10 shadow-lg">

@@ -77,7 +77,7 @@ export function Sidebar() {
         </div>
         <div className="min-w-0">
           <span className="font-bold text-sm text-slate-50 tracking-tight block truncate">KLMCE Campus</span>
-          <span className="text-[10px] text-indigo-300 block truncate">Kandula Group ERP</span>
+          <span className="text-[10px] text-indigo-300 block truncate">KLMCE Enterprise ERP</span>
         </div>
       </div>
       <nav className="flex-1 py-4 px-3 space-y-1 overflow-y-auto">

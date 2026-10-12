@@ -29,9 +29,9 @@ describe('Faculty Portal Complete Integration Workflows', () => {
     expect(allPresent.every(s => s.status === 'PRESENT')).toBe(true);
   });
 
-  it('validates JNTUA R20 CIE Continuous Internal Evaluation calculation', () => {
-    function computeJNTUAInternal(mid1: number, mid2: number, assignment: number): number {
-      // JNTUA R20 Regulation: 80% weightage for better of two mids + 20% weightage for other mid
+  it('validates Autonomous R20 CIE Continuous Internal Evaluation calculation', () => {
+    function computeAutonomousInternal(mid1: number, mid2: number, assignment: number): number {
+      // Autonomous R20 Regulation: 80% weightage for better of two mids + 20% weightage for other mid
       // + 5 marks assignment = 30 Marks Internal
       const bestMid = Math.max(mid1, mid2);
       const otherMid = Math.min(mid1, mid2);
@@ -42,7 +42,7 @@ describe('Faculty Portal Complete Integration Workflows', () => {
 
     // Student scores 28 in Mid-1, 24 in Mid-2, 5 in Assignment
     // Best: 28, Other: 24 -> 0.8*28 + 0.2*24 = 22.4 + 4.8 = 27.2 -> (27.2 / 30)*25 = 22.66 + 5 = 27.66 -> 28
-    const score = computeJNTUAInternal(28, 24, 5);
+    const score = computeAutonomousInternal(28, 24, 5);
     expect(score).toBe(28);
 
     // Minimum passing threshold validation (14 out of 30)

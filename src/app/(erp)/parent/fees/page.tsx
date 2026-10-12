@@ -22,11 +22,11 @@ export default function ParentFeesPage() {
       status: "PAID",
       receiptNo: "REC-SBI-98214",
       paymentDate: "12-Aug-2026",
-      method: "SBI NetBanking (State Bank of India KSRM Branch)"
+      method: "SBI NetBanking (State Bank of India Campus Branch)"
     },
     {
       id: "FEE-2026-002",
-      title: "JNTUA End Semester Regular Examination Fee (Sem 7)",
+      title: "End Semester Regular Examination Fee (Sem 7)",
       category: "EXAMINATION",
       amount: 1750,
       paidAmount: 1750,
@@ -88,7 +88,7 @@ export default function ParentFeesPage() {
             <Banknote className="w-6 h-6 text-indigo-400" /> College Fee Ledgers & Payments
           </h1>
           <p className="text-xs text-slate-400">
-            Institutional fee records for {ward.name} ({ward.rollNo}) • Bank Account: SBI KSRM Campus Branch
+            Institutional fee records for {ward.name} ({ward.rollNo}) • Bank Account: SBI Campus Branch
           </p>
         </div>
       </div>
@@ -100,7 +100,7 @@ export default function ParentFeesPage() {
           <div className="flex items-baseline gap-2 mt-2">
             <span className="text-3xl font-extrabold text-emerald-400">₹98,750</span>
           </div>
-          <p className="text-xs text-slate-500 mt-2">Tuition, JNTUA Exams & Rani Chennamma Hostel</p>
+          <p className="text-xs text-slate-500 mt-2">Tuition, Semester Exams & Rani Chennamma Hostel</p>
         </div>
 
         <div className="bg-[#1f1b30]/80 rounded-2xl p-6 border border-white/10 shadow-lg">

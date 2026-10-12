@@ -17,7 +17,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "KLMCE Enterprise ERP | K.S.R.M. & KLM Campus Kadapa",
+  title: "KLMCE Enterprise ERP | KLM College of Engineering Kadapa",
   description: "Comprehensive Cloud ERP for Engineering Education, Academics, Examination & Administration",
   manifest: "/manifest.json",
   appleWebApp: {
