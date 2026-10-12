@@ -14,10 +14,6 @@ import {
   Fingerprint, 
   KeyRound, 
   ExternalLink,
-  BookOpen,
-  Award,
-  Layers,
-  HelpCircle,
   ArrowLeft,
   CheckCircle2,
   Clock,
@@ -207,73 +203,9 @@ export default function UnifiedAuthPortal() {
         </div>
       </header>
 
-      {/* Main Container */}
-      <main className="w-full max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-8 items-center my-6 z-10">
-        
-        {/* Left Column: Campus Overview & Institutional Modules */}
-        <div className="md:col-span-5 space-y-6 text-left">
-          <div className="space-y-3">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-xs font-semibold text-indigo-300">
-              <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
-              Unified Institutional Gateway
-            </div>
-            <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight leading-tight">
-              One Login for Every Campus Role.
-            </h1>
-            <p className="text-violet-200/70 text-sm leading-relaxed">
-              Unified Single Sign-On and Multi-Factor Authenticated portal serving engineering scholars, faculty, administrators, and guardians.
-            </p>
-          </div>
-
-          {/* Module Capabilities */}
-          <div className="grid grid-cols-1 gap-3 pt-1">
-            <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10 flex items-start gap-3 backdrop-blur-md">
-              <div className="w-9 h-9 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 shrink-0 mt-0.5">
-                <BookOpen className="w-4 h-4" />
-              </div>
-              <div>
-                <h4 className="text-xs font-bold text-white mb-0.5">Autonomous Academic Matrix</h4>
-                <p className="text-[11px] text-slate-400 leading-relaxed">
-                  CBCS Regulations R20 & R23, automated credits calculation, and semester progression.
-                </p>
-              </div>
-            </div>
-
-            <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10 flex items-start gap-3 backdrop-blur-md">
-              <div className="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0 mt-0.5">
-                <Layers className="w-4 h-4" />
-              </div>
-              <div>
-                <h4 className="text-xs font-bold text-white mb-0.5">Real-Time Attendance Engine</h4>
-                <p className="text-[11px] text-slate-400 leading-relaxed">
-                  75% mandatory threshold tracking, condonation projections, and daily biometric sync.
-                </p>
-              </div>
-            </div>
-
-            <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10 flex items-start gap-3 backdrop-blur-md">
-              <div className="w-9 h-9 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 shrink-0 mt-0.5">
-                <Award className="w-4 h-4" />
-              </div>
-              <div>
-                <h4 className="text-xs font-bold text-white mb-0.5">Examinations & Placement Records</h4>
-                <p className="text-[11px] text-slate-400 leading-relaxed">
-                  Autonomous transcripts, Mid-1/Mid-2 evaluations, and corporate recruiting drives.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Help Desk */}
-          <div className="flex items-center gap-2 text-xs text-slate-400 pt-1">
-            <HelpCircle className="w-4 h-4 text-slate-500 shrink-0" />
-            <span>Need institutional assistance? Contact Campus IT: <span className="text-indigo-300">support@klmce.ac.in</span></span>
-          </div>
-        </div>
-
-        {/* Right Column: Unified One-Login Interface with MFA & SSO */}
-        <div className="md:col-span-7">
-          <div className="bg-white/[0.04] backdrop-blur-2xl border border-white/10 rounded-3xl p-6 sm:p-8 shadow-[0_8px_32px_0_rgba(10,5,30,0.5)] relative overflow-hidden">
+      {/* Main Container: Centered Authentication Card */}
+      <main className="w-full max-w-xl mx-auto my-auto py-6 sm:py-10 z-10">
+        <div className="bg-white/[0.04] backdrop-blur-2xl border border-white/10 rounded-3xl p-6 sm:p-8 shadow-[0_8px_32px_0_rgba(10,5,30,0.5)] relative overflow-hidden">
             
             {/* Header of Login Card */}
             <div className="flex items-center justify-between mb-5 pb-3 border-b border-white/10">
@@ -566,8 +498,6 @@ export default function UnifiedAuthPortal() {
             </div>
 
           </div>
-        </div>
-
       </main>
 
       {/* Footer */}
