@@ -2,32 +2,45 @@
 
 import React from 'react';
 import { usePathname } from 'next/navigation';
-import { ChevronRight, Search, LogOut } from 'lucide-react';
-import { UserButton, useUser, SignInButton } from '@clerk/nextjs';
+import { Search, LogOut, Menu } from 'lucide-react';
+import { UserButton, useUser } from '@clerk/nextjs';
 import { useRole } from '@/lib/auth/roleContext';
 import { RoleSwitcher } from './RoleSwitcher';
 
-export function TopNav() {
+interface TopNavProps {
+  onOpenMobileMenu?: () => void;
+}
+
+export function TopNav({ onOpenMobileMenu }: TopNavProps = {}) {
   const pathname = usePathname();
   const paths = pathname.split('/').filter(p => p);
   const { user: clerkUser, isLoaded: isClerkLoaded, isSignedIn: isClerkSignedIn } = useUser();
-  const { user: roleUser, role, logout } = useRole();
+  const { user: roleUser, logout } = useRole();
 
   const displayName = roleUser?.name || clerkUser?.fullName || clerkUser?.firstName || 'User';
   const displayRoleTitle = roleUser?.roleTitle || roleUser?.role?.replace('_', ' ') || 'Institutional Member';
 
   return (
     <header className="sticky top-0 z-40 w-full h-14 sm:h-16 bg-[#161226]/95 backdrop-blur-xl border-b border-white/10 flex items-center justify-between px-3 sm:px-6">
-      {/* Mobile Branding / Breadcrumbs */}
-      <div className="flex items-center space-x-1.5 text-xs text-slate-400 capitalize pl-10 md:pl-0 min-w-0">
+      {/* Mobile Menu Trigger & Breadcrumbs */}
+      <div className="flex items-center space-x-2 text-xs text-slate-400 capitalize min-w-0">
+        {onOpenMobileMenu && (
+          <button
+            onClick={onOpenMobileMenu}
+            className="md:hidden p-2 -ml-1 rounded-xl text-slate-300 hover:text-white hover:bg-white/10 transition flex items-center justify-center min-w-[38px] min-h-[38px]"
+            aria-label="Open Navigation Menu"
+          >
+            <Menu className="w-5 h-5 text-indigo-400" />
+          </button>
+        )}
         <span className="font-extrabold text-indigo-400 tracking-tight text-sm hidden sm:inline">KLMCE</span>
         <span className="hidden sm:inline opacity-30 text-slate-600">/</span>
-        <span className="text-slate-100 font-bold text-xs tracking-wide uppercase bg-white/5 px-2 py-0.5 rounded-md border border-white/5 truncate max-w-[110px] sm:max-w-none">
+        <span className="text-slate-100 font-bold text-xs tracking-wide uppercase bg-white/5 px-2 py-0.5 rounded-md border border-white/5 truncate max-w-[140px] sm:max-w-none">
           {paths[paths.length - 1]?.replace('-', ' ') || 'Dashboard'}
         </span>
       </div>
 
-      <div className="flex items-center gap-3 md:gap-4">
+      <div className="flex items-center gap-2 sm:gap-3 md:gap-4">
         {/* Role Switcher Pill */}
         <RoleSwitcher />
 

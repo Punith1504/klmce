@@ -76,7 +76,7 @@ const allAdminPages = [
   { name: 'Settings & Security', href: '/admin/settings', icon: LayoutDashboard },
 ];
 
-export function MobileBottomNav({ navContent }: { navContent?: React.ReactNode }) {
+export function MobileBottomNav({ navContent, onOpenMenu }: { navContent?: React.ReactNode; onOpenMenu?: () => void }) {
   const pathname = usePathname();
   const { role } = useRole();
   const [sheetOpen, setSheetOpen] = useState(false);
